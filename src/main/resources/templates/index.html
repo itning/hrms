@@ -12,7 +12,7 @@
     <!--<link href="/favicon.ico" rel="icon" type="image/x-icon"/>
     <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon"/>-->
 
-    <title>学生信息管理-HRMS</title>
+    <title>职工信息管理-HRMS</title>
 
     <!--mdui css-->
     <link th:href="@{/lib_web/mdui/css/mdui.min.css}" rel="stylesheet">
@@ -114,19 +114,15 @@
         <table id="show_table" class="mdui-table mdui-table-selectable mdui-table-hoverable">
             <thead>
             <tr>
-                <th>学号</th>
                 <th style="min-width: 115px">姓名</th>
+                <th>基层单位</th>
                 <th>性别</th>
-                <th style="min-width: 115px">班级</th>
-                <th>联系电话</th>
-                <th>家长电话</th>
-                <th>出生年月</th>
-                <th>家庭地址</th>
-                <th>班主任</th>
-                <th style="min-width: 115px">所属学院</th>
-                <th style="min-width: 170px">专业</th>
-                <th>入学时间</th>
-                <th>是否在籍</th>
+                <th>年龄</th>
+                <th style="min-width: 115px">民族</th>
+                <th>政治面貌</th>
+                <th>出生日期</th>
+                <th>身份证号码</th>
+                <th>邮箱</th>
             </tr>
             </thead>
             <tbody id="table_data">
@@ -142,14 +138,14 @@
                 </button>
                 <button id="add_stu_btn"
                         class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent"
-                        mdui-dialog="{target: '#add-dialog'}">添加学生
+                        mdui-dialog="{target: '#add-dialog'}">添加职工
                 </button>
             </div>
         </div>
     </div>
     <div class="mdui-dialog" id="add-dialog">
         <div class="mdui-dialog-title">请选择添加方式</div>
-        <div class="mdui-dialog-content">支持通过Excle表格批量导入,您也可以使用Web页面添加学生信息</div>
+        <div class="mdui-dialog-content">支持通过Excle表格批量导入,您也可以使用Web页面添加职工信息</div>
         <div class="mdui-dialog-actions mdui-dialog-actions-stacked">
             <button class="mdui-btn mdui-ripple" mdui-dialog-cancel>返回</button>
             <button class="mdui-btn mdui-ripple" onclick="addStudent()">通过网页添加
@@ -173,7 +169,7 @@
     </div>
     <div class="mdui-dialog" id="show_alert">
         <div class="mdui-dialog-title">确定删除吗?</div>
-        <div class="mdui-dialog-content">这会删除该生所有信息,包括请假信息!</div>
+        <div class="mdui-dialog-content">这会删除该职工所有信息,包括所有工资信息!</div>
         <div class="mdui-dialog-actions">
             <button class="mdui-btn mdui-ripple" onclick="clear_btn()" mdui-dialog-close>取消</button>
             <button class="mdui-btn mdui-ripple" onclick="del_select(true)" mdui-dialog-close>确认</button>
@@ -223,7 +219,7 @@
         if (!hash.endWith("mdui-dialog") && hash !== "") {
             route(hash);
         } else {
-            var firstClassID = /*[[${classList.size()!=0?classList[0].id:''}]]*/"";
+            var firstClassID = [[${departmentList.size()!=0?departmentList[0].id:''}]];
             if (firstClassID === "") {
                 progressStatus(false);
             } else {
@@ -240,11 +236,11 @@
             $('#' + last_id).removeClass("mdui-list-item-active");
         }
         $('#' + id).addClass("mdui-list-item-active");
-        var classList =/* [[${classList}]]*/"";
+        var classList = [[${departmentList}]];
         last_id = id;
-        $.getJSON("/studentInfo/show/class/" + id, function (data) {
+        $.getJSON("/staff/show/" + id, function (data) {
             $("#table_data").html("");
-            if (data.code === 500) {
+            if (data.code === 404) {
                 console.error(data);
                 showSnackbar(data.msg);
                 progressStatus(false);

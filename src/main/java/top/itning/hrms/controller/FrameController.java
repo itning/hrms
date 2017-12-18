@@ -42,7 +42,9 @@ public class FrameController {
      */
     @GetMapping("/index")
     public String index(Model model) {
+        logger.debug("index::开始获取部门信息集合");
         List<Department> departmentList = departmentService.getAllDepartmentInfo();
+        logger.debug("index::获取部门信息集合完成,大小->" + departmentList.size());
         model.addAttribute("departmentList", departmentList);
         return "index";
     }

@@ -6,7 +6,21 @@ package top.itning.hrms.exception.json;
  * @author Ning
  */
 public class JsonException extends RuntimeException {
-    public JsonException(String exceptionMessage) {
+    /**
+     * 错误代码
+     */
+    private int code;
+
+    public JsonException(String exceptionMessage, int code) {
         super(exceptionMessage);
+        this.code = code;
+    }
+
+    public int getCode() {
+        return code;
+    }
+
+    public void setCode(int code) {
+        this.code = code;
     }
 }

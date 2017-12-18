@@ -2,6 +2,7 @@ package top.itning.hrms.entity;
 
 import lombok.Data;
 import top.itning.hrms.entity.department.Department;
+import top.itning.hrms.entity.department.Grassroot;
 import top.itning.hrms.entity.employment.EmploymentForm;
 import top.itning.hrms.entity.fixed.Ethnic;
 import top.itning.hrms.entity.fixed.PoliticalStatus;
@@ -93,12 +94,19 @@ public class Staff implements Serializable {
     @NotNull
     private String tel;
     /**
-     * 部门/基层单位
+     * 部门/
      */
     @NotNull
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "department")
     private Department department;
+    /**
+     * 基层单位
+     */
+    @NotNull
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
+    @JoinColumn(name = "grassroot")
+    private Grassroot grassroot;
     /**
      * 岗位名称
      */

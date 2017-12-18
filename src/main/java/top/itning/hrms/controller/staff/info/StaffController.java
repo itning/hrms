@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import top.itning.hrms.entity.ServerMessage;
 import top.itning.hrms.entity.Staff;
 import top.itning.hrms.exception.defaults.NoSuchIdException;
 import top.itning.hrms.exception.json.JsonException;
@@ -42,7 +43,7 @@ public class StaffController {
         try {
             return staffService.getStaffInfoListByDepartmentID(id);
         } catch (NoSuchIdException e) {
-            throw new JsonException(e.getExceptionMessage());
+            throw new JsonException(e.getExceptionMessage(), ServerMessage.NOT_FIND);
         }
     }
 }
