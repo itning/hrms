@@ -3,6 +3,7 @@ package top.itning.hrms.service.impl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import top.itning.hrms.dao.department.DepartmentDao;
 import top.itning.hrms.entity.department.Department;
@@ -25,7 +26,9 @@ public class DepartmentServiceImpl implements DepartmentService {
     private DepartmentDao departmentDao;
 
     @Override
-    public List<Department> getAllDepartmentInfo() {
+    @Cacheable(cacheNames = "DepartmentList", key = "#key")
+    public List<Department> getAllDepartmentInfo(String key) {
+        logger.debug("getAllDepartmentInfo::获取部门信息集合");
         return departmentDao.findAll();
     }
 }

@@ -73,8 +73,8 @@
             </div>
             <div class="mdui-collapse-item-body mdui-list mdui-list-dense">
                 <!--/*@thymesVar id="studentLeaveNum" type="java.lang.Long"*/-->
-               <!-- <a th:if="${studentLeaveNum!=0}" th:href="@{/studentLeave/show}" class="mdui-list-item mdui-ripple">历史请假信息</a>
-                <a th:if="${studentLeaveNum!=0}" th:href="@{/studentLeave/search}" class="mdui-list-item mdui-ripple">查询请假信息</a>-->
+                <!-- <a th:if="${studentLeaveNum!=0}" th:href="@{/studentLeave/show}" class="mdui-list-item mdui-ripple">历史请假信息</a>
+                 <a th:if="${studentLeaveNum!=0}" th:href="@{/studentLeave/search}" class="mdui-list-item mdui-ripple">查询请假信息</a>-->
                 <a th:href="@{/studentLeave/add}" class="mdui-list-item mdui-ripple">添加请假信息</a>
             </div>
         </li>
@@ -115,11 +115,11 @@
             <thead>
             <tr>
                 <th style="min-width: 115px">姓名</th>
-                <th>基层单位</th>
+                <th style="min-width: 200px">基层单位</th>
                 <th>性别</th>
                 <th>年龄</th>
                 <th style="min-width: 115px">民族</th>
-                <th>政治面貌</th>
+                <th style="min-width: 150px">政治面貌</th>
                 <th>出生日期</th>
                 <th>身份证号码</th>
                 <th>邮箱</th>
@@ -249,11 +249,12 @@
                 var $downSelectBtn = $('#down_select_btn');
                 var $delSelectBtn = $('#del_select_btn');
                 if (data.length !== 0) {
+
                     $showTable.show();
                     $downSelectBtn.show();
                     $delSelectBtn.show();
                     $.each(data, function (i, n) {
-                        $("#table_data").append("<tr data-id=\"" + n.id + "\"><td><a href=\"/studentInfo/show/student/" + n.id + "\" target=\"_blank\" class=\"\">" + n.id + "</a></td><td>" + n.name + "</td><td>" + (n.sex ? "男" : "女") + "</td><td>" + n.clazz.clazz + "</td><td>" + n.tel + "</td><td>" + n.htel + "</td><td>" + ((new Date(n.birthday)).format("yyyy.MM.dd")) + "</td><td><p class=\"mdui-text-truncate\" mdui-tooltip=\"{content: '" + n.address + "'}\">" + n.address + "</p></td><td>" + n.teacher + "</td><td>" + n.college + "</td><td>" + n.profession + "</td><td>" + ((new Date(n.intime)).format("yyyy.MM")) + "</td> <td>" + (n.isin ? "是" : "否") + "</td></tr>")
+                        $("#table_data").append("<tr data-id=\"" + n.id + "\"><td><a href=\"/studentInfo/show/student/" + n.id + "\" target=\"_blank\" class=\"\">" + n.name + "</a></td><td>" + n.grassroot.name + "</td><td>" + (n.sex ? "男" : "女") + "</td><td>" + n.age + "</td><td>" + n.ethnic.name + "</td><td>" + n.ps.name + "</td><td>" + ((new Date(n.birthday)).format("yyyy.MM.dd")) + "</td><td>" + n.nid + "</td><td>" + n.email + "</td></tr>")
                     });
                 } else {
                     $showTable.hide("normal");
