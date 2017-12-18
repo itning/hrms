@@ -31,10 +31,9 @@ public class ExceptionResolver {
      * @param req HttpServletRequest
      * @param e   Exception
      * @return ModelAndView
-     * @throws Exception 异常
      */
     @ExceptionHandler(value = DefaultException.class)
-    public ModelAndView defaultErrorHandler(HttpServletRequest req, Exception e) throws Exception {
+    public ModelAndView defaultErrorHandler(HttpServletRequest req, Exception e){
         logger.warn("defaultErrorHandler->" + e.getMessage());
         ModelAndView mav = new ModelAndView();
         mav.addObject("exceptionMessage", e.getMessage());
@@ -49,10 +48,9 @@ public class ExceptionResolver {
      * @param req HttpServletRequest
      * @param e   Exception
      * @return ModelAndView
-     * @throws Exception 异常
      */
     @ExceptionHandler(value = Exception.class)
-    public ModelAndView otherErrorHandler(HttpServletRequest req, Exception e) throws Exception {
+    public ModelAndView otherErrorHandler(HttpServletRequest req, Exception e) {
         logger.warn("otherErrorHandler->" + e.getMessage());
         ModelAndView mav = new ModelAndView();
         mav.addObject("exceptionMessage", e.getMessage());
@@ -67,11 +65,10 @@ public class ExceptionResolver {
      * @param req HttpServletRequest
      * @param e   Exception
      * @return 异常消息
-     * @throws Exception 异常
      */
     @ExceptionHandler(value = JsonException.class)
     @ResponseBody
-    public ServerMessage jsonErrorHandler(HttpServletRequest req, Exception e) throws Exception {
+    public ServerMessage jsonErrorHandler(HttpServletRequest req, Exception e) {
         logger.warn("jsonErrorHandler->" + e.getMessage());
         ServerMessage serverMessage = new ServerMessage();
         serverMessage.setCode(ServerMessage.NOT_FIND);

@@ -13,6 +13,7 @@ public class NoSuchIdException extends DefaultException {
 
     public NoSuchIdException(String exceptionMessage) {
         super(exceptionMessage);
+        this.exceptionMessage = exceptionMessage;
     }
 
     public String getExceptionMessage() {
