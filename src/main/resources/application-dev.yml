@@ -1,0 +1,36 @@
+#!application-dev.yml 开发配置文件
+server:
+  port: 8080 #端口
+debug: false #调试模式
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true #显示sql
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver #驱动类
+    url: jdbc:mysql://localhost:3306/hrms?createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=utf-8&useSSL=false&autoReconnect=true&failOverReadOnly=false&connectTimeout=0&serverTimezone=UTC
+    username: root #数据库用户名
+    password: kingston #密码
+  thymeleaf:
+    cache: false #缓存
+    mode: HTML
+  mvc:
+    favicon:
+      enabled: false
+  output:
+    ansi:
+      enabled: detect #控制台多彩输出
+  http:
+    multipart:
+      location: C:/Users/Ning/Desktop/upload/ #文件上传路径
+  resources:
+    static-locations: /META-INF/resources/,classpath:/resources/, classpath:/static/, classpath:/public/, file:${spring.http.multipart.location}
+logging:
+  level: debug
+  level.top: debug
+  file: C:/Users/Ning/Desktop/upload/log.log
+security:
+  user:
+    name: 1
+    password: 1
