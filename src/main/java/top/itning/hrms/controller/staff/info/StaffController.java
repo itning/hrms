@@ -8,7 +8,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import top.itning.hrms.entity.ServerMessage;
 import top.itning.hrms.entity.Staff;
-import top.itning.hrms.entity.department.Department;
 import top.itning.hrms.exception.defaults.NoSuchIdException;
 import top.itning.hrms.exception.json.JsonException;
 import top.itning.hrms.service.*;
@@ -61,23 +60,16 @@ public class StaffController {
         }
     }
 
-    @GetMapping("/add/{id}")
-    public String addStaffByWeb(Model model, @PathVariable("id") String id) {
-        logger.debug("addStaffByWeb::获取到要添加的职工所在部门ID->" + id);
-        List<Department> departmentList = departmentService.getAllDepartmentInfoList("getAllDepartmentInfo");
-        logger.debug("addStaffByWeb::已获取到的部门信息集合数量->" + departmentList.size());
-        //检查部门中是否有这个ID
-        if (departmentList.stream().noneMatch(department -> department.getId().equals(id))) {
-            logger.warn("addStaffByWeb::没有ID为" + id + "的部门");
-            throw new NoSuchIdException("没有ID为" + id + "的部门");
-        }
-        model.addAttribute("departmentList", departmentList);
-        model.addAttribute("selectDepartmentID" + id);
+    @GetMapping("/add")
+    public String addStaffByWeb(Model model) {
+        model.addAttribute("departmentList", departmentService.getAllDepartmentInfoList("getAllDepartmentInfo"));
         model.addAttribute("employmentFormList", employmentService.getAllEmploymentFormList("getAllEmploymentFormList"));
         model.addAttribute("jobTitleInfoList", jobService.getAllJobTitleInfoList("getAllJobTitleInfoList"));
+        model.addAttribute("jobLevelInfoList", jobService.getAllJobLevelInfoList("getAllJobLevelInfoList"));
         model.addAttribute("positionTitleInfoList", postService.getAllPositionTitleInfoList("getAllPositionTitleInfoList"));
-        model.addAttribute("EthnicInfoList", fixedService.getAllEthnicInfoList("getAllEthnicInfoList"));
-        model.addAttribute("PoliticalStatusInfoList", fixedService.getAllPoliticalStatusInfoList("getAllPoliticalStatusInfoList"));
+        model.addAttribute("positionCategoryInfoList", postService.getAllPositionCategoryInfoList("getAllPositionCategoryInfoList"));
+        model.addAttribute("ethnicInfoList", fixedService.getAllEthnicInfoList("getAllEthnicInfoList"));
+        model.addAttribute("politicalStatusInfoList", fixedService.getAllPoliticalStatusInfoList("getAllPoliticalStatusInfoList"));
         return "addStaff";
     }
 

@@ -2,10 +2,11 @@ package top.itning.hrms.entity.job;
 
 import lombok.Data;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * 社会职称名实体
@@ -26,11 +27,4 @@ public class JobTitle implements Serializable {
      */
     @NotNull
     private String name;
-    /**
-     * 职称级别
-     */
-    @NotNull
-    @OneToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
-    @JoinColumn(name = "jobLevels")
-    private List<JobLevel> jobLevels;
 }

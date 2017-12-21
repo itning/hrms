@@ -85,10 +85,6 @@
             <a th:href="@{/class/show}" class="mdui-list-item-content">班级管理</a>
         </li>
         <li class="mdui-list-item mdui-ripple">
-            <i class="mdui-list-item-icon mdui-icon material-icons">color_lens</i>
-            <a th:href="@{/theme}" class="mdui-list-item-content">更换主题</a>
-        </li>
-        <li class="mdui-list-item mdui-ripple">
             <label class="mdui-switch">
                 <input type="checkbox" id="night_mode"/>
                 <i class="mdui-switch-icon"></i>
@@ -106,8 +102,8 @@
         <form id="search_form" th:action="@{/studentLeave/addLeave}" method="post" class="mdui-card-content">
             <table style="width: 100%">
                 <tr class="mdui-m-t-5">
-                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">1.学号:</p></td>
-                    <td class="mdui-col-xs-10"><input name="sid" type="number" class="mdui-textfield-input"
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">01.姓名(必填):</p></td>
+                    <td class="mdui-col-xs-10"><input name="name" type="text" class="mdui-textfield-input"
                                                       required="required"></td>
                 </tr>
                 <tr>
@@ -118,47 +114,36 @@
                     </td>
                 </tr>
                 <tr class="mdui-m-t-5">
-                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">2.请假时长:</p></td>
-                    <td class="mdui-col-xs-10 custom_input">
-                        <label class="mdui-radio">
-                            <input type="radio" name="often" value="0.5"/>
-                            <i class="mdui-radio-icon"></i>
-                            0.5天
-                        </label>
-                        <label class="mdui-radio">
-                            <input type="radio" name="often" checked="checked" value="1"/>
-                            <i class="mdui-radio-icon"></i>
-                            1天
-                        </label>
-                        <label class="mdui-radio">
-                            <input type="radio" name="often" value="1.5"/>
-                            <i class="mdui-radio-icon"></i>
-                            1.5天
-                        </label>
-                        <label class="mdui-radio">
-                            <input type="radio" name="often" value="2"/>
-                            <i class="mdui-radio-icon"></i>
-                            2天
-                        </label>
-                        <label class="mdui-radio">
-                            <input type="radio" name="often" value="2.5"/>
-                            <i class="mdui-radio-icon"></i>
-                            2.5天
-                        </label>
-                        <label class="mdui-radio">
-                            <input type="radio" name="often" value="3"/>
-                            <i class="mdui-radio-icon"></i>
-                            3天
-                        </label>
-                        <label class="mdui-radio">
-                            <input data-id="custom" name="often" type="radio" id="custom_often"/>
-                            <i class="mdui-radio-icon"></i>
-                            自定义
-                        </label>
-                        <div id="custom_id" class="mdui-textfield mdui-textfield-floating-label mdui-hidden">
-                            <label class="mdui-textfield-label">请输入请假时长</label>
-                            <input name="often" class="mdui-textfield-input" type="number" disabled="disabled"/>
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">02.银行卡号(必填):</p></td>
+                    <td class="mdui-col-xs-10"><input name="bankID" type="number" class="mdui-textfield-input"
+                                                      required="required"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="mdui-typo">
+                            <hr/>
                         </div>
+                    </td>
+                </tr>
+                <tr class="mdui-m-t-5">
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">03.邮箱(必填):</p></td>
+                    <td class="mdui-col-xs-10"><input name="email" type="email" class="mdui-textfield-input"
+                                                      required="required"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="mdui-typo">
+                            <hr/>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="mdui-m-t-5">
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">04.民族(必填):</p></td>
+                    <td class="mdui-col-xs-10">
+                        <select name="ethnic" class="mdui-select" mdui-select="{position: 'bottom'}">
+                            <option th:each="ethnic:${ethnicInfoList}" th:value="${ethnic.id}"
+                                    th:text="${ethnic.name}"></option>
+                        </select>
                     </td>
                 </tr>
                 <tr>
@@ -169,12 +154,28 @@
                     </td>
                 </tr>
                 <tr class="mdui-m-t-5">
-                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">3.起始时间:</p></td>
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">05.政治面貌(必填):</p></td>
+                    <td class="mdui-col-xs-10">
+                        <select name="ps" class="mdui-select" mdui-select="{position: 'bottom'}">
+                            <option th:each="ps:${politicalStatusInfoList}" th:value="${ps.id}"
+                                    th:text="${ps.name}"></option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="mdui-typo">
+                            <hr/>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="mdui-m-t-5">
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">06.出生日期(必填):</p></td>
                     <td class="mdui-col-xs-10"><input readonly="readonly"
                                                       class="mdui-textfield-input"
                                                       type="text" maxlength="10"
-                                                      onfocus="WdatePicker({skin:'twoer',dateFmt:'yyyy年MM月dd日',vel:'startdate'})"/><input
-                            id="startdate" name="starttime" type="text" class="mdui-hidden" required="required"></td>
+                                                      onfocus="WdatePicker({skin:'twoer',dateFmt:'yyyy年MM月dd日',maxDate:'%y-%M-%d',vel:'birthday'})"/><input
+                            id="birthday" name="birthday" type="text" class="mdui-hidden" required="required"></td>
                 </tr>
                 <tr>
                     <td>
@@ -184,8 +185,9 @@
                     </td>
                 </tr>
                 <tr class="mdui-m-t-5">
-                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">5.原因:</p></td>
-                    <td class="mdui-col-xs-10"><input name="reason" type="text" class="mdui-textfield-input"></td>
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">07.身份证号(必填):</p></td>
+                    <td class="mdui-col-xs-10"><input name="nid" type="number" class="mdui-textfield-input"
+                                                      required="required"></td>
                 </tr>
                 <tr>
                     <td>
@@ -195,8 +197,9 @@
                     </td>
                 </tr>
                 <tr class="mdui-m-t-5">
-                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">6.备注:</p></td>
-                    <td class="mdui-col-xs-10"><input name="remarks" type="text" class="mdui-textfield-input"></td>
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">08.户籍地址(必填):</p></td>
+                    <td class="mdui-col-xs-10"><input name="address" type="text" class="mdui-textfield-input"
+                                                      required="required"></td>
                 </tr>
                 <tr>
                     <td>
@@ -205,10 +208,661 @@
                         </div>
                     </td>
                 </tr>
-                <tr class="mdui-m-t-12">
-                    <td class="mdui-col-xs-12"><input type="submit"
-                                                      class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent"
-                                                      value="提交"/></td>
+                <tr class="mdui-m-t-5">
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">09.现住址(必填):</p></td>
+                    <td class="mdui-col-xs-10"><input name="naddress" type="text" class="mdui-textfield-input"
+                                                      required="required"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="mdui-typo">
+                            <hr/>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="mdui-m-t-5">
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">10.电话号码(必填):</p></td>
+                    <td class="mdui-col-xs-10"><input name="tel" type="number" class="mdui-textfield-input"
+                                                      required="required"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="mdui-typo">
+                            <hr/>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="mdui-m-t-5">
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">11.部门(必填):</p></td>
+                    <td class="mdui-p-t-1 mdui-col-xs-10">
+                        <select class="mdui-m-r-1" id="department_id" name="department">
+                            <option th:each="department:${departmentList}" th:value="${department.id}"
+                                    th:text="${department.name}"></option>
+                        </select>
+                        <select id="grassroot_id" name="grassroot">
+                            <!--/*@thymesVar id="grassroot" type="top.itning.hrms.entity.department.Grassroot"*/-->
+                            <option th:each="grassroot:${departmentList[0].grassroots}" th:value="${grassroot.id}"
+                                    th:text="${grassroot.name}"></option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="mdui-typo">
+                            <hr/>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="mdui-m-t-5">
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">12.岗位名称(必填):</p></td>
+                    <td class="mdui-col-xs-10">
+                        <select name="positionTitle" class="mdui-select" mdui-select="{position: 'bottom'}">
+                            <option th:each="positionTitle:${positionTitleInfoList}" th:value="${positionTitle.id}"
+                                    th:text="${positionTitle.name}"></option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="mdui-typo">
+                            <hr/>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="mdui-m-t-5">
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">13.岗位类别(必填):</p></td>
+                    <td class="mdui-col-xs-10">
+                        <select name="positionCategory" class="mdui-select" mdui-select="{position: 'bottom'}">
+                            <option th:each="positionCategory:${positionCategoryInfoList}"
+                                    th:value="${positionCategory.id}" th:text="${positionCategory.name}"></option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="mdui-typo">
+                            <hr/>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="mdui-m-t-5">
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">14.备注:</p></td>
+                    <td class="mdui-col-xs-10"><input name="marks" type="text" class="mdui-textfield-input"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="mdui-typo">
+                            <hr/>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="mdui-m-t-5">
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">15.来校日期:</p></td>
+                    <td class="mdui-col-xs-10"><input readonly="readonly"
+                                                      class="mdui-textfield-input"
+                                                      type="text" maxlength="10"
+                                                      onfocus="WdatePicker({skin:'twoer',dateFmt:'yyyy年MM月dd日',maxDate:'%y-%M-%d',vel:'comeDate'})"/><input
+                            id="comeDate" name="comeDate" type="text" class="mdui-hidden"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="mdui-typo">
+                            <hr/>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="mdui-m-t-5">
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">16.工龄起始日期:</p></td>
+                    <td class="mdui-col-xs-10"><input readonly="readonly"
+                                                      class="mdui-textfield-input"
+                                                      type="text" maxlength="10"
+                                                      onfocus="WdatePicker({skin:'twoer',dateFmt:'yyyy年MM月dd日',maxDate:'%y-%M-%d',vel:'startDate'})"/><input
+                            id="startDate" name="startDate" type="text" class="mdui-hidden"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="mdui-typo">
+                            <hr/>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="mdui-m-t-5">
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">17.社会职称:</p></td>
+                    <td class="mdui-col-xs-10">
+                        <select name="jobTitle" class="mdui-select" mdui-select="{position: 'bottom'}">
+                            <option th:each="jobTitle:${jobTitleInfoList}" th:value="${jobTitle.id}"
+                                    th:text="${jobTitle.name}"></option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="mdui-typo">
+                            <hr/>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="mdui-m-t-5">
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">18.职称级别:</p></td>
+                    <td class="mdui-col-xs-10">
+                        <select name="jobLevel" class="mdui-select" mdui-select="{position: 'bottom'}">
+                            <option th:each="jobLevel:${jobLevelInfoList}" th:value="${jobLevel.id}"
+                                    th:text="${jobLevel.name}"></option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="mdui-typo">
+                            <hr/>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="mdui-m-t-5">
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">19.职称授予专业:</p></td>
+                    <td class="mdui-col-xs-10"><input name="rta" type="text" class="mdui-textfield-input"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="mdui-typo">
+                            <hr/>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="mdui-m-t-5">
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">20.获证时间:</p></td>
+                    <td class="mdui-col-xs-10"><input readonly="readonly"
+                                                      class="mdui-textfield-input"
+                                                      type="text" maxlength="10"
+                                                      onfocus="WdatePicker({skin:'twoer',dateFmt:'yyyy年MM月dd日',maxDate:'%y-%M-%d',vel:'certifiedTime'})"/><input
+                            id="certifiedTime" name="certifiedTime" type="text" class="mdui-hidden"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="mdui-typo">
+                            <hr/>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="mdui-m-t-5">
+                    <td class="mdui-col-xs-3"><p class="mdui-p-a-1">21.职业资格证（1）:</p></td>
+                    <td class="mdui-col-xs-9"><input name="oqc1" type="text" class="mdui-textfield-input"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="mdui-typo">
+                            <hr/>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="mdui-m-t-5">
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">22.发证单位:</p></td>
+                    <td class="mdui-col-xs-10"><input name="issuingUnit" type="text" class="mdui-textfield-input"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="mdui-typo">
+                            <hr/>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="mdui-m-t-5">
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">23.获证时间:</p></td>
+                    <td class="mdui-col-xs-10"><input readonly="readonly"
+                                                      class="mdui-textfield-input"
+                                                      type="text" maxlength="10"
+                                                      onfocus="WdatePicker({skin:'twoer',dateFmt:'yyyy年MM月dd日',maxDate:'%y-%M-%d',vel:'oqc1Time'})"/><input
+                            id="oqc1Time" name="oqc1Time" type="text" class="mdui-hidden"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="mdui-typo">
+                            <hr/>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="mdui-m-t-5">
+                    <td class="mdui-col-xs-3"><p class="mdui-p-a-1">24.职业资格证（2）:</p></td>
+                    <td class="mdui-col-xs-9"><input name="oqc2" type="text" class="mdui-textfield-input"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="mdui-typo">
+                            <hr/>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="mdui-m-t-5">
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">25.认定专业:</p></td>
+                    <td class="mdui-col-xs-10"><input name="cp" type="text" class="mdui-textfield-input"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="mdui-typo">
+                            <hr/>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="mdui-m-t-5">
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">26.岗前培训证:</p></td>
+                    <td class="mdui-col-xs-10"><input name="ptc" type="text" class="mdui-textfield-input"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="mdui-typo">
+                            <hr/>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="mdui-m-t-5">
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">27.获证时间:</p></td>
+                    <td class="mdui-col-xs-10"><input readonly="readonly"
+                                                      class="mdui-textfield-input"
+                                                      type="text" maxlength="10"
+                                                      onfocus="WdatePicker({skin:'twoer',dateFmt:'yyyy年MM月dd日',maxDate:'%y-%M-%d',vel:'ptcTime'})"/><input
+                            id="ptcTime" name="ptcTime" type="text" class="mdui-hidden"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="mdui-typo">
+                            <hr/>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="mdui-m-t-5">
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">28.岗位工资:</p></td>
+                    <td class="mdui-col-xs-10"><input name="wage" type="number" class="mdui-textfield-input"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="mdui-typo">
+                            <hr/>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="mdui-m-t-5">
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">29.绩效工资:</p></td>
+                    <td class="mdui-col-xs-10"><input name="performancePay" type="number" class="mdui-textfield-input">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="mdui-typo">
+                            <hr/>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="mdui-m-t-5">
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">30.职务津贴:</p></td>
+                    <td class="mdui-col-xs-10"><input name="dutyAllowance" type="number" class="mdui-textfield-input">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="mdui-typo">
+                            <hr/>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="mdui-m-t-5">
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">31.岗位超时补助:</p></td>
+                    <td class="mdui-col-xs-10"><input name="grants" type="number" class="mdui-textfield-input"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="mdui-typo">
+                            <hr/>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="mdui-m-t-5">
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">32.硕士津贴:</p></td>
+                    <td class="mdui-col-xs-10"><input name="mAllowance" type="number" class="mdui-textfield-input"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="mdui-typo">
+                            <hr/>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="mdui-m-t-5">
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">33.电话补助:</p></td>
+                    <td class="mdui-col-xs-10"><input name="pSubsidies" type="number" class="mdui-textfield-input"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="mdui-typo">
+                            <hr/>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="mdui-m-t-5">
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">34.用工形式:</p></td>
+                    <td class="mdui-col-xs-10">
+                        <select name="jobLevel" class="mdui-select" mdui-select="{position: 'bottom'}">
+                            <option th:each="employmentForm:${employmentFormList}" th:value="${employmentForm.id}"
+                                    th:text="${employmentForm.name}"></option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="mdui-typo">
+                            <hr/>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="mdui-m-t-5">
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">35.用工起始时间:</p></td>
+                    <td class="mdui-col-xs-10"><input readonly="readonly"
+                                                      class="mdui-textfield-input"
+                                                      type="text" maxlength="10"
+                                                      onfocus="WdatePicker({skin:'twoer',dateFmt:'yyyy年MM月dd日',vel:'eStartDate'})"/><input
+                            id="eStartDate" name="eStartDate" type="text" class="mdui-hidden"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="mdui-typo">
+                            <hr/>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="mdui-m-t-5">
+                    <td class="mdui-col-xs-3"><p class="mdui-p-a-1">36.第一次签约劳动合同期限:</p></td>
+                    <td class="mdui-col-xs-9"><input readonly="readonly"
+                                                     class="mdui-textfield-input"
+                                                     type="text" maxlength="10"
+                                                     onfocus="WdatePicker({skin:'twoer',dateFmt:'yyyy年MM月dd日',vel:'laborContract1'})"/><input
+                            id="laborContract1" name="laborContract1" type="text" class="mdui-hidden"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="mdui-typo">
+                            <hr/>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="mdui-m-t-5">
+                    <td class="mdui-col-xs-3"><p class="mdui-p-a-1">37.第一次签约到期日:</p></td>
+                    <td class="mdui-col-xs-9"><input readonly="readonly"
+                                                     class="mdui-textfield-input"
+                                                     type="text" maxlength="10"
+                                                     onfocus="WdatePicker({skin:'twoer',dateFmt:'yyyy年MM月dd日',vel:'laborContract1End'})"/><input
+                            id="laborContract1End" name="laborContract1End" type="text" class="mdui-hidden"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="mdui-typo">
+                            <hr/>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="mdui-m-t-5">
+                    <td class="mdui-col-xs-3"><p class="mdui-p-a-1">38.第二次签约劳动合同期限:</p></td>
+                    <td class="mdui-col-xs-9"><input readonly="readonly"
+                                                     class="mdui-textfield-input"
+                                                     type="text" maxlength="10"
+                                                     onfocus="WdatePicker({skin:'twoer',dateFmt:'yyyy年MM月dd日',vel:'laborContract2'})"/><input
+                            id="laborContract2" name="laborContract2" type="text" class="mdui-hidden"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="mdui-typo">
+                            <hr/>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="mdui-m-t-5">
+                    <td class="mdui-col-xs-3"><p class="mdui-p-a-1">39.第二次签约到期日:</p></td>
+                    <td class="mdui-col-xs-9"><input readonly="readonly"
+                                                     class="mdui-textfield-input"
+                                                     type="text" maxlength="10"
+                                                     onfocus="WdatePicker({skin:'twoer',dateFmt:'yyyy年MM月dd日',vel:'laborContract2End'})"/><input
+                            id="laborContract2End" name="laborContract2End" type="text" class="mdui-hidden"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="mdui-typo">
+                            <hr/>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="mdui-m-t-5">
+                    <td class="mdui-col-xs-3"><p class="mdui-p-a-1">40.第三次签约劳动合同期限:</p></td>
+                    <td class="mdui-col-xs-9"><input readonly="readonly"
+                                                     class="mdui-textfield-input"
+                                                     type="text" maxlength="10"
+                                                     onfocus="WdatePicker({skin:'twoer',dateFmt:'yyyy年MM月dd日',vel:'laborContract3'})"/><input
+                            id="laborContract3" name="laborContract3" type="text" class="mdui-hidden"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="mdui-typo">
+                            <hr/>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="mdui-m-t-5">
+                    <td class="mdui-col-xs-3"><p class="mdui-p-a-1">41.第三次签约到期日:</p></td>
+                    <td class="mdui-col-xs-9"><input readonly="readonly"
+                                                     class="mdui-textfield-input"
+                                                     type="text" maxlength="10"
+                                                     onfocus="WdatePicker({skin:'twoer',dateFmt:'yyyy年MM月dd日',vel:'laborContract3End'})"/><input
+                            id="laborContract3End" name="laborContract3End" type="text" class="mdui-hidden"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="mdui-typo">
+                            <hr/>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="mdui-m-t-5">
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">42.第一学历[1]:</p></td>
+                    <td class="mdui-col-xs-10"><input name="ducation1" type="text" class="mdui-textfield-input"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="mdui-typo">
+                            <hr/>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="mdui-m-t-5">
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">43.获得学位:</p></td>
+                    <td class="mdui-col-xs-10"><input name="bs" type="text" class="mdui-textfield-input"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="mdui-typo">
+                            <hr/>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="mdui-m-t-5">
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">44.性质[1]:</p></td>
+                    <td class="mdui-col-xs-10"><input name="nature1" type="text" class="mdui-textfield-input"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="mdui-typo">
+                            <hr/>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="mdui-m-t-5">
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">45.毕业时间[1]:</p></td>
+                    <td class="mdui-col-xs-10"><input readonly="readonly"
+                                                      class="mdui-textfield-input"
+                                                      type="text" maxlength="10"
+                                                      onfocus="WdatePicker({skin:'twoer',dateFmt:'yyyy年MM月dd日',vel:'graduationTime1'})"/><input
+                            id="graduationTime1" name="graduationTime1" type="text" class="mdui-hidden"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="mdui-typo">
+                            <hr/>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="mdui-m-t-5">
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">46.毕业学校[1]:</p></td>
+                    <td class="mdui-col-xs-10"><input name="graduatedSchool1" type="text" class="mdui-textfield-input">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="mdui-typo">
+                            <hr/>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="mdui-m-t-5">
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">47.专业名称[1]:</p></td>
+                    <td class="mdui-col-xs-10"><input name="professionalTitle1" type="text"
+                                                      class="mdui-textfield-input"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="mdui-typo">
+                            <hr/>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="mdui-m-t-5">
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">48.最高学历:</p></td>
+                    <td class="mdui-col-xs-10"><input name="highestEducation" type="text" class="mdui-textfield-input">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="mdui-typo">
+                            <hr/>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="mdui-m-t-5">
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">49.最高学位:</p></td>
+                    <td class="mdui-col-xs-10"><input name="hghestDegree" type="text" class="mdui-textfield-input"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="mdui-typo">
+                            <hr/>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="mdui-m-t-5">
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">50.性质[2]:</p></td>
+                    <td class="mdui-col-xs-10"><input name="nature2" type="text" class="mdui-textfield-input"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="mdui-typo">
+                            <hr/>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="mdui-m-t-5">
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">51.毕业时间[2]:</p></td>
+                    <td class="mdui-col-xs-10"><input readonly="readonly"
+                                                      class="mdui-textfield-input"
+                                                      type="text" maxlength="10"
+                                                      onfocus="WdatePicker({skin:'twoer',dateFmt:'yyyy年MM月dd日',vel:'graduationTime2'})"/><input
+                            id="graduationTime2" name="graduationTime2" type="text" class="mdui-hidden"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="mdui-typo">
+                            <hr/>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="mdui-m-t-5">
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">52.毕业学校[2]:</p></td>
+                    <td class="mdui-col-xs-10"><input name="graduatedSchool2" type="text" class="mdui-textfield-input">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="mdui-typo">
+                            <hr/>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="mdui-m-t-5">
+                    <td class="mdui-col-xs-3"><p class="mdui-p-a-1">53.最高学历学缘结构:</p></td>
+                    <td class="mdui-col-xs-9"><input name="th" type="text" class="mdui-textfield-input"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="mdui-typo">
+                            <hr/>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="mdui-m-t-5">
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">54.专业名称[2]:</p></td>
+                    <td class="mdui-col-xs-10"><input name="professionalTitle2" type="text"
+                                                      class="mdui-textfield-input"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="mdui-typo">
+                            <hr/>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="mdui-m-t-5">
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">55.外语语种:</p></td>
+                    <td class="mdui-col-xs-10"><input name="foreignLanguage" type="text" class="mdui-textfield-input">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="mdui-typo">
+                            <hr/>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="mdui-m-t-5">
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">56.外语等级:</p></td>
+                    <td class="mdui-col-xs-10"><input name="flLevel" type="text" class="mdui-textfield-input"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="mdui-typo">
+                            <hr/>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="mdui-m-t-5">
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">57.其他证书:</p></td>
+                    <td class="mdui-col-xs-10"><input name="otherCertificates" type="text" class="mdui-textfield-input">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="mdui-typo">
+                            <hr/>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="mdui-m-t-5">
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">58.住房公积金有无:</p></td>
+                    <td class="mdui-col-xs-10"><p align=center style='text-align:center'><label class="mdui-switch">
+                        <input name="hasHousingFund" type="checkbox"/>
+                        <i class="mdui-switch-icon"></i>
+                    </label>
+                    </p></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="mdui-typo">
+                            <hr/>
+                        </div>
+                    </td>
                 </tr>
             </table>
         </form>
@@ -218,25 +872,30 @@
 <script th:src="@{/lib_web/mdui/js/mdui.min.js}"></script>
 <script th:src="@{/js/common.js}"></script>
 <script th:src="@{/lib_web/datepicker/WdatePicker.js}"></script>
-<script>
+<script th:inline="javascript">
     'use strict';
-    $(function () {
-        /*自定义请假时常*/
-        $(".custom_input input[type=radio]").click(function () {
-            var $customId = $('#custom_id');
-            var $customOften = $('#custom_often');
-            if ($(this).data('id') === 'custom') {
-                $customId.removeClass('mdui-hidden');
-                $customId.find('input').removeAttr("disabled");
-                $customOften.attr("disabled", "disabled");
 
-            } else {
-                $customId.addClass('mdui-hidden');
-                $customId.find('input').attr("disabled", "disabled");
-                $customOften.removeAttr("disabled");
-            }
-        });
+    $(function () {
+        changeGrassrootSeletc();
     });
+
+    //更新下拉框数据
+    function changeGrassrootSeletc() {
+        var departmentList = [[${departmentList}]];
+        var $grassrootId = $('#grassroot_id');
+        var $departmentId = $('#department_id');
+        $departmentId.change(function () {
+            var val = $(this).val();
+            for (var i = 0; i < departmentList.length; i++) {
+                if (departmentList[i].id === val) {
+                    $grassrootId.empty();
+                    for (var j = 0; j < departmentList[i].grassroots.length; j++) {
+                        $grassrootId.append("<option value='" + departmentList[i].grassroots[j].id + "'>" + departmentList[i].grassroots[j].name + "</option>");
+                    }
+                }
+            }
+        })
+    }
 </script>
 </body>
 </html>

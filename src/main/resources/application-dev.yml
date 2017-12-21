@@ -1,7 +1,7 @@
 #!application-dev.yml 开发配置文件
 server:
   port: 8080 #端口
-debug: false #调试模式
+debug: true #调试模式
 spring:
   jpa:
     hibernate:

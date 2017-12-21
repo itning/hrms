@@ -6,6 +6,7 @@ import top.itning.hrms.entity.department.Grassroot;
 import top.itning.hrms.entity.employment.EmploymentForm;
 import top.itning.hrms.entity.fixed.Ethnic;
 import top.itning.hrms.entity.fixed.PoliticalStatus;
+import top.itning.hrms.entity.job.JobLevel;
 import top.itning.hrms.entity.job.JobTitle;
 import top.itning.hrms.entity.post.PositionCategory;
 import top.itning.hrms.entity.post.PositionTitle;
@@ -146,12 +147,19 @@ public class Staff implements Serializable {
     @NotNull
     private String stime;
     /**
-     * 社会职称/职称级别
+     * 社会职称
      */
     @NotNull
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "jobTitle")
     private JobTitle jobTitle;
+    /**
+     * 职称级别
+     */
+    @NotNull
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
+    @JoinColumn(name = "jobLevel")
+    private JobLevel jobLevel;
     /**
      * 职称授予专业
      */
