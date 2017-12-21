@@ -27,7 +27,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     @Cacheable(cacheNames = "DepartmentList", key = "#key")
-    public List<Department> getAllDepartmentInfo(String key) {
+    public List<Department> getAllDepartmentInfoList(String key) {
         logger.debug("getAllDepartmentInfo::获取部门信息集合");
         return departmentDao.findAll();
     }

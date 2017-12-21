@@ -32,7 +32,7 @@
     <div class="mdui-toolbar mdui-color-theme">
         <a href="javascript:" class="mdui-btn mdui-btn-icon" mdui-drawer="{target: '#left-drawer'}"><i
                 class="mdui-icon material-icons">menu</i></a>
-        <p>教师助手 Teacher Assistant</p>
+        <p>人力资源管理系统</p>
         <div class="mdui-toolbar-spacer"></div>
         <a href="javascript:window.location.reload();" class="mdui-btn mdui-btn-icon"><i
                 class="mdui-icon material-icons">refresh</i></a>
@@ -56,9 +56,7 @@
                 <div class="mdui-list-item-content">职工信息管理</div>
                 <i class="mdui-collapse-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
             </div>
-            <!--/*@thymesVar id="classList" type="java.util.List<top.itning.ta.entity.Clazz>"*/-->
             <div th:each="department : ${departmentList} " class="mdui-collapse-item-body mdui-list mdui-list-dense">
-                <!--/*@thymesVar id="clazz" type="top.itning.ta.entity.Clazz"*/-->
                 <!--/*@thymesVar id="id" type="java.lang.String"*/-->
                 <a th:id="${department.id}" th:href="${'#/'+department.id}" th:text="${department.name}"
                    class="mdui-list-item mdui-ripple">1602班</a>
@@ -275,9 +273,9 @@
     }
 
 
-    /*添加学生按钮*/
+    /*添加职工按钮*/
     function addStudent() {
-        window.open('/studentInfo/add/web/' + last_id, '_self');
+        window.open('/staff/add/' + last_id, '_self');
     }
 
     //进度条状态

@@ -13,8 +13,8 @@ public interface DepartmentService {
     /**
      * 获取所有部门信息
      *
-     * @param key 该参数用于缓存的KEY
+     * @param key 默认:getAllDepartmentInfo  该参数用于缓存的KEY
      * @return 部门信息集合
      */
-    List<Department> getAllDepartmentInfo(String key);
+    List<Department> getAllDepartmentInfoList(String key);
 }

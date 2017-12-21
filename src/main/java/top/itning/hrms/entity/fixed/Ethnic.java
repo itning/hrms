@@ -1,6 +1,8 @@
 package top.itning.hrms.entity.fixed;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -73,6 +75,8 @@ import java.io.Serializable;
  * @author Ning
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "FIXED_ETHNIC")
 public class Ethnic implements Serializable {
