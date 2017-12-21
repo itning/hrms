@@ -72,6 +72,12 @@ public class StaffController {
         }
     }
 
+    /**
+     * 添加职工信息页面
+     *
+     * @param model 模型
+     * @return addStaff.html
+     */
     @GetMapping("/add")
     public String addStaffByWeb(Model model) {
         model.addAttribute("departmentList", departmentService.getAllDepartmentInfoList("getAllDepartmentInfo"));
@@ -85,9 +91,15 @@ public class StaffController {
         return "addStaff";
     }
 
+    /**
+     * 添加职工信息
+     *
+     * @param staff 职工实体
+     * @return 重定向到主页
+     */
     @PostMapping("/add")
     public String addStaff(Staff staff) {
         staffService.addStaffInfo(staff);
-        return "redirect:/staff/add";
+        return "redirect:/index";
     }
 }
