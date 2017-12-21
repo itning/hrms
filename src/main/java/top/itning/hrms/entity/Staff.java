@@ -132,20 +132,10 @@ public class Staff implements Serializable {
     @NotNull
     private Date comeDate;
     /**
-     * 校龄
-     */
-    @NotNull
-    private String ctime;
-    /**
      * 工龄起始日期
      */
     @NotNull
     private Date startDate;
-    /**
-     * 工龄
-     */
-    @NotNull
-    private String stime;
     /**
      * 社会职称
      */
@@ -222,10 +212,6 @@ public class Staff implements Serializable {
      * 电话补助
      */
     private String pSubsidies;
-    /**
-     * 应发额
-     */
-    private String sbm;
     /**
      * 用工形式
      */

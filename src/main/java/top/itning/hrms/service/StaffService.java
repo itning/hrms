@@ -21,4 +21,11 @@ public interface StaffService {
      * @throws NoSuchIdException      ID不存在时抛出该异常
      */
     List<Staff> getStaffInfoListByDepartmentID(String id) throws NullParameterException, NoSuchIdException;
+
+    /**
+     * 添加职工信息
+     *
+     * @param staff 职工实体类
+     */
+    void addStaffInfo(Staff staff);
 }

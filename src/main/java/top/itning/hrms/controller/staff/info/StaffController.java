@@ -3,8 +3,10 @@ package top.itning.hrms.controller.staff.info;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.*;
 import top.itning.hrms.entity.ServerMessage;
 import top.itning.hrms.entity.Staff;
@@ -12,6 +14,9 @@ import top.itning.hrms.exception.defaults.NoSuchIdException;
 import top.itning.hrms.exception.json.JsonException;
 import top.itning.hrms.service.*;
 
+import javax.servlet.http.HttpServletRequest;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -41,6 +46,13 @@ public class StaffController {
 
     @Autowired
     private FixedService fixedService;
+
+    @InitBinder
+    protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) {
+        binder.registerCustomEditor(
+                Date.class,
+                new CustomDateEditor(new SimpleDateFormat("yyyy-MM-dd"), true));
+    }
 
     /**
      * 根据部门ID获取该部门下所有职工
@@ -75,7 +87,7 @@ public class StaffController {
 
     @PostMapping("/add")
     public String addStaff(Staff staff) {
-        System.out.println("post");
-        return "";
+        staffService.addStaffInfo(staff);
+        return "redirect:/staff/add";
     }
 }
