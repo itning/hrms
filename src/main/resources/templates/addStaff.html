@@ -23,11 +23,6 @@
     <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-    <style>
-        .mdui-radio {
-            padding-right: 10px;
-        }
-    </style>
 </head>
 <!--/*@thymesVar id="themeColor" type="java.lang.String"*/-->
 <!--/*@thymesVar id="themeColorAccent" type="java.lang.String"*/-->
@@ -171,7 +166,8 @@
                 </tr>
                 <tr class="mdui-m-t-5">
                     <td class="mdui-col-xs-2"><p class="mdui-p-a-1">06.身份证号(必填):</p></td>
-                    <td class="mdui-col-xs-10"><input name="nid" type="number" class="mdui-textfield-input"
+                    <td class="mdui-col-xs-10"><input onblur="checkNid(this)" name="nid" type="number"
+                                                      class="mdui-textfield-input"
                                                       required="required"></td>
                 </tr>
                 <tr>
@@ -282,12 +278,18 @@
                     </td>
                 </tr>
                 <tr class="mdui-m-t-5">
-                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">14.来校日期:</p></td>
-                    <td class="mdui-col-xs-10"><input readonly="readonly"
-                                                      class="mdui-textfield-input"
-                                                      type="text" maxlength="10"
-                                                      onfocus="WdatePicker({skin:'twoer',dateFmt:'yyyy年MM月dd日',maxDate:'%y-%M-%d',vel:'comeDate'})"/><input
-                            id="comeDate" name="comeDate" type="text" class="mdui-hidden"></td>
+                    <td class="mdui-col-xs-3"><p class="mdui-p-a-1">14.来校日期(必填):</p></td>
+                    <td class="mdui-col-xs-9">
+                        <div id="comeDate_id" class="mdui-textfield">
+                            <input readonly="readonly"
+                                   class="mdui-textfield-input"
+                                   type="text" maxlength="11"
+                                   onfocus="WdatePicker({skin:'twoer',dateFmt:'yyyy年MM月dd日',maxDate:'%y-%M-%d',vel:'comeDate'})"
+                                   required="required"/><input
+                                id="comeDate" name="comeDate" type="text" class="mdui-hidden" required="required">
+                            <div class="mdui-textfield-error">请选择来校日期</div>
+                        </div>
+                    </td>
                 </tr>
                 <tr>
                     <td>
@@ -297,12 +299,18 @@
                     </td>
                 </tr>
                 <tr class="mdui-m-t-5">
-                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">15.工龄起始日期:</p></td>
-                    <td class="mdui-col-xs-10"><input readonly="readonly"
-                                                      class="mdui-textfield-input"
-                                                      type="text" maxlength="10"
-                                                      onfocus="WdatePicker({skin:'twoer',dateFmt:'yyyy年MM月dd日',maxDate:'%y-%M-%d',vel:'startDate'})"/><input
-                            id="startDate" name="startDate" type="text" class="mdui-hidden"></td>
+                    <td class="mdui-col-xs-3"><p class="mdui-p-a-1">15.工龄起始日期(必填):</p></td>
+                    <td class="mdui-col-xs-9">
+                        <div id="startDate_id" class="mdui-textfield">
+                            <input readonly="readonly"
+                                   class="mdui-textfield-input"
+                                   type="text" maxlength="11"
+                                   onfocus="WdatePicker({skin:'twoer',dateFmt:'yyyy年MM月dd日',maxDate:'%y-%M-%d',vel:'startDate'})"
+                                   required="required"/><input
+                                id="startDate" name="startDate" type="text" class="mdui-hidden" required="required">
+                            <div class="mdui-textfield-error">请选择工龄起始日期</div>
+                        </div>
+                    </td>
                 </tr>
                 <tr>
                     <td>
@@ -455,8 +463,9 @@
                     </td>
                 </tr>
                 <tr class="mdui-m-t-5">
-                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">27.岗位工资:</p></td>
-                    <td class="mdui-col-xs-10"><input name="wage" type="number" class="mdui-textfield-input"></td>
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">27.岗位工资(必填):</p></td>
+                    <td class="mdui-col-xs-10"><input name="wage" type="number" class="mdui-textfield-input"
+                                                      required="required"></td>
                 </tr>
                 <tr>
                     <td>
@@ -466,8 +475,9 @@
                     </td>
                 </tr>
                 <tr class="mdui-m-t-5">
-                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">28.绩效工资:</p></td>
-                    <td class="mdui-col-xs-10"><input name="performancePay" type="number" class="mdui-textfield-input">
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">28.绩效工资(必填):</p></td>
+                    <td class="mdui-col-xs-10"><input name="performancePay" type="number" class="mdui-textfield-input"
+                                                      required="required">
                     </td>
                 </tr>
                 <tr>
@@ -850,7 +860,8 @@
                     </td>
                 </tr>
             </table>
-            <input style="width: 65px;height: 65px" type="submit" class="mdui-fab mdui-color-theme-accent mdui-fab-fixed mdui-ripple" value="完成"/>
+            <input style="width: 65px;height: 65px" type="submit" onclick="submit_staff()"
+                   class="mdui-fab mdui-color-theme-accent mdui-fab-fixed mdui-ripple" value="完成"/>
         </form>
     </div>
 </section>
@@ -864,6 +875,38 @@
     $(function () {
         changeGrassrootSeletc();
     });
+
+    //身份证号校验
+    function checkNid(that) {
+        if ($(that).val().length !== 18) {
+            that.focus();
+            mdui.snackbar({
+                message: "身份证号不是18位,当前" + $(that).val().length + "位.请检查!"
+            });
+        }
+    }
+
+    //提交检查
+    function submit_staff() {
+        var $comeDateId = $('#comeDate_id');
+        var $startDateId = $('#startDate_id');
+        if ($('#comeDate').val() === "") {
+            $comeDateId.addClass("mdui-textfield-invalid");
+            mdui.snackbar({
+                message: "请选择来校日期!"
+            });
+        } else {
+            $comeDateId.removeClass("mdui-textfield-invalid");
+        }
+        if ($('#startDate').val() === "") {
+            $startDateId.addClass("mdui-textfield-invalid");
+            mdui.snackbar({
+                message: "请选择工龄起始日期!"
+            });
+        } else {
+            $startDateId.removeClass("mdui-textfield-invalid");
+        }
+    }
 
     //更新下拉框数据
     function changeGrassrootSeletc() {

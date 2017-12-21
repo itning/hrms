@@ -85,6 +85,7 @@ public class StaffServiceImpl implements StaffService {
             logger.warn("addStaffInfo::必填参数为空");
             throw new NullParameterException("必填参数为空");
         }
-        System.out.println(staff);
+        logger.debug("addStaffInfo::职工信息->" + staff);
+        staffDao.saveAndFlush(staff);
     }
 }
