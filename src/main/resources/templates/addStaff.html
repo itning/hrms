@@ -218,7 +218,7 @@
                     </td>
                 </tr>
                 <tr class="mdui-m-t-5">
-                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">11.部门(必填):</p></td>
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">10.部门(必填):</p></td>
                     <td class="mdui-p-t-1 mdui-col-xs-10">
                         <select class="mdui-m-r-1" id="department_id" name="department">
                             <option th:each="department:${departmentList}" th:value="${department.id}"
@@ -239,7 +239,7 @@
                     </td>
                 </tr>
                 <tr class="mdui-m-t-5">
-                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">12.岗位名称(必填):</p></td>
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">11.岗位名称(必填):</p></td>
                     <td class="mdui-col-xs-10">
                         <select name="positionTitle" class="mdui-select" mdui-select="{position: 'bottom'}">
                             <option th:each="positionTitle:${positionTitleInfoList}" th:value="${positionTitle.id}"
@@ -255,7 +255,7 @@
                     </td>
                 </tr>
                 <tr class="mdui-m-t-5">
-                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">13.岗位类别(必填):</p></td>
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">12.岗位类别(必填):</p></td>
                     <td class="mdui-col-xs-10">
                         <select name="positionCategory" class="mdui-select" mdui-select="{position: 'bottom'}">
                             <option th:each="positionCategory:${positionCategoryInfoList}"
@@ -271,7 +271,7 @@
                     </td>
                 </tr>
                 <tr class="mdui-m-t-5">
-                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">14.备注:</p></td>
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">13.备注:</p></td>
                     <td class="mdui-col-xs-10"><input name="marks" type="text" class="mdui-textfield-input"></td>
                 </tr>
                 <tr>
@@ -282,7 +282,7 @@
                     </td>
                 </tr>
                 <tr class="mdui-m-t-5">
-                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">15.来校日期:</p></td>
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">14.来校日期:</p></td>
                     <td class="mdui-col-xs-10"><input readonly="readonly"
                                                       class="mdui-textfield-input"
                                                       type="text" maxlength="10"
@@ -297,7 +297,7 @@
                     </td>
                 </tr>
                 <tr class="mdui-m-t-5">
-                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">16.工龄起始日期:</p></td>
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">15.工龄起始日期:</p></td>
                     <td class="mdui-col-xs-10"><input readonly="readonly"
                                                       class="mdui-textfield-input"
                                                       type="text" maxlength="10"
@@ -312,7 +312,7 @@
                     </td>
                 </tr>
                 <tr class="mdui-m-t-5">
-                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">17.社会职称:</p></td>
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">16.社会职称:</p></td>
                     <td class="mdui-col-xs-10">
                         <select name="jobTitle" class="mdui-select" mdui-select="{position: 'bottom'}">
                             <option th:each="jobTitle:${jobTitleInfoList}" th:value="${jobTitle.id}"
@@ -328,7 +328,7 @@
                     </td>
                 </tr>
                 <tr class="mdui-m-t-5">
-                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">18.职称级别:</p></td>
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">17.职称级别:</p></td>
                     <td class="mdui-col-xs-10">
                         <select name="jobLevel" class="mdui-select" mdui-select="{position: 'bottom'}">
                             <option th:each="jobLevel:${jobLevelInfoList}" th:value="${jobLevel.id}"
@@ -344,7 +344,7 @@
                     </td>
                 </tr>
                 <tr class="mdui-m-t-5">
-                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">19.职称授予专业:</p></td>
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">18.职称授予专业:</p></td>
                     <td class="mdui-col-xs-10"><input name="rta" type="text" class="mdui-textfield-input"></td>
                 </tr>
                 <tr>
@@ -355,7 +355,7 @@
                     </td>
                 </tr>
                 <tr class="mdui-m-t-5">
-                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">20.获证时间:</p></td>
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">19.获证时间:</p></td>
                     <td class="mdui-col-xs-10"><input readonly="readonly"
                                                       class="mdui-textfield-input"
                                                       type="text" maxlength="10"
@@ -370,7 +370,7 @@
                     </td>
                 </tr>
                 <tr class="mdui-m-t-5">
-                    <td class="mdui-col-xs-3"><p class="mdui-p-a-1">21.职业资格证（1）:</p></td>
+                    <td class="mdui-col-xs-3"><p class="mdui-p-a-1">20.职业资格证（1）:</p></td>
                     <td class="mdui-col-xs-9"><input name="oqc1" type="text" class="mdui-textfield-input"></td>
                 </tr>
                 <tr>
@@ -381,7 +381,7 @@
                     </td>
                 </tr>
                 <tr class="mdui-m-t-5">
-                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">22.发证单位:</p></td>
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">21.发证单位:</p></td>
                     <td class="mdui-col-xs-10"><input name="issuingUnit" type="text" class="mdui-textfield-input"></td>
                 </tr>
                 <tr>
@@ -392,7 +392,7 @@
                     </td>
                 </tr>
                 <tr class="mdui-m-t-5">
-                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">23.获证时间:</p></td>
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">22.获证时间:</p></td>
                     <td class="mdui-col-xs-10"><input readonly="readonly"
                                                       class="mdui-textfield-input"
                                                       type="text" maxlength="10"
@@ -407,7 +407,7 @@
                     </td>
                 </tr>
                 <tr class="mdui-m-t-5">
-                    <td class="mdui-col-xs-3"><p class="mdui-p-a-1">24.职业资格证（2）:</p></td>
+                    <td class="mdui-col-xs-3"><p class="mdui-p-a-1">23.职业资格证（2）:</p></td>
                     <td class="mdui-col-xs-9"><input name="oqc2" type="text" class="mdui-textfield-input"></td>
                 </tr>
                 <tr>
@@ -418,7 +418,7 @@
                     </td>
                 </tr>
                 <tr class="mdui-m-t-5">
-                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">25.认定专业:</p></td>
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">24.认定专业:</p></td>
                     <td class="mdui-col-xs-10"><input name="cp" type="text" class="mdui-textfield-input"></td>
                 </tr>
                 <tr>
@@ -429,7 +429,7 @@
                     </td>
                 </tr>
                 <tr class="mdui-m-t-5">
-                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">26.岗前培训证:</p></td>
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">25.岗前培训证:</p></td>
                     <td class="mdui-col-xs-10"><input name="ptc" type="text" class="mdui-textfield-input"></td>
                 </tr>
                 <tr>
@@ -440,7 +440,7 @@
                     </td>
                 </tr>
                 <tr class="mdui-m-t-5">
-                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">27.获证时间:</p></td>
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">26.获证时间:</p></td>
                     <td class="mdui-col-xs-10"><input readonly="readonly"
                                                       class="mdui-textfield-input"
                                                       type="text" maxlength="10"
@@ -455,7 +455,7 @@
                     </td>
                 </tr>
                 <tr class="mdui-m-t-5">
-                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">28.岗位工资:</p></td>
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">27.岗位工资:</p></td>
                     <td class="mdui-col-xs-10"><input name="wage" type="number" class="mdui-textfield-input"></td>
                 </tr>
                 <tr>
@@ -466,7 +466,7 @@
                     </td>
                 </tr>
                 <tr class="mdui-m-t-5">
-                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">29.绩效工资:</p></td>
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">28.绩效工资:</p></td>
                     <td class="mdui-col-xs-10"><input name="performancePay" type="number" class="mdui-textfield-input">
                     </td>
                 </tr>
@@ -478,7 +478,7 @@
                     </td>
                 </tr>
                 <tr class="mdui-m-t-5">
-                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">30.职务津贴:</p></td>
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">29.职务津贴:</p></td>
                     <td class="mdui-col-xs-10"><input name="dutyAllowance" type="number" class="mdui-textfield-input">
                     </td>
                 </tr>
@@ -490,7 +490,7 @@
                     </td>
                 </tr>
                 <tr class="mdui-m-t-5">
-                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">31.岗位超时补助:</p></td>
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">30.岗位超时补助:</p></td>
                     <td class="mdui-col-xs-10"><input name="grants" type="number" class="mdui-textfield-input"></td>
                 </tr>
                 <tr>
@@ -501,7 +501,7 @@
                     </td>
                 </tr>
                 <tr class="mdui-m-t-5">
-                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">32.硕士津贴:</p></td>
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">31.硕士津贴:</p></td>
                     <td class="mdui-col-xs-10"><input name="mAllowance" type="number" class="mdui-textfield-input"></td>
                 </tr>
                 <tr>
@@ -512,7 +512,7 @@
                     </td>
                 </tr>
                 <tr class="mdui-m-t-5">
-                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">33.电话补助:</p></td>
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">32.电话补助:</p></td>
                     <td class="mdui-col-xs-10"><input name="pSubsidies" type="number" class="mdui-textfield-input"></td>
                 </tr>
                 <tr>
@@ -523,7 +523,7 @@
                     </td>
                 </tr>
                 <tr class="mdui-m-t-5">
-                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">34.用工形式:</p></td>
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">33.用工形式:</p></td>
                     <td class="mdui-col-xs-10">
                         <select name="employmentForm" class="mdui-select" mdui-select="{position: 'bottom'}">
                             <option th:each="employmentForm:${employmentFormList}" th:value="${employmentForm.id}"
@@ -539,7 +539,7 @@
                     </td>
                 </tr>
                 <tr class="mdui-m-t-5">
-                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">35.用工起始时间:</p></td>
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">34.用工起始时间:</p></td>
                     <td class="mdui-col-xs-10"><input readonly="readonly"
                                                       class="mdui-textfield-input"
                                                       type="text" maxlength="10"
@@ -554,7 +554,7 @@
                     </td>
                 </tr>
                 <tr class="mdui-m-t-5">
-                    <td class="mdui-col-xs-3"><p class="mdui-p-a-1">36.第一次签约劳动合同期限:</p></td>
+                    <td class="mdui-col-xs-3"><p class="mdui-p-a-1">35.第一次签约劳动合同期限:</p></td>
                     <td class="mdui-col-xs-9"><input readonly="readonly"
                                                      class="mdui-textfield-input"
                                                      type="text" maxlength="10"
@@ -569,7 +569,7 @@
                     </td>
                 </tr>
                 <tr class="mdui-m-t-5">
-                    <td class="mdui-col-xs-3"><p class="mdui-p-a-1">37.第一次签约到期日:</p></td>
+                    <td class="mdui-col-xs-3"><p class="mdui-p-a-1">36.第一次签约到期日:</p></td>
                     <td class="mdui-col-xs-9"><input readonly="readonly"
                                                      class="mdui-textfield-input"
                                                      type="text" maxlength="10"
@@ -584,7 +584,7 @@
                     </td>
                 </tr>
                 <tr class="mdui-m-t-5">
-                    <td class="mdui-col-xs-3"><p class="mdui-p-a-1">38.第二次签约劳动合同期限:</p></td>
+                    <td class="mdui-col-xs-3"><p class="mdui-p-a-1">37.第二次签约劳动合同期限:</p></td>
                     <td class="mdui-col-xs-9"><input readonly="readonly"
                                                      class="mdui-textfield-input"
                                                      type="text" maxlength="10"
@@ -599,7 +599,7 @@
                     </td>
                 </tr>
                 <tr class="mdui-m-t-5">
-                    <td class="mdui-col-xs-3"><p class="mdui-p-a-1">39.第二次签约到期日:</p></td>
+                    <td class="mdui-col-xs-3"><p class="mdui-p-a-1">38.第二次签约到期日:</p></td>
                     <td class="mdui-col-xs-9"><input readonly="readonly"
                                                      class="mdui-textfield-input"
                                                      type="text" maxlength="10"
@@ -614,7 +614,7 @@
                     </td>
                 </tr>
                 <tr class="mdui-m-t-5">
-                    <td class="mdui-col-xs-3"><p class="mdui-p-a-1">40.第三次签约劳动合同期限:</p></td>
+                    <td class="mdui-col-xs-3"><p class="mdui-p-a-1">39.第三次签约劳动合同期限:</p></td>
                     <td class="mdui-col-xs-9"><input readonly="readonly"
                                                      class="mdui-textfield-input"
                                                      type="text" maxlength="10"
@@ -629,7 +629,7 @@
                     </td>
                 </tr>
                 <tr class="mdui-m-t-5">
-                    <td class="mdui-col-xs-3"><p class="mdui-p-a-1">41.第三次签约到期日:</p></td>
+                    <td class="mdui-col-xs-3"><p class="mdui-p-a-1">40.第三次签约到期日:</p></td>
                     <td class="mdui-col-xs-9"><input readonly="readonly"
                                                      class="mdui-textfield-input"
                                                      type="text" maxlength="10"
@@ -644,7 +644,7 @@
                     </td>
                 </tr>
                 <tr class="mdui-m-t-5">
-                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">42.第一学历[1]:</p></td>
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">41.第一学历[1]:</p></td>
                     <td class="mdui-col-xs-10"><input name="ducation1" type="text" class="mdui-textfield-input"></td>
                 </tr>
                 <tr>
@@ -655,7 +655,7 @@
                     </td>
                 </tr>
                 <tr class="mdui-m-t-5">
-                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">43.获得学位:</p></td>
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">42.获得学位:</p></td>
                     <td class="mdui-col-xs-10"><input name="bs" type="text" class="mdui-textfield-input"></td>
                 </tr>
                 <tr>
@@ -666,7 +666,7 @@
                     </td>
                 </tr>
                 <tr class="mdui-m-t-5">
-                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">44.性质[1]:</p></td>
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">43.性质[1]:</p></td>
                     <td class="mdui-col-xs-10"><input name="nature1" type="text" class="mdui-textfield-input"></td>
                 </tr>
                 <tr>
@@ -677,7 +677,7 @@
                     </td>
                 </tr>
                 <tr class="mdui-m-t-5">
-                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">45.毕业时间[1]:</p></td>
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">44.毕业时间[1]:</p></td>
                     <td class="mdui-col-xs-10"><input readonly="readonly"
                                                       class="mdui-textfield-input"
                                                       type="text" maxlength="10"
@@ -692,7 +692,7 @@
                     </td>
                 </tr>
                 <tr class="mdui-m-t-5">
-                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">46.毕业学校[1]:</p></td>
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">45.毕业学校[1]:</p></td>
                     <td class="mdui-col-xs-10"><input name="graduatedSchool1" type="text" class="mdui-textfield-input">
                     </td>
                 </tr>
@@ -704,7 +704,7 @@
                     </td>
                 </tr>
                 <tr class="mdui-m-t-5">
-                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">47.专业名称[1]:</p></td>
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">46.专业名称[1]:</p></td>
                     <td class="mdui-col-xs-10"><input name="professionalTitle1" type="text"
                                                       class="mdui-textfield-input"></td>
                 </tr>
@@ -716,7 +716,7 @@
                     </td>
                 </tr>
                 <tr class="mdui-m-t-5">
-                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">48.最高学历:</p></td>
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">47.最高学历:</p></td>
                     <td class="mdui-col-xs-10"><input name="highestEducation" type="text" class="mdui-textfield-input">
                     </td>
                 </tr>
@@ -728,7 +728,7 @@
                     </td>
                 </tr>
                 <tr class="mdui-m-t-5">
-                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">49.最高学位:</p></td>
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">48.最高学位:</p></td>
                     <td class="mdui-col-xs-10"><input name="hghestDegree" type="text" class="mdui-textfield-input"></td>
                 </tr>
                 <tr>
@@ -739,7 +739,7 @@
                     </td>
                 </tr>
                 <tr class="mdui-m-t-5">
-                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">50.性质[2]:</p></td>
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">49.性质[2]:</p></td>
                     <td class="mdui-col-xs-10"><input name="nature2" type="text" class="mdui-textfield-input"></td>
                 </tr>
                 <tr>
@@ -750,7 +750,7 @@
                     </td>
                 </tr>
                 <tr class="mdui-m-t-5">
-                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">51.毕业时间[2]:</p></td>
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">50.毕业时间[2]:</p></td>
                     <td class="mdui-col-xs-10"><input readonly="readonly"
                                                       class="mdui-textfield-input"
                                                       type="text" maxlength="10"
@@ -765,7 +765,7 @@
                     </td>
                 </tr>
                 <tr class="mdui-m-t-5">
-                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">52.毕业学校[2]:</p></td>
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">51.毕业学校[2]:</p></td>
                     <td class="mdui-col-xs-10"><input name="graduatedSchool2" type="text" class="mdui-textfield-input">
                     </td>
                 </tr>
@@ -777,7 +777,7 @@
                     </td>
                 </tr>
                 <tr class="mdui-m-t-5">
-                    <td class="mdui-col-xs-3"><p class="mdui-p-a-1">53.最高学历学缘结构:</p></td>
+                    <td class="mdui-col-xs-3"><p class="mdui-p-a-1">52.最高学历学缘结构:</p></td>
                     <td class="mdui-col-xs-9"><input name="th" type="text" class="mdui-textfield-input"></td>
                 </tr>
                 <tr>
@@ -788,7 +788,7 @@
                     </td>
                 </tr>
                 <tr class="mdui-m-t-5">
-                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">54.专业名称[2]:</p></td>
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">53.专业名称[2]:</p></td>
                     <td class="mdui-col-xs-10"><input name="professionalTitle2" type="text"
                                                       class="mdui-textfield-input"></td>
                 </tr>
@@ -800,7 +800,7 @@
                     </td>
                 </tr>
                 <tr class="mdui-m-t-5">
-                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">55.外语语种:</p></td>
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">54.外语语种:</p></td>
                     <td class="mdui-col-xs-10"><input name="foreignLanguage" type="text" class="mdui-textfield-input">
                     </td>
                 </tr>
@@ -812,7 +812,7 @@
                     </td>
                 </tr>
                 <tr class="mdui-m-t-5">
-                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">56.外语等级:</p></td>
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">55.外语等级:</p></td>
                     <td class="mdui-col-xs-10"><input name="flLevel" type="text" class="mdui-textfield-input"></td>
                 </tr>
                 <tr>
@@ -823,7 +823,7 @@
                     </td>
                 </tr>
                 <tr class="mdui-m-t-5">
-                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">57.其他证书:</p></td>
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">56.其他证书:</p></td>
                     <td class="mdui-col-xs-10"><input name="otherCertificates" type="text" class="mdui-textfield-input">
                     </td>
                 </tr>
@@ -835,7 +835,7 @@
                     </td>
                 </tr>
                 <tr class="mdui-m-t-5">
-                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">58.住房公积金有无:</p></td>
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">57.住房公积金有无:</p></td>
                     <td class="mdui-col-xs-10"><p align=center style='text-align:center'><label class="mdui-switch">
                         <input name="hasHousingFund" type="checkbox"/>
                         <i class="mdui-switch-icon"></i>
