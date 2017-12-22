@@ -1,5 +1,6 @@
 package top.itning.hrms.util;
 
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,6 +54,11 @@ public class StaffUtils {
      * @throws IllegalParametersException 参数不正确的时候抛出该异常
      */
     public static String sbm(String... moneys) throws IllegalParametersException {
+        if (!ObjectUtils.allNotNull((Object) moneys)) {
+            return "0";
+        }
+        moneys = Arrays.stream(moneys).filter(s -> s != null).toArray(String[]::new);
+        System.out.println(Arrays.toString(moneys));
         if (Arrays.stream(moneys).filter(StringUtils::isNumeric).count() != moneys.length) {
             logger.warn("sbm::参数并非全部为数字->" + Arrays.toString(moneys));
             throw new IllegalParametersException("参数并非全部为数字");
