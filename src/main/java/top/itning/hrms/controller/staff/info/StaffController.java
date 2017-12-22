@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import top.itning.hrms.entity.ServerMessage;
 import top.itning.hrms.entity.Staff;
 import top.itning.hrms.exception.defaults.NoSuchIdException;
+import top.itning.hrms.exception.defaults.NullParameterException;
 import top.itning.hrms.exception.json.JsonException;
 import top.itning.hrms.service.*;
 
@@ -18,6 +19,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
+import java.util.zip.DataFormatException;
 
 /**
  * 员工信息控制器
@@ -69,6 +72,8 @@ public class StaffController {
             return staffService.getStaffInfoListByDepartmentID(id);
         } catch (NoSuchIdException e) {
             throw new JsonException(e.getExceptionMessage(), ServerMessage.NOT_FIND);
+        } catch (NullParameterException e) {
+            throw new JsonException(e.getExceptionMessage(), ServerMessage.NOT_FIND);
         }
     }
 
@@ -96,10 +101,38 @@ public class StaffController {
      *
      * @param staff 职工实体
      * @return 重定向到主页
+     * @throws DataFormatException    出生日期格式化出现问题则抛出该异常
+     * @throws NullParameterException 如果Staff实体必填参数为空则抛出该异常
      */
     @PostMapping("/add")
-    public String addStaff(Staff staff) {
+    public String addStaff(Staff staff) throws DataFormatException, NullParameterException {
+        staff.setId(UUID.randomUUID().toString().replace("-", ""));
         staffService.addStaffInfo(staff);
         return "redirect:/index";
+    }
+
+    /**
+     * 根据职工ID显示职工详细信息
+     *
+     * @param model 模型
+     * @param id    职工ID
+     * @return showStaff.html
+     * @throws NoSuchIdException      该职工ID不存在时抛出该异常
+     * @throws NullParameterException 该职工ID为空时抛出该异常
+     */
+    @GetMapping("/showDetails/{id}")
+    public String showStaffDetails(Model model, @PathVariable("id") String id) throws NoSuchIdException, NullParameterException {
+        logger.debug("showStaffDetails::要显示的职工ID->" + id);
+        model.addAttribute("staffInfo", staffService.getStaffInfoByID(id));
+        model.addAttribute("departmentList", departmentService.getAllDepartmentInfoList("getAllDepartmentInfo"));
+
+        model.addAttribute("employmentFormList", employmentService.getAllEmploymentFormList("getAllEmploymentFormList"));
+        model.addAttribute("jobTitleInfoList", jobService.getAllJobTitleInfoList("getAllJobTitleInfoList"));
+        model.addAttribute("jobLevelInfoList", jobService.getAllJobLevelInfoList("getAllJobLevelInfoList"));
+        model.addAttribute("positionTitleInfoList", postService.getAllPositionTitleInfoList("getAllPositionTitleInfoList"));
+        model.addAttribute("positionCategoryInfoList", postService.getAllPositionCategoryInfoList("getAllPositionCategoryInfoList"));
+        model.addAttribute("ethnicInfoList", fixedService.getAllEthnicInfoList("getAllEthnicInfoList"));
+        model.addAttribute("politicalStatusInfoList", fixedService.getAllPoliticalStatusInfoList("getAllPoliticalStatusInfoList"));
+        return "showStaff";
     }
 }

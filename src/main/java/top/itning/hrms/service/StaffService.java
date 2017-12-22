@@ -5,6 +5,7 @@ import top.itning.hrms.exception.defaults.NoSuchIdException;
 import top.itning.hrms.exception.defaults.NullParameterException;
 
 import java.util.List;
+import java.util.zip.DataFormatException;
 
 /**
  * 职工信息服务
@@ -26,6 +27,20 @@ public interface StaffService {
      * 添加职工信息
      *
      * @param staff 职工实体类
+     * @return 添加的职工信息
+     * @throws NumberFormatException  身份证ID不正确则抛出该异常
+     * @throws NullParameterException 实体信息必填字段有空则抛出该异常
+     * @throws DataFormatException    出生日期格式化出现问题则抛出该异常
      */
-    void addStaffInfo(Staff staff);
+    Staff addStaffInfo(Staff staff) throws NumberFormatException, NullParameterException, DataFormatException;
+
+    /**
+     * 根据职工ID查找该职工实体信息
+     *
+     * @param id 职工ID
+     * @return 职工实体信息
+     * @throws NoSuchIdException      如果该职工ID不存在则抛出该异常
+     * @throws NullParameterException 如果ID为空则抛出该异常
+     */
+    Staff getStaffInfoByID(String id) throws NoSuchIdException, NullParameterException;
 }

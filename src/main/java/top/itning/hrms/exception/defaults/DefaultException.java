@@ -5,7 +5,7 @@ package top.itning.hrms.exception.defaults;
  *
  * @author Ning
  */
-public class DefaultException extends RuntimeException {
+public class DefaultException extends Exception {
     public DefaultException(String exceptionMessage) {
         super(exceptionMessage);
     }

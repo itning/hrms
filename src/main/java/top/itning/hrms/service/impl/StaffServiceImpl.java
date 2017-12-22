@@ -5,6 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import top.itning.hrms.dao.StaffDao;
@@ -19,7 +20,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
-import java.util.UUID;
+import java.util.zip.DataFormatException;
 
 /**
  * 职工信息服务实线类
@@ -57,8 +58,8 @@ public class StaffServiceImpl implements StaffService {
     }
 
     @Override
-    public void addStaffInfo(Staff staff) {
-        staff.setId(UUID.randomUUID().toString().replace("-", ""));
+    @CachePut(cacheNames = "StaffInfoByID", key = "#staff.id")
+    public Staff addStaffInfo(Staff staff) throws NumberFormatException, NullParameterException, DataFormatException {
         String nid = staff.getNid();
         //判断是否为数字
         if (!StringUtils.isNumeric(nid)) {
@@ -74,7 +75,8 @@ public class StaffServiceImpl implements StaffService {
             //根据身份证号设置出生日期
             staff.setBirthday(new SimpleDateFormat("yyyyMMdd").parse(nid.substring(6, 14)));
         } catch (ParseException e) {
-            e.printStackTrace();
+            logger.warn("addStaffInfo::出生日期格式化出错,日期->" + nid.substring(6, 14) + "异常信息->" + e.getMessage());
+            throw new DataFormatException("出生日期格式化出错,检查日期是否有误");
         }
         //根据身份证号设置性别
         staff.setSex(Integer.parseInt(nid.substring(16, 17)) % 2 != 0);
@@ -86,6 +88,21 @@ public class StaffServiceImpl implements StaffService {
             throw new NullParameterException("必填参数为空");
         }
         logger.debug("addStaffInfo::职工信息->" + staff);
-        staffDao.saveAndFlush(staff);
+        return staffDao.saveAndFlush(staff);
+    }
+
+    @Override
+    @Cacheable(cacheNames = "StaffInfoByID", key = "#id")
+    public Staff getStaffInfoByID(String id) throws NoSuchIdException, NullParameterException {
+        logger.debug("getStaffInfoByID::要查找的职工ID为->" + id);
+        if (StringUtils.isBlank(id)) {
+            logger.warn("getStaffInfoByID::参数ID为空");
+            throw new NullParameterException("参数ID为空");
+        }
+        if (!staffDao.exists(id)) {
+            logger.warn("getStaffInfoByID::职工ID:" + id + "不存在");
+            throw new NoSuchIdException("职工ID:" + id + "不存在");
+        }
+        return staffDao.findOne(id);
     }
 }

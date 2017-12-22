@@ -5,7 +5,7 @@ package top.itning.hrms.exception.json;
  *
  * @author Ning
  */
-public class JsonException extends RuntimeException {
+public class JsonException extends Exception {
     /**
      * 错误代码
      */
