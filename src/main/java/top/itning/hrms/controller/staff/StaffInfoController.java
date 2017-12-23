@@ -1,4 +1,4 @@
-package top.itning.hrms.controller.staff.info;
+package top.itning.hrms.controller.staff;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -29,9 +29,9 @@ import java.util.zip.DataFormatException;
  * @author Ning
  */
 @Controller
-@RequestMapping("/staff")
-public class StaffController {
-    private static final Logger logger = LoggerFactory.getLogger(StaffController.class);
+@RequestMapping("/staffInfo")
+public class StaffInfoController {
+    private static final Logger logger = LoggerFactory.getLogger(StaffInfoController.class);
 
     @Autowired
     private StaffService staffService;
@@ -151,7 +151,7 @@ public class StaffController {
             throw new NullParameterException("职工ID为空");
         }
         logger.debug("modifyStaffInfo::要修改的职工->" + staff);
-        return "redirect:/staff/showDetails/" + staffService.addOrModifyStaffInfo(staff).getId();
+        return "redirect:/staffInfo/showDetails/" + staffService.addOrModifyStaffInfo(staff).getId();
     }
 
     /**

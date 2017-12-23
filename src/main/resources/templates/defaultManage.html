@@ -12,7 +12,7 @@
     <!--<link href="/favicon.ico" rel="icon" type="image/x-icon"/>
     <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon"/>-->
 
-    <title>职工信息管理-HRMS</title>
+    <title>管理-HRMS</title>
 
     <!--mdui css-->
     <link th:href="@{/lib_web/mdui/css/mdui.min.css}" rel="stylesheet">
@@ -264,7 +264,7 @@
         $('#' + id).addClass("mdui-list-item-active");
         var classList = [[${departmentList}]];
         last_id = id;
-        $.getJSON("/staffInfo/show/" + id, function (data) {
+        $.getJSON("/staff/show/" + id, function (data) {
             $("#table_data").html("");
             if (data.code === 404) {
                 console.error(data);
@@ -280,7 +280,7 @@
                     $downSelectBtn.show();
                     $delSelectBtn.show();
                     $.each(data, function (i, n) {
-                        $("#table_data").append("<tr data-id=\"" + n.id + "\"><td><a href=\"/staffInfo/showDetails/" + n.id + "\" target=\"_blank\" class=\"\">" + n.name + "</a></td><td>" + n.grassroot.name + "</td><td>" + (n.sex ? "男" : "女") + "</td><td>" + n.age + "</td><td>" + n.ethnic.name + "</td><td>" + n.ps.name + "</td><td>" + ((new Date(n.birthday)).format("yyyy.MM.dd")) + "</td><td>" + n.nid + "</td><td>" + n.email + "</td></tr>")
+                        $("#table_data").append("<tr data-id=\"" + n.id + "\"><td><a href=\"/staff/showDetails/" + n.id + "\" target=\"_blank\" class=\"\">" + n.name + "</a></td><td>" + n.grassroot.name + "</td><td>" + (n.sex ? "男" : "女") + "</td><td>" + n.age + "</td><td>" + n.ethnic.name + "</td><td>" + n.ps.name + "</td><td>" + ((new Date(n.birthday)).format("yyyy.MM.dd")) + "</td><td>" + n.nid + "</td><td>" + n.email + "</td></tr>")
                     });
                 } else {
                     $showTable.hide("normal");
@@ -303,7 +303,7 @@
 
     /*添加职工按钮*/
     function addStudent() {
-        window.open('/staffInfo/add', '_self');
+        window.open('/staff/add', '_self');
     }
 
     //进度条状态
@@ -357,7 +357,7 @@
         $('.mdui-table-row-selected').each(function () {
             downId += $(this).data('id') + "-";
         });
-        window.open("/staffInfo/down?id=" + downId.substring(0, downId.length - 1), "_blank");
+        window.open("/studentInfo/down?id=" + downId.substring(0, downId.length - 1), "_blank");
     }
 
     /*删除选中*/
@@ -367,7 +367,7 @@
                 progressStatus(true);
                 var del_id = $(this).data('id');
                 console.log('删除-->' + del_id);
-                $.get("/staffInfo/del/" + del_id, function (data) {
+                $.get("/staff/del/" + del_id, function (data) {
                     if (data.code === 200) {
                         console.log('删除-->' + del_id + "成功");
                         $('#down_select_btn').attr("disabled", "disabled");

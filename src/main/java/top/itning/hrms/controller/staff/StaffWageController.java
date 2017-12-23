@@ -1,4 +1,4 @@
-package top.itning.hrms.controller.staff.wage;
+package top.itning.hrms.controller.staff;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @author Ning
  */
 @Controller
-@RequestMapping("/wage")
-public class WageController {
-    private static final Logger logger = LoggerFactory.getLogger(WageController.class);
+@RequestMapping("/staffWage")
+public class StaffWageController {
+    private static final Logger logger = LoggerFactory.getLogger(StaffWageController.class);
 }
