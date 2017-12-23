@@ -1,5 +1,6 @@
 package top.itning.hrms.controller.staff.info;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -107,7 +108,7 @@ public class StaffController {
     @PostMapping("/add")
     public String addStaff(Staff staff) throws DataFormatException, NullParameterException {
         staff.setId(UUID.randomUUID().toString().replace("-", ""));
-        staffService.addStaffInfo(staff);
+        staffService.addOrModifyStaffInfo(staff);
         return "redirect:/index";
     }
 
@@ -125,7 +126,6 @@ public class StaffController {
         logger.debug("showStaffDetails::要显示的职工ID->" + id);
         model.addAttribute("staffInfo", staffService.getStaffInfoByID(id));
         model.addAttribute("departmentList", departmentService.getAllDepartmentInfoList("getAllDepartmentInfo"));
-
         model.addAttribute("employmentFormList", employmentService.getAllEmploymentFormList("getAllEmploymentFormList"));
         model.addAttribute("jobTitleInfoList", jobService.getAllJobTitleInfoList("getAllJobTitleInfoList"));
         model.addAttribute("jobLevelInfoList", jobService.getAllJobLevelInfoList("getAllJobLevelInfoList"));
@@ -134,5 +134,15 @@ public class StaffController {
         model.addAttribute("ethnicInfoList", fixedService.getAllEthnicInfoList("getAllEthnicInfoList"));
         model.addAttribute("politicalStatusInfoList", fixedService.getAllPoliticalStatusInfoList("getAllPoliticalStatusInfoList"));
         return "showStaff";
+    }
+
+    @PostMapping("/modify")
+    public String modifyStaffInfo(Staff staff) throws NullParameterException, DataFormatException {
+        if (StringUtils.isBlank(staff.getId())) {
+            logger.warn("modifyStaffInfo::要修改的职工ID为空");
+            throw new NullParameterException("职工ID为空");
+        }
+        logger.debug("modifyStaffInfo::要修改的职工->" + staff);
+        return "redirect:/staff/showDetails/" + staffService.addOrModifyStaffInfo(staff).getId();
     }
 }

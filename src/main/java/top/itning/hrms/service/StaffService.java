@@ -24,15 +24,15 @@ public interface StaffService {
     List<Staff> getStaffInfoListByDepartmentID(String id) throws NullParameterException, NoSuchIdException;
 
     /**
-     * 添加职工信息
+     * 添加或修改职工信息
      *
      * @param staff 职工实体类
-     * @return 添加的职工信息
+     * @return 添加获取修改的职工信息
      * @throws NumberFormatException  身份证ID不正确则抛出该异常
      * @throws NullParameterException 实体信息必填字段有空则抛出该异常
      * @throws DataFormatException    出生日期格式化出现问题则抛出该异常
      */
-    Staff addStaffInfo(Staff staff) throws NumberFormatException, NullParameterException, DataFormatException;
+    Staff addOrModifyStaffInfo(Staff staff) throws NumberFormatException, NullParameterException, DataFormatException;
 
     /**
      * 根据职工ID查找该职工实体信息

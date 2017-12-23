@@ -95,7 +95,8 @@
 </nav>
 <section class="mdui-container mdui-p-t-2">
     <div class="mdui-card">
-        <form id="search_form" th:action="@{/staff/add}" method="post" class="mdui-card-content">
+        <form id="search_form" th:action="@{/staff/modify}" method="post" class="mdui-card-content">
+            <input type="hidden" name="id" th:value="${staffInfo.id}">
             <table style="width: 100%">
                 <tr class="mdui-m-t-5">
                     <td class="mdui-col-xs-2"><p class="mdui-p-a-1">01.姓名(必填):</p></td>
@@ -614,7 +615,7 @@
                 </tr>
                 <tr class="mdui-m-t-5">
                     <td class="mdui-col-xs-3"><p class="mdui-p-a-1">38.第二次签约到期日:</p></td>
-                    <td class="mdui-col-xs-9 date_class"><input name="laborContract2" type="text"
+                    <td class="mdui-col-xs-9 date_class"><input name="laborContract2End" type="text"
                                                                 class="mdui-textfield-input"
                                                                 th:value="${#dates.format(staffInfo.laborContract2End,'yyyy-MM-dd')}"
                                                                 readonly="readonly"></td>
@@ -861,6 +862,7 @@
                     <td class="mdui-col-xs-2"><p class="mdui-p-a-1">57.住房公积金有无:</p></td>
                     <td class="mdui-col-xs-10 switch_class"><input name="hasHousingFund" type="text"
                                                                    class="mdui-textfield-input"
+                                                                   th:data-has="${staffInfo.hasHousingFund}"
                                                                    th:value="${staffInfo.hasHousingFund?'有':'无'}"
                                                                    readonly="readonly"></td>
                 </tr>
@@ -906,6 +908,7 @@
         $('input').removeAttr("readonly");
         $('#modify_button_id').addClass("mdui-hidden");
         $('#submit_button_id').removeClass("mdui-hidden");
+        //下拉框更改
         $('.select_class').each(function () {
             var name = $(this).find("input").data("name");
             var id = $(this).find("input").data("id");
@@ -946,12 +949,53 @@
                     break;
             }
         });
-
+        //日期更改
         $('.date_class').each(function () {
-
+            var name = $(this).find("input").attr("name");
+            var value = $(this).find("input").attr("value");
+            $(this).empty();
+            $(this).append("<div id=\"" + (getID(name)) + "\" class=\"mdui-textfield\">\n" +
+                "<input readonly=\"readonly\" class=\"mdui-textfield-input\" type=\"text\" maxlength=\"11\"\n" +
+                "onfocus=\"WdatePicker({skin:'twoer',dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d',vel:'" + name + "',startDate:'" + value + "'})\" value='" + value + "' " + (setRequired(name)) + "/>" +
+                "<input id=\"" + name + "\" name=\"" + name + "\" type=\"text\" value='" + value + "' class=\"mdui-hidden\" " + (setRequired(name)) + ">" + (setErrorInfo(name)) + "</div>");
         });
-        $('.switch_class').each(function () {
 
+        function setErrorInfo(name) {
+            if (name === "comeDate") {
+                return "<div class=\"mdui-textfield-error\">请选择来校日期</div>";
+            } else if (name === "startDate") {
+                return "<div class=\"mdui-textfield-error\">请选择工龄起始日期</div>";
+            } else {
+                return "";
+            }
+        }
+
+        function getID(name) {
+            if (name === "comeDate") {
+                return "comeDate_id";
+            } else if (name === "startDate") {
+                return "startDate_id";
+            } else {
+                return "";
+            }
+        }
+
+        function setRequired(name) {
+            if (name === "comeDate") {
+                return "required=\"required\"";
+            } else if (name === "startDate") {
+                return "required=\"required\"";
+            } else {
+                return "";
+            }
+        }
+
+        //开关控件更改
+        $('.switch_class').each(function () {
+            var name = $(this).find("input").attr("name");
+            var has = $(this).find("input").data("has");
+            $(this).empty();
+            $(this).append("<p align=center style='text-align:center'><label class=\"mdui-switch\"><input name=\"" + name + "\" type=\"checkbox\" " + (has ? "checked=\"checked\"" : "") + "/><i class=\"mdui-switch-icon\"></i></label></p>");
         });
 
         //下拉框case数据函数

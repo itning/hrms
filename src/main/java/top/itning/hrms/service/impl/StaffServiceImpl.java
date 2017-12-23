@@ -59,7 +59,7 @@ public class StaffServiceImpl implements StaffService {
 
     @Override
     @CachePut(cacheNames = "StaffInfoByID", key = "#staff.id")
-    public Staff addStaffInfo(Staff staff) throws NumberFormatException, NullParameterException, DataFormatException {
+    public Staff addOrModifyStaffInfo(Staff staff) throws NumberFormatException, NullParameterException, DataFormatException {
         String nid = staff.getNid();
         //判断是否为数字
         if (!StringUtils.isNumeric(nid)) {
