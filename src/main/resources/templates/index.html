@@ -252,7 +252,7 @@
                     $downSelectBtn.show();
                     $delSelectBtn.show();
                     $.each(data, function (i, n) {
-                        $("#table_data").append("<tr data-id=\"" + n.id + "\"><td><a href=\"/studentInfo/show/student/" + n.id + "\" target=\"_blank\" class=\"\">" + n.name + "</a></td><td>" + n.grassroot.name + "</td><td>" + (n.sex ? "男" : "女") + "</td><td>" + n.age + "</td><td>" + n.ethnic.name + "</td><td>" + n.ps.name + "</td><td>" + ((new Date(n.birthday)).format("yyyy.MM.dd")) + "</td><td>" + n.nid + "</td><td>" + n.email + "</td></tr>")
+                        $("#table_data").append("<tr data-id=\"" + n.id + "\"><td><a href=\"/staff/showDetails/" + n.id + "\" target=\"_blank\" class=\"\">" + n.name + "</a></td><td>" + n.grassroot.name + "</td><td>" + (n.sex ? "男" : "女") + "</td><td>" + n.age + "</td><td>" + n.ethnic.name + "</td><td>" + n.ps.name + "</td><td>" + ((new Date(n.birthday)).format("yyyy.MM.dd")) + "</td><td>" + n.nid + "</td><td>" + n.email + "</td></tr>")
                     });
                 } else {
                     $showTable.hide("normal");
