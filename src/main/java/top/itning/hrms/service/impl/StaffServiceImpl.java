@@ -5,6 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -58,24 +59,25 @@ public class StaffServiceImpl implements StaffService {
     }
 
     @Override
+    @CacheEvict(cacheNames = "StaffInfoList", key = "#staff.department.id")
     @CachePut(cacheNames = "StaffInfoByID", key = "#staff.id")
     public Staff addOrModifyStaffInfo(Staff staff) throws NumberFormatException, NullParameterException, DataFormatException {
         String nid = staff.getNid();
         //判断是否为数字
         if (!StringUtils.isNumeric(nid)) {
-            logger.warn("addStaff::nid不是纯数字->" + nid);
+            logger.warn("addOrModifyStaffInfo::nid不是纯数字->" + nid);
             throw new NumberFormatException("身份证号码不是纯数字,请检查!");
         }
         //判断身份证号长度
         if (nid.length() != ID_NUM_LENGTH) {
-            logger.warn("addStaff::nid位数为" + nid.length() + "与" + ID_NUM_LENGTH + "不匹配");
+            logger.warn("addOrModifyStaffInfo::nid位数为" + nid.length() + "与" + ID_NUM_LENGTH + "不匹配");
             throw new NumberFormatException("您输入的身份证号码位数为" + nid.length() + "位,不是" + ID_NUM_LENGTH + "位,请检查");
         }
         try {
             //根据身份证号设置出生日期
             staff.setBirthday(new SimpleDateFormat("yyyyMMdd").parse(nid.substring(6, 14)));
         } catch (ParseException e) {
-            logger.warn("addStaffInfo::出生日期格式化出错,日期->" + nid.substring(6, 14) + "异常信息->" + e.getMessage());
+            logger.warn("addOrModifyStaffInfo::出生日期格式化出错,日期->" + nid.substring(6, 14) + "异常信息->" + e.getMessage());
             throw new DataFormatException("出生日期格式化出错,检查日期是否有误");
         }
         //根据身份证号设置性别
@@ -84,10 +86,10 @@ public class StaffServiceImpl implements StaffService {
         staff.setAge(String.valueOf(Calendar.getInstance().get(Calendar.YEAR) - Integer.parseInt(nid.substring(6, 10))));
         //检查必填字段为空
         if (StringUtils.isAnyEmpty(staff.getName(), staff.getBankID(), staff.getEmail(), staff.getNid(), staff.getAge(), staff.getAddress(), staff.getNaddress(), staff.getTel()) && !ObjectUtils.allNotNull(staff.getEthnic(), staff.getPs(), staff.getDepartment(), staff.getGrassroot(), staff.getPositionTitle(), staff.getPositionCategory(), staff.getBirthday())) {
-            logger.warn("addStaffInfo::必填参数为空");
+            logger.warn("addOrModifyStaffInfo::必填参数为空");
             throw new NullParameterException("必填参数为空");
         }
-        logger.debug("addStaffInfo::职工信息->" + staff);
+        logger.debug("addOrModifyStaffInfo::职工信息->" + staff);
         return staffDao.saveAndFlush(staff);
     }
 
