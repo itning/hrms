@@ -10,6 +10,7 @@ import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import top.itning.hrms.dao.StaffDao;
+import top.itning.hrms.dao.WageDao;
 import top.itning.hrms.dao.department.DepartmentDao;
 import top.itning.hrms.entity.Staff;
 import top.itning.hrms.exception.defaults.NoSuchIdException;
@@ -43,6 +44,9 @@ public class StaffServiceImpl implements StaffService {
     @Autowired
     private DepartmentDao departmentDao;
 
+    @Autowired
+    private WageDao wageDao;
+
     @Override
     @Cacheable(cacheNames = "StaffInfoList", key = "#id")
     public List<Staff> getStaffInfoListByDepartmentID(String id) throws NullParameterException, NoSuchIdException {
@@ -64,7 +68,7 @@ public class StaffServiceImpl implements StaffService {
     public Staff addOrModifyStaffInfo(Staff staff) throws NumberFormatException, NullParameterException, DataFormatException {
         String nid = staff.getNid();
         //判断是否为数字
-        if (!StringUtils.isNumeric(nid)) {
+        if (!StringUtils.isNumeric(nid.substring(0, nid.length() - 1))) {
             logger.warn("addOrModifyStaffInfo::nid不是纯数字->" + nid);
             throw new NumberFormatException("身份证号码不是纯数字,请检查!");
         }
@@ -107,4 +111,14 @@ public class StaffServiceImpl implements StaffService {
         }
         return staffDao.findOne(id);
     }
+
+    @Override
+    @CacheEvict(cacheNames = {"StaffInfoList"}, key = "#staff.department.id")
+    public void delStaffInfoByID(Staff staff) {
+        logger.debug("delStaffInfoByID::删除员工ID" + staff.getId() + "的工资信息");
+        wageDao.deleteByStaff(staff);
+        logger.debug("delStaffInfoByID::删除员工ID" + staff.getId() + "信息");
+        staffDao.delete(staff);
+    }
+
 }

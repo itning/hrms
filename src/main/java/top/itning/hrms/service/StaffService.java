@@ -43,4 +43,11 @@ public interface StaffService {
      * @throws NullParameterException 如果ID为空则抛出该异常
      */
     Staff getStaffInfoByID(String id) throws NoSuchIdException, NullParameterException;
+
+    /**
+     * 根据职工实体删除职工信息
+     *
+     * @param staff 职工
+     */
+    void delStaffInfoByID(Staff staff);
 }

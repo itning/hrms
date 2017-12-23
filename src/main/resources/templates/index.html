@@ -113,7 +113,7 @@
             <thead>
             <tr>
                 <th style="min-width: 115px">姓名</th>
-                <th style="min-width: 200px">基层单位</th>
+                <th style="min-width: 210px">基层单位</th>
                 <th>性别</th>
                 <th>年龄</th>
                 <th style="min-width: 115px">民族</th>
@@ -275,7 +275,7 @@
 
     /*添加职工按钮*/
     function addStudent() {
-        window.open('/staff/add/' + last_id, '_self');
+        window.open('/staff/add', '_self');
     }
 
     //进度条状态
@@ -339,7 +339,7 @@
                 progressStatus(true);
                 var del_id = $(this).data('id');
                 console.log('删除-->' + del_id);
-                $.get("/studentInfo/del/student/" + del_id, function (data) {
+                $.get("/staff/del/" + del_id, function (data) {
                     if (data.code === 200) {
                         console.log('删除-->' + del_id + "成功");
                         $('#down_select_btn').attr("disabled", "disabled");

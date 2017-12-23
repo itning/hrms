@@ -136,6 +136,14 @@ public class StaffController {
         return "showStaff";
     }
 
+    /**
+     * 修改职工信息
+     *
+     * @param staff 职工实体
+     * @return 重定向到修改后的职工详情页面
+     * @throws NullParameterException 如果职工实体必填参数为空则抛出该异常
+     * @throws DataFormatException    如果日期格式化出错则抛出该异常
+     */
     @PostMapping("/modify")
     public String modifyStaffInfo(Staff staff) throws NullParameterException, DataFormatException {
         if (StringUtils.isBlank(staff.getId())) {
@@ -144,5 +152,28 @@ public class StaffController {
         }
         logger.debug("modifyStaffInfo::要修改的职工->" + staff);
         return "redirect:/staff/showDetails/" + staffService.addOrModifyStaffInfo(staff).getId();
+    }
+
+    /**
+     * 根据职工ID删除职工信息
+     *
+     * @param id 职工ID
+     * @return JSON格式服务器消息
+     */
+    @GetMapping("/del/{id}")
+    @ResponseBody
+    public ServerMessage delStaffInfoByID(@PathVariable("id") String id) {
+        logger.debug("delStaffInfoByID::要删除的职工ID为->" + id);
+        ServerMessage serverMessage = new ServerMessage();
+        serverMessage.setCode(ServerMessage.SUCCESS_CODE);
+        serverMessage.setMsg("成功删除ID为->" + id + "的职工");
+        serverMessage.setUrl("/staff/del/" + id);
+        try {
+            staffService.delStaffInfoByID(staffService.getStaffInfoByID(id));
+        } catch (NoSuchIdException | NullParameterException e) {
+            serverMessage.setCode(ServerMessage.NOT_FIND);
+            serverMessage.setMsg("删除失败! " + e.getMessage());
+        }
+        return serverMessage;
     }
 }
