@@ -12,7 +12,7 @@
     <!--<link href="/favicon.ico" rel="icon" type="image/x-icon"/>
     <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon"/>-->
 
-    <title>管理-HRMS</title>
+    <title id="title">人力资源管理系统</title>
 
     <!--mdui css-->
     <link th:href="@{/lib_web/mdui/css/mdui.min.css}" rel="stylesheet">
@@ -61,7 +61,7 @@
             </div>
             <div th:each="department : ${departmentList} " class="mdui-collapse-item-body mdui-list mdui-list-dense">
                 <!--/*@thymesVar id="id" type="java.lang.String"*/-->
-                <a th:id="${department.id}" th:href="${'#/'+department.id}" th:text="${department.name}"
+                <a th:id="${department.id}" th:href="${'/index/#/'+department.id}" th:text="${department.name}"
                    class="mdui-list-item mdui-ripple">1602班</a>
             </div>
         </li>
@@ -80,9 +80,9 @@
                 <a th:href="@{/studentLeave/add}" class="mdui-list-item mdui-ripple">添加工资信息</a>
             </div>
         </li>
-        <li class="mdui-list-item mdui-ripple">
+        <li class="mdui-list-item mdui-ripple" id="postTitle">
             <i class="mdui-list-item-icon mdui-icon material-icons">nature_people</i>
-            <a th:href="@{/class/show}" class="mdui-list-item-content">岗位名称管理</a>
+            <a th:href="${'/manage/#/postTitle'}" class="mdui-list-item-content">岗位名称管理</a>
         </li>
         <li class="mdui-list-item mdui-ripple">
             <i class="mdui-list-item-icon mdui-icon material-icons">nature</i>
@@ -140,15 +140,8 @@
         <table id="show_table" class="mdui-table mdui-table-selectable mdui-table-hoverable">
             <thead>
             <tr>
-                <th style="min-width: 115px">姓名</th>
-                <th style="min-width: 210px">基层单位</th>
-                <th>性别</th>
-                <th>年龄</th>
-                <th style="min-width: 115px">民族</th>
-                <th style="min-width: 150px">政治面貌</th>
-                <th>出生日期</th>
-                <th>身份证号码</th>
-                <th>邮箱</th>
+                <th style="min-width: 115px">ID</th>
+                <th style="min-width: 210px">名称</th>
             </tr>
             </thead>
             <tbody id="table_data">
@@ -156,41 +149,13 @@
         </table>
         <div class="mdui-card">
             <div class="mdui-card-content">
-                <button id="down_select_btn" onclick="down_select()"
-                        class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" disabled>选中下载
-                </button>
                 <button id="del_select_btn" onclick="del_select(false)"
                         class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" disabled>选中删除
                 </button>
-                <button id="add_stu_btn"
-                        class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent"
-                        mdui-dialog="{target: '#add-dialog'}">添加职工
+                <button id="add_stu_btn" onclick="addStudent()"
+                        class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent">添加信息
                 </button>
             </div>
-        </div>
-    </div>
-    <div class="mdui-dialog" id="add-dialog">
-        <div class="mdui-dialog-title">请选择添加方式</div>
-        <div class="mdui-dialog-content">支持通过Excle表格批量导入,您也可以使用Web页面添加职工信息</div>
-        <div class="mdui-dialog-actions mdui-dialog-actions-stacked">
-            <button class="mdui-btn mdui-ripple" mdui-dialog-cancel>返回</button>
-            <button class="mdui-btn mdui-ripple" onclick="addStudent()">通过网页添加
-            </button>
-            <button class="mdui-btn mdui-ripple" mdui-dialog-cancel mdui-dialog="{target: '#add-excel-dialog'}">
-                通过导入Excel表格添加
-            </button>
-        </div>
-    </div>
-    <div class="mdui-dialog" id="add-excel-dialog">
-        <div class="mdui-dialog-title">上传Excel文件</div>
-        <div class="mdui-dialog-content">只能上传一个文件且文件扩展名为xls或xlsx</div>
-        <div class="mdui-dialog-actions mdui-dialog-actions-stacked">
-            <label class="mdui-btn mdui-ripple" for="xFile"><span id="file_name"></span>&nbsp;&nbsp;选择文件</label>
-            <form id="fileUP" th:action="@{/studentInfo/upExcelFile}" method="post" enctype="multipart/form-data">
-                <input type="file" name="file" id="xFile" style="position:absolute;clip:rect(0 0 0 0);"
-                       accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
-                <input type="button" class="mdui-btn mdui-ripple" onclick="up_excel_file()" value="开始上传">
-            </form>
         </div>
     </div>
     <div class="mdui-dialog" id="show_alert">
@@ -207,27 +172,6 @@
 <script th:src="@{/js/common.js}"></script>
 <script th:inline="javascript">
     'use strict';
-    /*日期格式化方法*/
-    Date.prototype.format = function (fmt) {
-        var o = {
-            "M+": this.getMonth() + 1,                 //月份
-            "d+": this.getDate(),                    //日
-            "h+": this.getHours(),                   //小时
-            "m+": this.getMinutes(),                 //分
-            "s+": this.getSeconds(),                 //秒
-            "q+": Math.floor((this.getMonth() + 3) / 3), //季度
-            "S": this.getMilliseconds()             //毫秒
-        };
-        if (/(y+)/.test(fmt)) {
-            fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
-        }
-        for (var k in o) {
-            if (new RegExp("(" + k + ")").test(fmt)) {
-                fmt = fmt.replace(RegExp.$1, (RegExp.$1.length === 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
-            }
-        }
-        return fmt;
-    };
 
     /*判断字符串是否已指定字符串结束*/
     String.prototype.endWith = function (endStr) {
@@ -236,21 +180,12 @@
     };
 
     $(function () {
-        /*将文件名回显*/
-        $('#xFile').change(function () {
-            $('#file_name').html($(this).val().substr($(this).val().lastIndexOf('\\') + 1));
-        });
         //默认获取第一个班级信息
         var hash = (window.location.hash).slice(2);
         if (!hash.endWith("mdui-dialog") && hash !== "") {
             route(hash);
         } else {
-            var firstClassID = [[${departmentList.size()!=0?departmentList[0].id:''}]];
-            if (firstClassID === "") {
-                progressStatus(false);
-            } else {
-                route(firstClassID);
-            }
+            route("postTitle");
         }
     });
 
@@ -262,9 +197,8 @@
             $('#' + last_id).removeClass("mdui-list-item-active");
         }
         $('#' + id).addClass("mdui-list-item-active");
-        var classList = [[${departmentList}]];
         last_id = id;
-        $.getJSON("/staff/show/" + id, function (data) {
+        $.getJSON("/" + id, function (data) {
             $("#table_data").html("");
             if (data.code === 404) {
                 console.error(data);
@@ -272,29 +206,23 @@
                 progressStatus(false);
             } else {
                 var $showTable = $('#show_table');
-                var $downSelectBtn = $('#down_select_btn');
                 var $delSelectBtn = $('#del_select_btn');
                 if (data.length !== 0) {
-
                     $showTable.show();
-                    $downSelectBtn.show();
                     $delSelectBtn.show();
                     $.each(data, function (i, n) {
-                        $("#table_data").append("<tr data-id=\"" + n.id + "\"><td><a href=\"/staff/showDetails/" + n.id + "\" target=\"_blank\" class=\"\">" + n.name + "</a></td><td>" + n.grassroot.name + "</td><td>" + (n.sex ? "男" : "女") + "</td><td>" + n.age + "</td><td>" + n.ethnic.name + "</td><td>" + n.ps.name + "</td><td>" + ((new Date(n.birthday)).format("yyyy.MM.dd")) + "</td><td>" + n.nid + "</td><td>" + n.email + "</td></tr>")
+                        $("#table_data").append("<tr data-id=\"" + n.id + "\"><td><a href=\"/staffInfo/showDetails/" + n.id + "\" target=\"_blank\" class=\"\">" + n.id + "</a></td><td>" + n.name + "</td></tr>")
                     });
                 } else {
                     $showTable.hide("normal");
-                    $downSelectBtn.hide("normal");
                     $delSelectBtn.hide("normal");
                 }
             }
             mdui.updateTables();
-            for (var i = 0; i < classList.length; i++) {
-                if (classList[i].id === id) {
-                    $("#show_class").html(classList[i].name);
-                    $("#show_college").html("职工信息管理");
-                }
-            }
+            var title = $('#' + id).find("a").html();
+            $('#title').html(title + "-HRMS");
+            $("#show_class").html(title);
+            $("#show_college").html("人力资源管理系统");
             progressStatus(false);
             after();
         });
@@ -303,7 +231,7 @@
 
     /*添加职工按钮*/
     function addStudent() {
-        window.open('/staff/add', '_self');
+        window.open('/staffInfo/add', '_self');
     }
 
     //进度条状态
@@ -351,15 +279,6 @@
         $('#del_select_btn').attr("disabled", "disabled");
     }
 
-    /*下载选中*/
-    function down_select() {
-        var downId = "";
-        $('.mdui-table-row-selected').each(function () {
-            downId += $(this).data('id') + "-";
-        });
-        window.open("/studentInfo/down?id=" + downId.substring(0, downId.length - 1), "_blank");
-    }
-
     /*删除选中*/
     function del_select(b) {
         if (b) {
@@ -367,7 +286,7 @@
                 progressStatus(true);
                 var del_id = $(this).data('id');
                 console.log('删除-->' + del_id);
-                $.get("/staff/del/" + del_id, function (data) {
+                $.get("/" + last_id + "/del/" + del_id, function (data) {
                     if (data.code === 200) {
                         console.log('删除-->' + del_id + "成功");
                         $('#down_select_btn').attr("disabled", "disabled");
@@ -383,18 +302,6 @@
             new mdui.Dialog('#show_alert').open();
         }
 
-    }
-
-    /*上传文件*/
-    function up_excel_file() {
-        var fileName = $('#xFile').val();
-        if (fileName.indexOf('xlsx') !== -1 || fileName.indexOf('xls') !== -1) {
-            $('#fileUP').submit();
-        } else if (fileName === "") {
-            showSnackbar('未选择文件');
-        } else {
-            showSnackbar('文件类型不正确');
-        }
     }
 
     /*显示Snackbar*/

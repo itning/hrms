@@ -48,4 +48,10 @@ public class FrameController {
         model.addAttribute("departmentList", departmentList);
         return "index";
     }
+
+    @GetMapping("/manage")
+    public String manage(Model model) {
+        model.addAttribute("departmentList", departmentService.getAllDepartmentInfoList("getAllDepartmentInfo"));
+        return "defaultManage";
+    }
 }
