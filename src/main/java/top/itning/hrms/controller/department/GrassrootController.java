@@ -93,4 +93,27 @@ public class GrassrootController {
         return serverMessage;
     }
 
+    /**
+     * 根据基层单位ID删除基层单位信息
+     *
+     * @param id 基层单位ID
+     * @return JSON服务器消息
+     */
+    @GetMapping("/del/{id}")
+    @ResponseBody
+    public ServerMessage delGrassrootByID(@PathVariable("id") String id) {
+        ServerMessage serverMessage = new ServerMessage();
+        serverMessage.setCode(ServerMessage.SUCCESS_CODE);
+        serverMessage.setMsg("删除成功");
+        serverMessage.setUrl("/grassroot/del/" + id);
+        logger.debug("delGrassrootByID::要删除的ID->" + id);
+        try {
+            grassrootService.delGrassrootByID(id);
+        } catch (NoSuchIdException e) {
+            serverMessage.setCode(ServerMessage.NOT_FIND);
+            serverMessage.setMsg("删除失败:" + e.getMessage());
+        }
+        return serverMessage;
+    }
+
 }

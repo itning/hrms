@@ -37,4 +37,12 @@ public interface GrassrootService {
      * @throws NullParameterException 参数为空则抛出该异常
      */
     void addGrassrootByDepartmentID(String id, Grassroot grassroot) throws NoSuchIdException, NullParameterException;
+
+    /**
+     * 根据基层单位ID删除基层单位信息
+     *
+     * @param id 基层单位ID
+     * @throws NoSuchIdException 基层单位ID没找到则抛出该异常
+     */
+    void delGrassrootByID(String id) throws NoSuchIdException;
 }

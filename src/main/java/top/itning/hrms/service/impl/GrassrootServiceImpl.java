@@ -66,4 +66,13 @@ public class GrassrootServiceImpl implements GrassrootService {
         department.setGrassroots(grassroots);
         departmentDao.saveAndFlush(department);
     }
+
+    @Override
+    public void delGrassrootByID(String id) throws NoSuchIdException {
+        if (StringUtils.isBlank(id) && !grassrootDao.exists(id)) {
+            logger.warn("delGrassrootByID::ID不存在或为空->" + id);
+            throw new NoSuchIdException("ID:" + id + "不存在或为空");
+        }
+        grassrootDao.delete(id);
+    }
 }
