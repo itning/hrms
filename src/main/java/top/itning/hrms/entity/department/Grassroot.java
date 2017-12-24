@@ -1,6 +1,8 @@
 package top.itning.hrms.entity.department;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -14,6 +16,8 @@ import java.io.Serializable;
  * @author Ning
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "DEP_GRASSROOT")
 public class Grassroot implements Serializable {

@@ -1,6 +1,8 @@
 package top.itning.hrms.entity.department;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -13,6 +15,8 @@ import java.util.List;
  * @author Ning
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "DEP_DEPARTMENT")
 public class Department implements Serializable {
@@ -29,7 +33,6 @@ public class Department implements Serializable {
     /**
      * 专业/基层单位
      */
-    @NotNull
     @OneToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.EAGER)
     @JoinColumn(name = "grassroot")
     private List<Grassroot> grassroots;
