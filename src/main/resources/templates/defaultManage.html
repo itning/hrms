@@ -92,13 +92,13 @@
             <i class="mdui-list-item-icon mdui-icon material-icons">accessibility</i>
             <a th:href="${'/manage/#/jobTitle'}" class="mdui-list-item-content">社会职称管理</a>
         </li>
-        <li class="mdui-list-item mdui-ripple">
+        <li class="mdui-list-item mdui-ripple" id="jobLevel">
             <i class="mdui-list-item-icon mdui-icon material-icons">bubble_chart</i>
-            <a th:href="${'/manage/#/postTitle'}" class="mdui-list-item-content">职称级别管理</a>
+            <a th:href="${'/manage/#/jobLevel'}" class="mdui-list-item-content">职称级别管理</a>
         </li>
-        <li class="mdui-list-item mdui-ripple">
+        <li class="mdui-list-item mdui-ripple" id="employmentForm">
             <i class="mdui-list-item-icon mdui-icon material-icons">dvr</i>
-            <a th:href="${'/manage/#/postTitle'}" class="mdui-list-item-content">用工形式管理</a>
+            <a th:href="${'/manage/#/employmentForm'}" class="mdui-list-item-content">用工形式管理</a>
         </li>
         <li class="mdui-list-item mdui-ripple">
             <i class="mdui-list-item-icon mdui-icon material-icons">transfer_within_a_station</i>
@@ -284,6 +284,9 @@
                 $nameId.val(name);
                 modifyId = id;
             }
+            if (id === undefined && modifyId !== "") {
+                modifyId = "";
+            }
             new mdui.Dialog('#addOrModify_dialog').open();
         }
     }
@@ -353,7 +356,7 @@
                 });
             });
         } else {
-            new mdui.Dialog('#show_alert').open();
+            new mdui.Dialog('#show_alert', {modal: true}).open();
         }
 
     }
