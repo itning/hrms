@@ -49,6 +49,11 @@ public class FrameController {
         return "index";
     }
 
+    /**
+     * 管理控制器
+     * @param model 模型
+     * @return defaultManage.html
+     */
     @GetMapping("/manage")
     public String manage(Model model) {
         model.addAttribute("departmentList", departmentService.getAllDepartmentInfoList("getAllDepartmentInfo"));
