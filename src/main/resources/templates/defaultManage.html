@@ -50,7 +50,7 @@
         </div>
     </div>
     <ul class="mdui-list mdui-card-content" mdui-collapse="{accordion: true}">
-        <li th:if="${departmentList.size()!=0}" class="mdui-collapse-item mdui-collapse-item-open">
+        <li th:if="${departmentList.size()!=0}" class="mdui-collapse-item">
             <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
                 <i class="mdui-list-item-icon mdui-icon material-icons">people</i>
                 <div class="mdui-list-item-content">职工信息管理</div>
@@ -84,25 +84,25 @@
             <i class="mdui-list-item-icon mdui-icon material-icons">nature_people</i>
             <a th:href="${'/manage/#/postTitle'}" class="mdui-list-item-content">岗位名称管理</a>
         </li>
-        <li class="mdui-list-item mdui-ripple">
+        <li class="mdui-list-item mdui-ripple" id="postCategory">
             <i class="mdui-list-item-icon mdui-icon material-icons">nature</i>
-            <a th:href="@{/class/show}" class="mdui-list-item-content">岗位类别管理</a>
+            <a th:href="${'/manage/#/postCategory'}" class="mdui-list-item-content">岗位类别管理</a>
         </li>
-        <li class="mdui-list-item mdui-ripple">
+        <li class="mdui-list-item mdui-ripple" id="jobTitle">
             <i class="mdui-list-item-icon mdui-icon material-icons">accessibility</i>
-            <a th:href="@{/class/show}" class="mdui-list-item-content">社会职称管理</a>
+            <a th:href="${'/manage/#/jobTitle'}" class="mdui-list-item-content">社会职称管理</a>
         </li>
         <li class="mdui-list-item mdui-ripple">
             <i class="mdui-list-item-icon mdui-icon material-icons">bubble_chart</i>
-            <a th:href="@{/class/show}" class="mdui-list-item-content">职称级别管理</a>
+            <a th:href="${'/manage/#/postTitle'}" class="mdui-list-item-content">职称级别管理</a>
         </li>
         <li class="mdui-list-item mdui-ripple">
             <i class="mdui-list-item-icon mdui-icon material-icons">dvr</i>
-            <a th:href="@{/class/show}" class="mdui-list-item-content">用工形式管理</a>
+            <a th:href="${'/manage/#/postTitle'}" class="mdui-list-item-content">用工形式管理</a>
         </li>
         <li class="mdui-list-item mdui-ripple">
             <i class="mdui-list-item-icon mdui-icon material-icons">transfer_within_a_station</i>
-            <a th:href="@{/class/show}" class="mdui-list-item-content">部门/基层单位管理</a>
+            <a th:href="${'/manage/#/postTitle'}" class="mdui-list-item-content">部门/基层单位管理</a>
         </li>
         <li class="mdui-list-item mdui-ripple">
             <label class="mdui-switch">
@@ -141,7 +141,7 @@
             <thead>
             <tr>
                 <th style="min-width: 115px">ID</th>
-                <th style="min-width: 210px">名称</th>
+                <th style="min-width: 210px">名称(双击修改)</th>
             </tr>
             </thead>
             <tbody id="table_data">
@@ -152,7 +152,7 @@
                 <button id="del_select_btn" onclick="del_select(false)"
                         class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" disabled>选中删除
                 </button>
-                <button id="add_stu_btn" onclick="addStudent()"
+                <button id="add_stu_btn" onclick="addInfo(false)"
                         class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent">添加信息
                 </button>
             </div>
@@ -164,6 +164,24 @@
         <div class="mdui-dialog-actions">
             <button class="mdui-btn mdui-ripple" onclick="clear_btn()" mdui-dialog-close>取消</button>
             <button class="mdui-btn mdui-ripple" onclick="del_select(true)" mdui-dialog-close>确认</button>
+        </div>
+    </div>
+    <div class="mdui-dialog" id="addOrModify_dialog">
+        <div class="mdui-card">
+            <div class="mdui-card-content">
+                <div id="name_div_id" class="mdui-textfield mdui-textfield-floating-label">
+                    <label class="mdui-textfield-label">名称</label>
+                    <input id="name_id" class="mdui-textfield-input" name="name" type="text"/>
+                    <div class="mdui-textfield-error">名称不能为空</div>
+                </div>
+            </div>
+            <div class="mdui-card-actions">
+                <button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="addInfo(true)">
+                    确认
+                </button>
+                <button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" mdui-dialog-close>取消
+                </button>
+            </div>
         </div>
     </div>
 </section>
@@ -211,7 +229,7 @@
                     $showTable.show();
                     $delSelectBtn.show();
                     $.each(data, function (i, n) {
-                        $("#table_data").append("<tr data-id=\"" + n.id + "\"><td><a href=\"/staffInfo/showDetails/" + n.id + "\" target=\"_blank\" class=\"\">" + n.id + "</a></td><td>" + n.name + "</td></tr>")
+                        $("#table_data").append("<tr data-id=\"" + n.id + "\"><td>" + n.id + "</td><td ondblclick='addInfo(false,\"" + n.id + "\",\"" + n.name + "\")'>" + n.name + "</td></tr>")
                     });
                 } else {
                     $showTable.hide("normal");
@@ -229,9 +247,45 @@
     }
 
 
-    /*添加职工按钮*/
-    function addStudent() {
-        window.open('/staffInfo/add', '_self');
+    /*添加按钮*/
+    var modifyId = "";
+
+    function addInfo(b, id, name) {
+        var $nameId = $('#name_id');
+        if (b) {
+            var nameVal = $nameId.val();
+            var $nameDivId = $("#name_div_id");
+            if (nameVal === "") {
+                $nameDivId.addClass("mdui-textfield-invalid");
+                return;
+            }
+            $nameDivId.removeClass("mdui-textfield-invalid");
+            //新增
+            if (modifyId === "") {
+                $.get("/" + last_id + "/add/" + nameVal, function (data) {
+                    if (data.code === 200) {
+                        window.open("/manage/#/" + last_id, '_self');
+                    } else {
+                        showSnackbar(data.msg);
+                    }
+                });
+
+            } else {//修改
+                $.get("/" + last_id + "/modify?id=" + modifyId + "&name=" + nameVal, function (data) {
+                    if (data.code === 200) {
+                        window.open("/manage/#/" + last_id, '_self');
+                    } else {
+                        showSnackbar(data.msg);
+                    }
+                })
+            }
+        } else {
+            if (id !== undefined && name !== undefined) {
+                $nameId.val(name);
+                modifyId = id;
+            }
+            new mdui.Dialog('#addOrModify_dialog').open();
+        }
     }
 
     //进度条状态

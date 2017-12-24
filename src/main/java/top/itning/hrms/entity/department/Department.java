@@ -30,7 +30,7 @@ public class Department implements Serializable {
      * 专业/基层单位
      */
     @NotNull
-    @OneToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
+    @OneToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.EAGER)
     @JoinColumn(name = "grassroot")
     private List<Grassroot> grassroots;
 }
