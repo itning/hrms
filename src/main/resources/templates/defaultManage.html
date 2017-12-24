@@ -110,12 +110,10 @@
                 <div class="mdui-list-item-content">基层单位管理</div>
                 <i class="mdui-collapse-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
             </div>
-            <div class="mdui-collapse-item-body mdui-list mdui-list-dense">
-                <!--/*@thymesVar id="studentLeaveNum" type="java.lang.Long"*/-->
-                <!-- <a th:if="${studentLeaveNum!=0}" th:href="@{/studentLeave/show}" class="mdui-list-item mdui-ripple">历史请假信息</a>
-                 <a th:if="${studentLeaveNum!=0}" th:href="@{/studentLeave/search}" class="mdui-list-item mdui-ripple">查询请假信息</a>-->
-                <a th:href="@{/studentLeave/add}" class="mdui-list-item mdui-ripple">软件学院</a>
-                <a th:href="@{/studentLeave/add}" class="mdui-list-item mdui-ripple">艺术学院</a>
+            <div th:each="department : ${departmentList} " class="mdui-collapse-item-body mdui-list mdui-list-dense">
+                <!--/*@thymesVar id="id" type="java.lang.String"*/-->
+                <a th:id="${department.id}" th:href="${'/grassroot/#/'+department.id}" th:text="${department.name}"
+                   class="mdui-list-item mdui-ripple">1602班</a>
             </div>
         </li>
         <li class="mdui-list-item mdui-ripple">
