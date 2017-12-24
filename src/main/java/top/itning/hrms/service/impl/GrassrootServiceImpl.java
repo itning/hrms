@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.itning.hrms.dao.department.DepartmentDao;
 import top.itning.hrms.dao.department.GrassrootDao;
+import top.itning.hrms.entity.department.Department;
 import top.itning.hrms.entity.department.Grassroot;
 import top.itning.hrms.exception.defaults.NoSuchIdException;
 import top.itning.hrms.exception.defaults.NullParameterException;
@@ -47,5 +48,22 @@ public class GrassrootServiceImpl implements GrassrootService {
             throw new NullParameterException("参数为空");
         }
         grassrootDao.modifyGrassrootInfo(grassroot.getId(), grassroot.getName());
+    }
+
+    @Override
+    public void addGrassrootByDepartmentID(String id, Grassroot grassroot) throws NoSuchIdException, NullParameterException {
+        if (StringUtils.isAnyBlank(id, grassroot.getName(), grassroot.getId())) {
+            logger.warn("addGrassrootByDepartmentID::参数为空,ID->" + id + "Grassroot->" + grassroot);
+            throw new NullParameterException("参数为空");
+        }
+        if (!departmentDao.exists(id)) {
+            logger.warn("addGrassrootByDepartmentID::ID->" + id + "不存在");
+            throw new NoSuchIdException("部门ID:" + id + "不存在");
+        }
+        Department department = departmentDao.getOne(id);
+        List<Grassroot> grassroots = department.getGrassroots();
+        grassroots.add(grassroot);
+        department.setGrassroots(grassroots);
+        departmentDao.saveAndFlush(department);
     }
 }

@@ -12,6 +12,7 @@ import top.itning.hrms.exception.json.JsonException;
 import top.itning.hrms.service.GrassrootService;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * 基层单位控制器
@@ -63,6 +64,31 @@ public class GrassrootController {
         } catch (NullParameterException e) {
             serverMessage.setCode(ServerMessage.NOT_FIND);
             serverMessage.setMsg("修改失败:" + e.getMessage());
+        }
+        return serverMessage;
+    }
+
+    /**
+     * 根据部门ID添加基层单位信息
+     *
+     * @param did       部门ID
+     * @param grassroot 基层单位
+     * @return JSON服务器消息
+     */
+    @GetMapping("/add")
+    @ResponseBody
+    public ServerMessage addmodifyGrassrootByDepartmentID(String did, Grassroot grassroot) {
+        grassroot.setId(UUID.randomUUID().toString().replace("-", ""));
+        ServerMessage serverMessage = new ServerMessage();
+        serverMessage.setCode(ServerMessage.SUCCESS_CODE);
+        serverMessage.setMsg("添加成功");
+        serverMessage.setUrl("/grassroot/add?did=" + did + "&name=" + grassroot.getName());
+        logger.debug("addmodifyGrassrootByDepartmentID::部门ID->" + did + " 基层单位信息" + grassroot);
+        try {
+            grassrootService.addGrassrootByDepartmentID(did, grassroot);
+        } catch (NoSuchIdException | NullParameterException e) {
+            serverMessage.setCode(ServerMessage.NOT_FIND);
+            serverMessage.setMsg("添加失败:" + e.getMessage());
         }
         return serverMessage;
     }
