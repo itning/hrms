@@ -24,9 +24,10 @@ public interface GrassrootService {
      * 修改基层单位信息
      *
      * @param grassroot 基层单位
+     * @param did       部门ID,用于删除缓存
      * @throws NullParameterException 如果参数为空则抛出该异常
      */
-    void modifyGrassroot(Grassroot grassroot) throws NullParameterException;
+    void modifyGrassroot(Grassroot grassroot, String did) throws NullParameterException;
 
     /**
      * 根据部门ID添加基层单位信息
@@ -41,8 +42,9 @@ public interface GrassrootService {
     /**
      * 根据基层单位ID删除基层单位信息
      *
-     * @param id 基层单位ID
+     * @param id  基层单位ID
+     * @param did 部门ID,用于删除缓存
      * @throws NoSuchIdException 基层单位ID没找到则抛出该异常
      */
-    void delGrassrootByID(String id) throws NoSuchIdException;
+    void delGrassrootByID(String id, String did) throws NoSuchIdException;
 }

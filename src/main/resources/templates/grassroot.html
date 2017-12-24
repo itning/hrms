@@ -316,7 +316,7 @@
                 });
 
             } else {//修改
-                $.get("/grassroot/modify?id=" + modifyId + "&name=" + nameVal, function (data) {
+                $.get("/grassroot/modify?did=" + last_id + "&id=" + modifyId + "&name=" + nameVal, function (data) {
                     if (data.code === 200) {
                         window.open("/grassroot/#/" + last_id, '_self');
                     } else {
@@ -389,7 +389,7 @@
                 progressStatus(true);
                 var del_id = $(this).data('id');
                 console.log('删除-->' + del_id);
-                $.get("/grassroot/del/" + del_id, function (data) {
+                $.get("/grassroot/del?did=" + last_id + "&id=" + del_id, function (data) {
                     if (data.code === 200) {
                         console.log('删除-->' + del_id + "成功");
                         $('#down_select_btn').attr("disabled", "disabled");

@@ -53,14 +53,14 @@ public class GrassrootController {
      */
     @GetMapping("/modify")
     @ResponseBody
-    public ServerMessage modifyGrassroot(Grassroot grassroot) {
+    public ServerMessage modifyGrassroot(Grassroot grassroot, String did) {
         ServerMessage serverMessage = new ServerMessage();
         serverMessage.setCode(ServerMessage.SUCCESS_CODE);
         serverMessage.setMsg("修改成功");
         serverMessage.setUrl("/grassroot/modify?id=" + grassroot.getId() + "&name=" + grassroot.getName());
         logger.debug("modifyGrassrootByDepartmentID::要修改的基层单位->" + grassroot);
         try {
-            grassrootService.modifyGrassroot(grassroot);
+            grassrootService.modifyGrassroot(grassroot, did);
         } catch (NullParameterException e) {
             serverMessage.setCode(ServerMessage.NOT_FIND);
             serverMessage.setMsg("修改失败:" + e.getMessage());
@@ -99,16 +99,16 @@ public class GrassrootController {
      * @param id 基层单位ID
      * @return JSON服务器消息
      */
-    @GetMapping("/del/{id}")
+    @GetMapping("/del")
     @ResponseBody
-    public ServerMessage delGrassrootByID(@PathVariable("id") String id) {
+    public ServerMessage delGrassrootByID(String id, String did) {
         ServerMessage serverMessage = new ServerMessage();
         serverMessage.setCode(ServerMessage.SUCCESS_CODE);
         serverMessage.setMsg("删除成功");
         serverMessage.setUrl("/grassroot/del/" + id);
         logger.debug("delGrassrootByID::要删除的ID->" + id);
         try {
-            grassrootService.delGrassrootByID(id);
+            grassrootService.delGrassrootByID(id, did);
         } catch (NoSuchIdException e) {
             serverMessage.setCode(ServerMessage.NOT_FIND);
             serverMessage.setMsg("删除失败:" + e.getMessage());
