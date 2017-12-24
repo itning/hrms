@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="人力资源管理系统"/>
+    <meta name="keywords" content="人力资源管理系统"/>
+    <meta name="author" content="ITNING.TOP"/>
+    <!--/*@thymesVar id="classList" type="java.util.List<top.itning.ta.entity.Clazz>"*/-->
+    <meta http-equiv="refresh" content="1;url=/class/show" th:if="${departmentList.size()==0}">
+    <!--<link href="/favicon.ico" rel="icon" type="image/x-icon"/>
+    <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon"/>-->
+
+    <title>基层单位管理-HRMS</title>
+
+    <!--mdui css-->
+    <link th:href="@{/lib_web/mdui/css/mdui.min.css}" rel="stylesheet">
+
+    <link th:href="@{/css/common.css}" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<!--/*@thymesVar id="themeColor" type="java.lang.String"*/-->
+<!--/*@thymesVar id="themeColorAccent" type="java.lang.String"*/-->
+<body class="mdui-drawer-body-left mdui-appbar-with-toolbar mdui-theme-primary-indigo mdui-theme-accent-pink">
+<header class="mdui-appbar mdui-appbar-fixed">
+    <div class="mdui-toolbar mdui-color-theme">
+        <a href="javascript:" class="mdui-btn mdui-btn-icon" mdui-drawer="{target: '#left-drawer'}"><i
+                class="mdui-icon material-icons">menu</i></a>
+        <p>人力资源管理系统</p>
+        <div class="mdui-toolbar-spacer"></div>
+        <a href="javascript:window.location.reload();" class="mdui-btn mdui-btn-icon"><i
+                class="mdui-icon material-icons">refresh</i></a>
+    </div>
+</header>
+
+<nav class="mdui-drawer mdui-card" id="left-drawer">
+    <div class="mdui-card-media">
+        <img th:src="@{/image/card.jpg}"/>
+        <div class="mdui-card-media-covered">
+            <div class="mdui-card-primary">
+                <div class="mdui-card-primary-title">舒露</div>
+                <div class="mdui-card-primary-subtitle">欢迎</div>
+            </div>
+        </div>
+    </div>
+    <ul class="mdui-list mdui-card-content" mdui-collapse="{accordion: true}">
+        <li th:if="${departmentList.size()!=0}" class="mdui-collapse-item">
+            <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
+                <i class="mdui-list-item-icon mdui-icon material-icons">people</i>
+                <div class="mdui-list-item-content">职工信息管理</div>
+                <i class="mdui-collapse-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
+            </div>
+            <div class="mdui-collapse-item-body mdui-list mdui-list-dense">
+                <a class="mdui-list-item mdui-ripple">查询职工信息</a>
+            </div>
+            <div th:each="department : ${departmentList} " class="mdui-collapse-item-body mdui-list mdui-list-dense">
+                <!--/*@thymesVar id="id" type="java.lang.String"*/-->
+                <a th:href="${'/index/#/'+department.id}" th:text="${department.name}"
+                   class="mdui-list-item mdui-ripple">1602班</a>
+            </div>
+        </li>
+
+        <li th:if="${departmentList.size()!=0}" class="mdui-collapse-item">
+            <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
+                <i class="mdui-list-item-icon mdui-icon material-icons">attach_money</i>
+                <div class="mdui-list-item-content">职工工资管理</div>
+                <i class="mdui-collapse-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
+            </div>
+            <div class="mdui-collapse-item-body mdui-list mdui-list-dense">
+                <!--/*@thymesVar id="studentLeaveNum" type="java.lang.Long"*/-->
+                <!-- <a th:if="${studentLeaveNum!=0}" th:href="@{/studentLeave/show}" class="mdui-list-item mdui-ripple">历史请假信息</a>
+                 <a th:if="${studentLeaveNum!=0}" th:href="@{/studentLeave/search}" class="mdui-list-item mdui-ripple">查询请假信息</a>-->
+                <a th:href="@{/studentLeave/add}" class="mdui-list-item mdui-ripple">查询工资信息</a>
+                <a th:href="@{/studentLeave/add}" class="mdui-list-item mdui-ripple">添加工资信息</a>
+            </div>
+        </li>
+        <li class="mdui-list-item mdui-ripple" id="postTitle">
+            <i class="mdui-list-item-icon mdui-icon material-icons">nature_people</i>
+            <a th:href="${'/manage/#/postTitle'}" class="mdui-list-item-content">岗位名称管理</a>
+        </li>
+        <li class="mdui-list-item mdui-ripple" id="postCategory">
+            <i class="mdui-list-item-icon mdui-icon material-icons">nature</i>
+            <a th:href="${'/manage/#/postCategory'}" class="mdui-list-item-content">岗位类别管理</a>
+        </li>
+        <li class="mdui-list-item mdui-ripple" id="jobTitle">
+            <i class="mdui-list-item-icon mdui-icon material-icons">accessibility</i>
+            <a th:href="${'/manage/#/jobTitle'}" class="mdui-list-item-content">社会职称管理</a>
+        </li>
+        <li class="mdui-list-item mdui-ripple" id="jobLevel">
+            <i class="mdui-list-item-icon mdui-icon material-icons">bubble_chart</i>
+            <a th:href="${'/manage/#/jobLevel'}" class="mdui-list-item-content">职称级别管理</a>
+        </li>
+        <li class="mdui-list-item mdui-ripple" id="employmentForm">
+            <i class="mdui-list-item-icon mdui-icon material-icons">dvr</i>
+            <a th:href="${'/manage/#/employmentForm'}" class="mdui-list-item-content">用工形式管理</a>
+        </li>
+        <li class="mdui-list-item mdui-ripple" id="department">
+            <i class="mdui-list-item-icon mdui-icon material-icons">transfer_within_a_station</i>
+            <a th:href="${'/manage/#/department'}" class="mdui-list-item-content">部门信息管理</a>
+        </li>
+        <li th:if="${departmentList.size()!=0}" class="mdui-collapse-item mdui-collapse-item-open">
+            <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
+                <i class="mdui-list-item-icon mdui-icon material-icons">equalizer</i>
+                <div class="mdui-list-item-content">基层单位管理</div>
+                <i class="mdui-collapse-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
+            </div>
+            <div th:each="department : ${departmentList} " class="mdui-collapse-item-body mdui-list mdui-list-dense">
+                <!--/*@thymesVar id="id" type="java.lang.String"*/-->
+                <a th:id="${department.id}" th:href="${'/grassroot/#/'+department.id}" th:text="${department.name}"
+                   class="mdui-list-item mdui-ripple">1602班</a>
+            </div>
+        </li>
+        <li class="mdui-list-item mdui-ripple">
+            <label class="mdui-switch">
+                <input type="checkbox" id="night_mode"/>
+                <i class="mdui-switch-icon"></i>
+            </label>
+            <div class="mdui-list-item-content">夜间模式</div>
+        </li>
+        <li class="mdui-list-item mdui-ripple">
+            <i class="mdui-list-item-icon mdui-icon material-icons">settings</i>
+            <a th:href="@{/class/show}" class="mdui-list-item-content">系统设置</a>
+        </li>
+        <li class="mdui-list-item mdui-ripple">
+            <i class="mdui-list-item-icon mdui-icon material-icons">vpn_key</i>
+            <a th:href="@{/logout}" class="mdui-list-item-content">注销登陆</a>
+        </li>
+    </ul>
+</nav>
+<section class="mdui-container-fluid">
+    <div id="loading_progress" class="mdui-progress">
+        <div class="mdui-progress-indeterminate"></div>
+    </div>
+    <div class="mdui-card mdui-m-b-2">
+        <div class="mdui-card-media">
+            <img th:src="@{/image/class_img.png}"/>
+            <div class="mdui-card-media-covered">
+                <div class="mdui-card-primary">
+                    <div class="mdui-card-primary-title" id="show_class"></div>
+                    <div class="mdui-card-primary-subtitle" id="show_college"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mdui-table-fluid mdui-m-b-1">
+        <table id="show_table" class="mdui-table mdui-table-selectable mdui-table-hoverable">
+            <thead>
+            <tr>
+                <th style="min-width: 115px">ID</th>
+                <th style="min-width: 210px">名称(双击修改)</th>
+            </tr>
+            </thead>
+            <tbody id="table_data">
+            </tbody>
+        </table>
+        <div class="mdui-card">
+            <div class="mdui-card-content">
+                <button id="del_select_btn" onclick="del_select(false)"
+                        class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" disabled>选中删除
+                </button>
+                <button id="add_stu_btn" onclick="addInfo(false)"
+                        class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent">添加信息
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="mdui-dialog" id="show_alert">
+        <div class="mdui-dialog-title">确定删除吗?</div>
+        <div class="mdui-dialog-content">这会删除该职工所有信息,包括所有工资信息!</div>
+        <div class="mdui-dialog-actions">
+            <button class="mdui-btn mdui-ripple" onclick="clear_btn()" mdui-dialog-close>取消</button>
+            <button class="mdui-btn mdui-ripple" onclick="del_select(true)" mdui-dialog-close>确认</button>
+        </div>
+    </div>
+    <div class="mdui-dialog" id="addOrModify_dialog">
+        <div class="mdui-card">
+            <div class="mdui-card-content">
+                <div id="name_div_id" class="mdui-textfield mdui-textfield-floating-label">
+                    <label class="mdui-textfield-label">名称</label>
+                    <input id="name_id" class="mdui-textfield-input" name="name" type="text"/>
+                    <div class="mdui-textfield-error">名称不能为空</div>
+                </div>
+            </div>
+            <div class="mdui-card-actions">
+                <button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="addInfo(true)">
+                    确认
+                </button>
+                <button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" mdui-dialog-close>取消
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+<script th:src="@{/lib_web/jquery/jquery-3.2.1.min.js}"></script>
+<script th:src="@{/lib_web/mdui/js/mdui.min.js}"></script>
+<script th:src="@{/js/common.js}"></script>
+<script th:inline="javascript">
+    'use strict';
+    /*日期格式化方法*/
+    Date.prototype.format = function (fmt) {
+        var o = {
+            "M+": this.getMonth() + 1,                 //月份
+            "d+": this.getDate(),                    //日
+            "h+": this.getHours(),                   //小时
+            "m+": this.getMinutes(),                 //分
+            "s+": this.getSeconds(),                 //秒
+            "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+            "S": this.getMilliseconds()             //毫秒
+        };
+        if (/(y+)/.test(fmt)) {
+            fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+        }
+        for (var k in o) {
+            if (new RegExp("(" + k + ")").test(fmt)) {
+                fmt = fmt.replace(RegExp.$1, (RegExp.$1.length === 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+            }
+        }
+        return fmt;
+    };
+
+    /*判断字符串是否已指定字符串结束*/
+    String.prototype.endWith = function (endStr) {
+        var d = this.length - endStr.length;
+        return (d >= 0 && this.lastIndexOf(endStr) === d);
+    };
+
+    $(function () {
+        //默认获取第一个班级信息
+        var hash = (window.location.hash).slice(2);
+        if (!hash.endWith("mdui-dialog") && hash !== "") {
+            route(hash);
+        } else {
+            var firstClassID = [[${departmentList.size()!=0?departmentList[0].id:''}]];
+            if (firstClassID === "") {
+                progressStatus(false);
+            } else {
+                route(firstClassID);
+            }
+        }
+    });
+
+    //获取数据
+    var last_id = "";
+
+    function getData(id) {
+        if (last_id !== "") {
+            $('#' + last_id).removeClass("mdui-list-item-active");
+        }
+        $('#' + id).addClass("mdui-list-item-active");
+        var classList = [[${departmentList}]];
+        last_id = id;
+        $.getJSON("/grassroot/show/" + id, function (data) {
+            $("#table_data").html("");
+            if (data.code === 404) {
+                console.error(data);
+                showSnackbar(data.msg);
+                progressStatus(false);
+            } else {
+                var $showTable = $('#show_table');
+                var $downSelectBtn = $('#down_select_btn');
+                var $delSelectBtn = $('#del_select_btn');
+                if (data.length !== 0) {
+
+                    $showTable.show();
+                    $downSelectBtn.show();
+                    $delSelectBtn.show();
+                    $.each(data, function (i, n) {
+                        $("#table_data").append("<tr data-id=\"" + n.id + "\"><td>" + n.id + "</td><td ondblclick='addInfo(false,\"" + n.id + "\",\"" + n.name + "\")'>" + n.name + "</td></tr>")
+                    });
+                } else {
+                    $showTable.hide("normal");
+                    $downSelectBtn.hide("normal");
+                    $delSelectBtn.hide("normal");
+                }
+            }
+            mdui.updateTables();
+            for (var i = 0; i < classList.length; i++) {
+                if (classList[i].id === id) {
+                    $("#show_class").html(classList[i].name);
+                    $("#show_college").html("职工信息管理");
+                }
+            }
+            progressStatus(false);
+            after();
+        });
+    }
+
+
+    /*添加按钮*/
+    var modifyId = "";
+
+    function addInfo(b, id, name) {
+        var $nameId = $('#name_id');
+        if (b) {
+            var nameVal = $nameId.val();
+            var $nameDivId = $("#name_div_id");
+            if (nameVal === "") {
+                $nameDivId.addClass("mdui-textfield-invalid");
+                return;
+            }
+            $nameDivId.removeClass("mdui-textfield-invalid");
+            //新增
+            if (modifyId === "") {
+                $.get("/grassroot/add?did=" + last_id + "&name=" + nameVal, function (data) {
+                    if (data.code === 200) {
+                        window.open("/grassroot/#/" + last_id, '_self');
+                    } else {
+                        showSnackbar(data.msg);
+                    }
+                });
+
+            } else {//修改
+                $.get("/grassroot/modify?id=" + modifyId + "&name=" + nameVal, function (data) {
+                    if (data.code === 200) {
+                        window.open("/grassroot/#/" + last_id, '_self');
+                    } else {
+                        showSnackbar(data.msg);
+                    }
+                })
+            }
+        } else {
+            if (id !== undefined && name !== undefined) {
+                $nameId.val(name);
+                modifyId = id;
+            }
+            if (id === undefined && modifyId !== "") {
+                modifyId = "";
+            }
+            new mdui.Dialog('#addOrModify_dialog').open();
+        }
+    }
+
+
+    //进度条状态
+    function progressStatus(b) {
+        var $loadingProgress = $("#loading_progress");
+        if (b) {
+            $loadingProgress.removeClass("mdui-hidden");
+        } else {
+            $loadingProgress.addClass("mdui-hidden");
+        }
+    }
+
+    function after() {
+        /*根据复选框是否选中设置按钮是否可用*/
+        $('.mdui-checkbox input:checkbox').click(function () {
+            var $downSelectBtn = $('#down_select_btn');
+            var $delSelectBtn = $('#del_select_btn');
+            if ($(this).prop('checked')) {
+                $downSelectBtn.removeAttr('disabled');
+                $delSelectBtn.removeAttr('disabled');
+            } else {
+                $downSelectBtn.attr("disabled", "disabled");
+                $delSelectBtn.attr("disabled", "disabled");
+            }
+        });
+    }
+
+    /*监听锚点变化*/
+    $(window).bind('hashchange', function () {
+        var hash = (window.location.hash).slice(2);
+        if (!hash.endWith("mdui-dialog") && hash !== "") {
+            route(hash);
+        }
+    });
+
+    /*路由*/
+    function route(id) {
+        progressStatus(true);
+        getData(id);
+    }
+
+    /*清理按钮状态*/
+    function clear_btn() {
+        $('#down_select_btn').attr("disabled", "disabled");
+        $('#del_select_btn').attr("disabled", "disabled");
+    }
+
+    /*删除选中*/
+    function del_select(b) {
+        if (b) {
+            $('.mdui-table-row-selected').each(function () {
+                progressStatus(true);
+                var del_id = $(this).data('id');
+                console.log('删除-->' + del_id);
+                $.get("/grassroot/del/" + del_id, function (data) {
+                    if (data.code === 200) {
+                        console.log('删除-->' + del_id + "成功");
+                        $('#down_select_btn').attr("disabled", "disabled");
+                        $('#del_select_btn').attr("disabled", "disabled");
+                        getData(last_id);
+                    } else {
+                        alert('删除-->' + del_id + "失败\nCODE:" + data.code + "\nMSG:" + data.msg + "\nURL:" + data.url);
+                        console.error('删除-->' + del_id + "失败\nCODE:" + data.code + "\nMSG:" + data.msg + "\nURL:" + data.url);
+                    }
+                });
+            });
+        } else {
+            new mdui.Dialog('#show_alert').open();
+        }
+
+    }
+
+    /*显示Snackbar*/
+    function showSnackbar(msg) {
+        mdui.snackbar({
+            message: msg
+        });
+    }
+</script>
+</body>
+</html>

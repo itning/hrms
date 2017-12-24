@@ -51,6 +51,7 @@ public class FrameController {
 
     /**
      * 管理控制器
+     *
      * @param model 模型
      * @return defaultManage.html
      */
@@ -58,5 +59,17 @@ public class FrameController {
     public String manage(Model model) {
         model.addAttribute("departmentList", departmentService.getAllDepartmentInfoList("getAllDepartmentInfo"));
         return "defaultManage";
+    }
+
+    /**
+     * 基层单位控制器
+     *
+     * @param model 模型
+     * @return grassroot.html
+     */
+    @GetMapping("/grassroot")
+    public String grassroot(Model model) {
+        model.addAttribute("departmentList", departmentService.getAllDepartmentInfoList("getAllDepartmentInfo"));
+        return "grassroot";
     }
 }
