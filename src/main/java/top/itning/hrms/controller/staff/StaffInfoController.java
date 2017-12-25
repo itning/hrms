@@ -188,6 +188,10 @@ public class StaffInfoController {
     @GetMapping("/search")
     public String searchStaff(Model model) {
         model.addAttribute("departmentList", departmentService.getAllDepartmentInfoList("getAllDepartmentInfo"));
+        model.addAttribute("positionTitleInfoList", postService.getAllPositionTitleInfoList("getAllPositionTitleInfoList"));
+        model.addAttribute("positionCategoryInfoList", postService.getAllPositionCategoryInfoList("getAllPositionCategoryInfoList"));
+        model.addAttribute("jobTitleInfoList", jobService.getAllJobTitleInfoList("getAllJobTitleInfoList"));
+        model.addAttribute("jobLevelInfoList", jobService.getAllJobLevelInfoList("getAllJobLevelInfoList"));
         return "searchStaff";
     }
 
