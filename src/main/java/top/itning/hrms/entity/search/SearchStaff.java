@@ -87,17 +87,17 @@ public class SearchStaff implements Serializable {
     /**
      * 岗位工资开始
      */
-    private String startWage;
+    private Integer startWage;
     /**
      * 岗位工资结束
      */
-    private String endWage;
+    private Integer endWage;
     /**
      * 绩效工资开始
      */
-    private String startPerformancePay;
+    private Integer startPerformancePay;
     /**
      * 绩效工资结束
      */
-    private String endPerformancePay;
+    private Integer endPerformancePay;
 }

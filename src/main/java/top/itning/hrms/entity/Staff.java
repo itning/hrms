@@ -190,28 +190,28 @@ public class Staff implements Serializable {
      * 岗位工资
      */
     @NotNull
-    private String wage;
+    private int wage;
     /**
      * 绩效工资
      */
     @NotNull
-    private String performancePay;
+    private int performancePay;
     /**
      * 职务津贴
      */
-    private String dutyAllowance;
+    private Integer dutyAllowance;
     /**
      * 岗位超时补助
      */
-    private String grants;
+    private Integer grants;
     /**
      * 硕士津贴
      */
-    private String mAllowance;
+    private Integer mAllowance;
     /**
      * 电话补助
      */
-    private String pSubsidies;
+    private Integer pSubsidies;
     /**
      * 用工形式
      */

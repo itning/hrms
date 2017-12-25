@@ -179,12 +179,24 @@ public class StaffInfoController {
         return serverMessage;
     }
 
+    /**
+     * 职工搜索页面
+     *
+     * @param model ,模型
+     * @return searchStaff.html
+     */
     @GetMapping("/searchStaff")
     public String searchStaff(Model model) {
         model.addAttribute("departmentList", departmentService.getAllDepartmentInfoList("getAllDepartmentInfo"));
         return "searchStaff";
     }
 
+    /**
+     * 职工搜索
+     *
+     * @param searchStaff 职工搜索实体
+     * @return 搜索到的职工信息集合
+     */
     @PostMapping("/searchStaff")
     @ResponseBody
     public List<Staff> searchStaff(SearchStaff searchStaff) {

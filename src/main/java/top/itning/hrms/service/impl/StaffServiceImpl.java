@@ -23,6 +23,7 @@ import javax.transaction.Transactional;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 import java.util.zip.DataFormatException;
@@ -130,14 +131,93 @@ public class StaffServiceImpl implements StaffService {
         logger.info("searchStaff::搜索实体信息->" + searchStaff);
         return staffDao.findAll((root, query, cb) -> {
             List<Predicate> list = new ArrayList<>();
+            //查询条件:姓名(Name)
             if (StringUtils.isNoneBlank(searchStaff.getName())) {
-                logger.info("searchStaff::查询条件 Name(模糊查询)->" + searchStaff.getName());
+                logger.info("searchStaff::查询条件 name(模糊查询)->" + searchStaff.getName());
                 list.add(cb.like(root.get("name"), "%" + searchStaff.getName() + "%"));
             }
-
+            //查询条件:银行卡号(bankID)
+            if (StringUtils.isNoneBlank(searchStaff.getBankID())) {
+                logger.info("searchStaff::查询条件 bankID(模糊查询)->" + searchStaff.getBankID());
+                list.add(cb.like(root.get("bankID"), "%" + searchStaff.getBankID() + "%"));
+            }
+            //查询条件:邮箱(email)
+            if (StringUtils.isNoneBlank(searchStaff.getEmail())) {
+                logger.info("searchStaff::查询条件 email(模糊查询)->" + searchStaff.getEmail());
+                list.add(cb.like(root.get("email"), "%" + searchStaff.getEmail() + "%"));
+            }
+            //查询条件:性别(sex)
+            if (searchStaff.getSex() != null) {
+                logger.info("searchStaff::查询条件 sex->" + searchStaff.getSex());
+                list.add(cb.equal(root.get("sex"), searchStaff.getSex()));
+            }
+            //查询条件:身份证号(nid)
+            if (StringUtils.isNoneBlank(searchStaff.getNid())) {
+                logger.info("searchStaff::查询条件 nid(模糊查询)->" + searchStaff.getNid());
+                list.add(cb.like(root.get("email"), "%" + searchStaff.getNid() + "%"));
+            }
+            //查询条件:电话号码(tel)
+            if (StringUtils.isNoneBlank(searchStaff.getTel())) {
+                logger.info("searchStaff::查询条件 tel(模糊查询)->" + searchStaff.getTel());
+                list.add(cb.like(root.get("tel"), "%" + searchStaff.getTel() + "%"));
+            }
+            //查询条件:部门ID(department)
+            if (searchStaff.getDepartment() != null) {
+                logger.info("searchStaff::查询条件 department(多条件查询)->" + Arrays.toString(searchStaff.getDepartment()));
+                list.add(multipleConditionsQuery(logger, staffDao, cb, root, "department", searchStaff.getDepartment()));
+            }
+            //查询条件:基层单位ID(grassroot)
+            if (searchStaff.getGrassroot() != null) {
+                logger.info("searchStaff::查询条件 grassroot(多条件查询)->" + Arrays.toString(searchStaff.getGrassroot()));
+                list.add(multipleConditionsQuery(logger, staffDao, cb, root, "grassroot", searchStaff.getGrassroot()));
+            }
+            //查询条件:岗位名称(positionTitle)
+            if (searchStaff.getPositionTitle() != null) {
+                logger.info("searchStaff::查询条件 positionTitle(多条件查询)->" + Arrays.toString(searchStaff.getPositionTitle()));
+                list.add(multipleConditionsQuery(logger, staffDao, cb, root, "positionTitle", searchStaff.getPositionTitle()));
+            }
+            //查询条件:岗位类别(positionCategory)
+            if (searchStaff.getPositionCategory() != null) {
+                logger.info("searchStaff::查询条件 positionCategory(多条件查询)->" + Arrays.toString(searchStaff.getPositionCategory()));
+                list.add(multipleConditionsQuery(logger, staffDao, cb, root, "positionCategory", searchStaff.getPositionCategory()));
+            }
+            //查询条件:出生日期(birthday)
+            if (searchStaff.getStartBirthday() != null || searchStaff.getEndBirthday() != null) {
+                logger.info("searchStaff::查询条件 birthday(日期区间查询)->" + searchStaff.getStartBirthday() + "\t" + searchStaff.getEndBirthday());
+                dateIntervalQuery(logger, list, cb, root, "birthday", searchStaff.getStartBirthday(), searchStaff.getEndBirthday());
+            }
+            //查询条件:来校日期(comeDate)
+            if (searchStaff.getStartComeDate() != null || searchStaff.getEndComeDate() != null) {
+                logger.info("searchStaff::查询条件 comeDate(日期区间查询)->" + searchStaff.getStartComeDate() + "\t" + searchStaff.getEndComeDate());
+                dateIntervalQuery(logger, list, cb, root, "comeDate", searchStaff.getStartComeDate(), searchStaff.getEndComeDate());
+            }
+            //查询条件:工龄起始日期(startDate)
+            if (searchStaff.getStartDate() != null || searchStaff.getEndDate() != null) {
+                logger.info("searchStaff::查询条件 startDate(日期区间查询)->" + searchStaff.getStartDate() + "\t" + searchStaff.getEndDate());
+                dateIntervalQuery(logger, list, cb, root, "startDate", searchStaff.getStartDate(), searchStaff.getEndDate());
+            }
+            //查询条件:社会职称(jobTitle)
+            if (searchStaff.getJobTitle() != null) {
+                logger.info("searchStaff::查询条件 jobTitle(多条件查询)->" + Arrays.toString(searchStaff.getJobTitle()));
+                list.add(multipleConditionsQuery(logger, staffDao, cb, root, "jobTitle", searchStaff.getJobTitle()));
+            }
+            //查询条件:职称级别(jobLevel)
+            if (searchStaff.getJobLevel() != null) {
+                logger.info("searchStaff::查询条件 jobLevel(多条件查询)->" + Arrays.toString(searchStaff.getJobLevel()));
+                list.add(multipleConditionsQuery(logger, staffDao, cb, root, "jobLevel", searchStaff.getJobLevel()));
+            }
+            //查询条件:岗位工资(wage)
+            if (searchStaff.getStartWage() != null || searchStaff.getEndWage() != null) {
+                logger.info("searchStaff::查询条件 wage(字符串区间查询)->" + searchStaff.getStartWage() + "\t" + searchStaff.getEndWage());
+                intIntervalQuery(logger, list, cb, root, "wage", searchStaff.getStartWage(), searchStaff.getEndWage());
+            }
+            //查询条件:绩效工资(performancePay)
+            if (searchStaff.getStartPerformancePay() != null || searchStaff.getEndPerformancePay() != null) {
+                logger.info("searchStaff::查询条件 performancePay(字符串区间查询)->" + searchStaff.getStartPerformancePay() + "\t" + searchStaff.getEndPerformancePay());
+                intIntervalQuery(logger, list, cb, root, "wage", searchStaff.getStartPerformancePay(), searchStaff.getEndPerformancePay());
+            }
             Predicate[] p = new Predicate[list.size()];
             return cb.and(list.toArray(p));
         });
     }
-
 }
