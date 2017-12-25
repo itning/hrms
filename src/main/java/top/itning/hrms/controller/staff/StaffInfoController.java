@@ -108,6 +108,7 @@ public class StaffInfoController {
     @PostMapping("/add")
     public String addStaff(Staff staff) throws DataFormatException, NullParameterException {
         staff.setId(UUID.randomUUID().toString().replace("-", ""));
+        logger.debug("addStaff::要添加的职工信息->" + staff);
         staffService.addOrModifyStaffInfo(staff);
         return "redirect:/index";
     }
