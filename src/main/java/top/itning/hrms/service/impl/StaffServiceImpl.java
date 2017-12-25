@@ -13,13 +13,16 @@ import top.itning.hrms.dao.StaffDao;
 import top.itning.hrms.dao.WageDao;
 import top.itning.hrms.dao.department.DepartmentDao;
 import top.itning.hrms.entity.Staff;
+import top.itning.hrms.entity.search.SearchStaff;
 import top.itning.hrms.exception.defaults.NoSuchIdException;
 import top.itning.hrms.exception.defaults.NullParameterException;
 import top.itning.hrms.service.StaffService;
 
+import javax.persistence.criteria.Predicate;
 import javax.transaction.Transactional;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.zip.DataFormatException;
@@ -119,6 +122,22 @@ public class StaffServiceImpl implements StaffService {
         wageDao.deleteByStaff(staff);
         logger.debug("delStaffInfoByID::删除员工ID" + staff.getId() + "信息");
         staffDao.delete(staff);
+    }
+
+    @Override
+    public List<Staff> searchStaff(SearchStaff searchStaff) {
+        logger.debug("searchStaff::开始搜索职工");
+        logger.info("searchStaff::搜索实体信息->" + searchStaff);
+        return staffDao.findAll((root, query, cb) -> {
+            List<Predicate> list = new ArrayList<>();
+            if (StringUtils.isNoneBlank(searchStaff.getName())) {
+                logger.info("searchStaff::查询条件 Name(模糊查询)->" + searchStaff.getName());
+                list.add(cb.like(root.get("name"), "%" + searchStaff.getName() + "%"));
+            }
+
+            Predicate[] p = new Predicate[list.size()];
+            return cb.and(list.toArray(p));
+        });
     }
 
 }

@@ -1,6 +1,7 @@
 package top.itning.hrms.service;
 
 import top.itning.hrms.entity.Staff;
+import top.itning.hrms.entity.search.SearchStaff;
 import top.itning.hrms.exception.defaults.NoSuchIdException;
 import top.itning.hrms.exception.defaults.NullParameterException;
 
@@ -50,4 +51,6 @@ public interface StaffService {
      * @param staff 职工
      */
     void delStaffInfoByID(Staff staff);
+
+    List<Staff> searchStaff(SearchStaff searchStaff);
 }

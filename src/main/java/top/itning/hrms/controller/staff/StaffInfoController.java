@@ -11,6 +11,7 @@ import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.*;
 import top.itning.hrms.entity.ServerMessage;
 import top.itning.hrms.entity.Staff;
+import top.itning.hrms.entity.search.SearchStaff;
 import top.itning.hrms.exception.defaults.NoSuchIdException;
 import top.itning.hrms.exception.defaults.NullParameterException;
 import top.itning.hrms.exception.json.JsonException;
@@ -186,8 +187,8 @@ public class StaffInfoController {
 
     @PostMapping("/searchStaff")
     @ResponseBody
-    public List<Staff> searchStaff() {
-
-        return null;
+    public List<Staff> searchStaff(SearchStaff searchStaff) {
+        logger.debug("searchStaff::搜索条件->" + searchStaff);
+        return staffService.searchStaff(searchStaff);
     }
 }
