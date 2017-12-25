@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org"  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -67,9 +68,9 @@
 <section class="mdui-container">
     <h1>404</h1>
     <!--/*@thymesVar id="exceptionMessage" type="java.lang.String"*/-->
-    <h3 th:text="${'Message:'+exceptionMessage}"></h3>
+    <h3 th:if="${exceptionMessage!=null}" th:text="${'Message:'+exceptionMessage}"></h3>
     <!--/*@thymesVar id="url" type="java.lang.String"*/-->
-    <h3 th:text="${'Url:'+url}"></h3>
+    <h3 th:if="${exceptionMessage!=null}" th:text="${'Url:'+url}"></h3>
     <h2><a th:href="@{/}">点我回首页</a></h2>
 </section>
 <script th:src="@{/lib_web/mdui/js/mdui.min.js}"></script>

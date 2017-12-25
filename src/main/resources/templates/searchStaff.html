@@ -12,7 +12,7 @@
     <!--<link href="/favicon.ico" rel="icon" type="image/x-icon"/>
     <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon"/>-->
 
-    <title>查询请假信息-TA</title>
+    <title>查询职工信息-HRMS</title>
 
     <!--mdui css-->
     <link th:href="@{/lib_web/mdui/css/mdui.min.css}" rel="stylesheet">
@@ -30,14 +30,12 @@
         }
     </style>
 </head>
-<!--/*@thymesVar id="themeColor" type="java.lang.String"*/-->
-<!--/*@thymesVar id="themeColorAccent" type="java.lang.String"*/-->
-<body class="mdui-drawer-body-left mdui-appbar-with-toolbar" th:classappend="${themeColor+' '+themeColorAccent}">
+<body class="mdui-drawer-body-left mdui-appbar-with-toolbar mdui-theme-primary-indigo mdui-theme-accent-pink">
 <header class="mdui-appbar mdui-appbar-fixed">
     <div class="mdui-toolbar mdui-color-theme">
         <a href="javascript:" class="mdui-btn mdui-btn-icon" mdui-drawer="{target: '#left-drawer'}"><i
                 class="mdui-icon material-icons">menu</i></a>
-        <p>教师助手 Teacher Assistant</p>
+        <p>人力资源管理系统</p>
         <div class="mdui-toolbar-spacer"></div>
         <a href="javascript:window.location.reload();" class="mdui-btn mdui-btn-icon"><i
                 class="mdui-icon material-icons">refresh</i></a>

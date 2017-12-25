@@ -185,7 +185,7 @@ public class StaffInfoController {
      * @param model ,模型
      * @return searchStaff.html
      */
-    @GetMapping("/searchStaff")
+    @GetMapping("/search")
     public String searchStaff(Model model) {
         model.addAttribute("departmentList", departmentService.getAllDepartmentInfoList("getAllDepartmentInfo"));
         return "searchStaff";
@@ -197,7 +197,7 @@ public class StaffInfoController {
      * @param searchStaff 职工搜索实体
      * @return 搜索到的职工信息集合
      */
-    @PostMapping("/searchStaff")
+    @PostMapping("/search")
     @ResponseBody
     public List<Staff> searchStaff(SearchStaff searchStaff) {
         logger.debug("searchStaff::搜索条件->" + searchStaff);
