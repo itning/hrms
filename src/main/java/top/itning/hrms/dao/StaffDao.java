@@ -1,6 +1,7 @@
 package top.itning.hrms.dao;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import top.itning.hrms.entity.Staff;
 import top.itning.hrms.entity.department.Department;
 
@@ -11,7 +12,7 @@ import java.util.List;
  *
  * @author Ning
  */
-public interface StaffDao extends JpaRepository<Staff, String> {
+public interface StaffDao extends JpaRepository<Staff, String>, JpaSpecificationExecutor<Staff> {
     /**
      * 根据部门查找职工
      *

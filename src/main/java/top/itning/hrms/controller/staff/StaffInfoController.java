@@ -177,4 +177,17 @@ public class StaffInfoController {
         }
         return serverMessage;
     }
+
+    @GetMapping("/searchStaff")
+    public String searchStaff(Model model) {
+        model.addAttribute("departmentList", departmentService.getAllDepartmentInfoList("getAllDepartmentInfo"));
+        return "searchStaff";
+    }
+
+    @PostMapping("/searchStaff")
+    @ResponseBody
+    public List<Staff> searchStaff() {
+
+        return null;
+    }
 }

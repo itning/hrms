@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="学生管理系统"/>
+    <meta name="keywords" content="学生管理系统"/>
+    <meta name="author" content="LANG"/>
+
+    <!--<link href="/favicon.ico" rel="icon" type="image/x-icon"/>
+    <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon"/>-->
+
+    <title>查询请假信息-TA</title>
+
+    <!--mdui css-->
+    <link th:href="@{/lib_web/mdui/css/mdui.min.css}" rel="stylesheet">
+
+    <link th:href="@{/css/common.css}" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        .mdui-checkbox {
+            padding-right: 10px;
+        }
+    </style>
+</head>
+<!--/*@thymesVar id="themeColor" type="java.lang.String"*/-->
+<!--/*@thymesVar id="themeColorAccent" type="java.lang.String"*/-->
+<body class="mdui-drawer-body-left mdui-appbar-with-toolbar" th:classappend="${themeColor+' '+themeColorAccent}">
+<header class="mdui-appbar mdui-appbar-fixed">
+    <div class="mdui-toolbar mdui-color-theme">
+        <a href="javascript:" class="mdui-btn mdui-btn-icon" mdui-drawer="{target: '#left-drawer'}"><i
+                class="mdui-icon material-icons">menu</i></a>
+        <p>教师助手 Teacher Assistant</p>
+        <div class="mdui-toolbar-spacer"></div>
+        <a href="javascript:window.location.reload();" class="mdui-btn mdui-btn-icon"><i
+                class="mdui-icon material-icons">refresh</i></a>
+    </div>
+</header>
+
+<nav class="mdui-drawer mdui-card" id="left-drawer">
+    <div class="mdui-card-media">
+        <img th:src="@{/image/card.jpg}"/>
+        <div class="mdui-card-media-covered">
+            <div class="mdui-card-primary">
+                <div class="mdui-card-primary-title">舒露</div>
+                <div class="mdui-card-primary-subtitle">欢迎</div>
+            </div>
+        </div>
+    </div>
+    <ul class="mdui-list mdui-card-content" mdui-collapse="{accordion: true}">
+        <li th:if="${departmentList.size()!=0}" class="mdui-collapse-item mdui-collapse-item-open">
+            <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
+                <i class="mdui-list-item-icon mdui-icon material-icons">people</i>
+                <div class="mdui-list-item-content">职工信息管理</div>
+                <i class="mdui-collapse-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
+            </div>
+            <div class="mdui-collapse-item-body mdui-list mdui-list-dense mdui-list-item-active">
+                <a class="mdui-list-item mdui-ripple">查询职工信息</a>
+            </div>
+            <div th:each="department : ${departmentList} " class="mdui-collapse-item-body mdui-list mdui-list-dense">
+                <!--/*@thymesVar id="id" type="java.lang.String"*/-->
+                <a th:id="${department.id}" th:href="${'/index/#/'+department.id}" th:text="${department.name}"
+                   class="mdui-list-item mdui-ripple">1602班</a>
+            </div>
+        </li>
+
+        <li th:if="${departmentList.size()!=0}" class="mdui-collapse-item">
+            <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
+                <i class="mdui-list-item-icon mdui-icon material-icons">attach_money</i>
+                <div class="mdui-list-item-content">职工工资管理</div>
+                <i class="mdui-collapse-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
+            </div>
+            <div class="mdui-collapse-item-body mdui-list mdui-list-dense">
+                <!--/*@thymesVar id="studentLeaveNum" type="java.lang.Long"*/-->
+                <!-- <a th:if="${studentLeaveNum!=0}" th:href="@{/studentLeave/show}" class="mdui-list-item mdui-ripple">历史请假信息</a>
+                 <a th:if="${studentLeaveNum!=0}" th:href="@{/studentLeave/search}" class="mdui-list-item mdui-ripple">查询请假信息</a>-->
+                <a th:href="@{/studentLeave/add}" class="mdui-list-item mdui-ripple">查询工资信息</a>
+                <a th:href="@{/studentLeave/add}" class="mdui-list-item mdui-ripple">添加工资信息</a>
+            </div>
+        </li>
+        <li class="mdui-list-item mdui-ripple" id="postTitle">
+            <i class="mdui-list-item-icon mdui-icon material-icons">nature_people</i>
+            <a th:href="${'/manage/#/postTitle'}" class="mdui-list-item-content">岗位名称管理</a>
+        </li>
+        <li class="mdui-list-item mdui-ripple" id="postCategory">
+            <i class="mdui-list-item-icon mdui-icon material-icons">nature</i>
+            <a th:href="${'/manage/#/postCategory'}" class="mdui-list-item-content">岗位类别管理</a>
+        </li>
+        <li class="mdui-list-item mdui-ripple" id="jobTitle">
+            <i class="mdui-list-item-icon mdui-icon material-icons">accessibility</i>
+            <a th:href="${'/manage/#/jobTitle'}" class="mdui-list-item-content">社会职称管理</a>
+        </li>
+        <li class="mdui-list-item mdui-ripple" id="jobLevel">
+            <i class="mdui-list-item-icon mdui-icon material-icons">bubble_chart</i>
+            <a th:href="${'/manage/#/jobLevel'}" class="mdui-list-item-content">职称级别管理</a>
+        </li>
+        <li class="mdui-list-item mdui-ripple" id="employmentForm">
+            <i class="mdui-list-item-icon mdui-icon material-icons">dvr</i>
+            <a th:href="${'/manage/#/employmentForm'}" class="mdui-list-item-content">用工形式管理</a>
+        </li>
+        <li class="mdui-list-item mdui-ripple" id="department">
+            <i class="mdui-list-item-icon mdui-icon material-icons">transfer_within_a_station</i>
+            <a th:href="${'/manage/#/department'}" class="mdui-list-item-content">部门信息管理</a>
+        </li>
+        <li th:if="${departmentList.size()!=0}" class="mdui-collapse-item">
+            <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
+                <i class="mdui-list-item-icon mdui-icon material-icons">equalizer</i>
+                <div class="mdui-list-item-content">基层单位管理</div>
+                <i class="mdui-collapse-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
+            </div>
+            <div th:each="department : ${departmentList} " class="mdui-collapse-item-body mdui-list mdui-list-dense">
+                <!--/*@thymesVar id="id" type="java.lang.String"*/-->
+                <a th:id="${department.id}" th:href="${'/grassroot/#/'+department.id}" th:text="${department.name}"
+                   class="mdui-list-item mdui-ripple">1602班</a>
+            </div>
+        </li>
+        <li class="mdui-list-item mdui-ripple">
+            <label class="mdui-switch">
+                <input type="checkbox" id="night_mode"/>
+                <i class="mdui-switch-icon"></i>
+            </label>
+            <div class="mdui-list-item-content">夜间模式</div>
+        </li>
+        <li class="mdui-list-item mdui-ripple">
+            <i class="mdui-list-item-icon mdui-icon material-icons">settings</i>
+            <a th:href="@{/class/show}" class="mdui-list-item-content">系统设置</a>
+        </li>
+        <li class="mdui-list-item mdui-ripple">
+            <i class="mdui-list-item-icon mdui-icon material-icons">vpn_key</i>
+            <a th:href="@{/logout}" class="mdui-list-item-content">注销登陆</a>
+        </li>
+    </ul>
+</nav>
+<section class="mdui-container">
+
+    <form id="search_form" th:action="@{/studentLeave/searchLeave}" method="get">
+        <div class="mdui-table-fluid">
+            <table class="mdui-table" style="width: 100%">
+                <tr>
+                    <td class="mdui-col-xs-8">
+                        <div class="mdui-textfield mdui-textfield-floating-label">
+                            <i class="mdui-icon material-icons">search</i>
+                            <label class="mdui-textfield-label" id="show_info">请输入要查询的姓名</label>
+                            <input name="key" type="text" class="mdui-textfield-input"/>
+                        </div>
+                    </td>
+                    <td class="mdui-col-xs-2" style="width: 10%"><label class="mdui-radio">
+                        <input name="radio1" type="radio" data-id="a" checked/>
+                        <i class="mdui-radio-icon"></i>
+                        姓名
+                    </label>
+                        <label class="mdui-radio">
+                            <input name="radio1" type="radio" data-id="b"/>
+                            <i class="mdui-radio-icon"></i>
+                            学号
+                        </label></td>
+                    <td class="mdui-col-xs-2 mdui-p-t-2">
+                        <input type="button" onclick="search()" style="height: 70px;"
+                               class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent mdui-btn-block"
+                               value="查询"/>
+                    </td>
+                </tr>
+                <tr class="mdui-m-t-5">
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">请假时长:</p></td>
+                    <td class="mdui-col-xs-10" id="time">
+                        <a href="javascript:clearChecked('time')" style="margin-right: 30px"
+                           class="mdui-btn mdui-ripple"
+                        >不限</a>
+                        <label class="mdui-checkbox">
+                            <input type="checkbox" name="often" value="0.5"/>
+                            <i class="mdui-checkbox-icon"></i>
+                            0.5
+                        </label>
+                        <label class="mdui-checkbox">
+                            <input type="checkbox" name="often" value="1"/>
+                            <i class="mdui-checkbox-icon"></i>
+                            1天
+                        </label>
+                        <label class="mdui-checkbox">
+                            <input type="checkbox" name="often" value="1.5"/>
+                            <i class="mdui-checkbox-icon"></i>
+                            1.5天
+                        </label>
+                        <label class="mdui-checkbox">
+                            <input type="checkbox" name="often" value="2"/>
+                            <i class="mdui-checkbox-icon"></i>
+                            2天
+                        </label>
+                        <label class="mdui-checkbox">
+                            <input type="checkbox" name="often" value="2.5"/>
+                            <i class="mdui-checkbox-icon"></i>
+                            2.5天
+                        </label>
+                        <label class="mdui-checkbox">
+                            <input type="checkbox" name="often" value="3"/>
+                            <i class="mdui-checkbox-icon"></i>
+                            3天
+                        </label>
+                        <label class="mdui-checkbox">
+                            <input type="checkbox" name="often" value="-1"/>
+                            <i class="mdui-checkbox-icon"></i>
+                            3天以上
+                        </label>
+                    </td>
+                </tr>
+                <tr class="mdui-m-t-5">
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">查询起始时间:</p></td>
+                    <td class="mdui-col-xs-4"><input readonly="readonly" id="showstartdate"
+                                                     class="mdui-textfield-input"
+                                                     type="text" maxlength="10"
+                                                     onfocus="WdatePicker({skin:'twoer',dateFmt:'yyyy年MM月dd日',vel:'startdate',maxDate:'#F{$dp.$D(\'showenddate\')}'})"/><input
+                            id="startdate" name="startdate" type="text" class="mdui-hidden"></td>
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">查询结束时间:</p></td>
+                    <td class="mdui-col-xs-4"><input readonly="readonly" id="showenddate"
+                                                     class="mdui-textfield-input"
+                                                     type="text" maxlength="10"
+                                                     onfocus="WdatePicker({skin:'twoer',dateFmt:'yyyy年MM月dd日',vel:'enddate',minDate:'#F{$dp.$D(\'showstartdate\')}'})"/><input
+                            id="enddate" name="enddate" type="text" class="mdui-hidden"></td>
+                </tr>
+                <tr class="mdui-m-t-5">
+                    <td class="mdui-col-xs-1"><p class="mdui-p-a-1">事项:</p></td>
+                    <td class="mdui-col-xs-11" id="matter">
+                        <a href="javascript:clearChecked('matter')" style="margin-right: 30px"
+                           class="mdui-btn mdui-ripple"
+                        >不限</a>
+                        <!--/*@thymesVar id="leaveTypeList" type="java.util.List<top.itning.ta.entity.LeaveType>"*/-->
+                        <label class="mdui-checkbox" th:each="leaveType:${leaveTypeList}">
+                            <input type="checkbox" name="matter" th:value="${leaveType.id}"/>
+                            <i class="mdui-checkbox-icon"></i>
+                            <span th:text="${leaveType.name}"></span>
+                        </label>
+                    </td>
+                </tr>
+                <tr class="mdui-m-t-5">
+                    <td class="mdui-col-xs-1"><p class="mdui-p-a-1">班级:</p></td>
+                    <td class="mdui-col-xs-11" id="class">
+                        <a href="javascript:clearChecked('class')" style="margin-right: 30px"
+                           class="mdui-btn mdui-ripple"
+                        >不限</a>
+                        <!--/*@thymesVar id="classList" type="java.util.List<top.itning.ta.entity.Clazz>"*/-->
+                        <label class="mdui-checkbox" th:each="clazz:${classList}">
+                            <input name="clazz" type="checkbox" th:value="${clazz.id}"/>
+                            <i class="mdui-checkbox-icon"></i>
+                            <span th:text="${clazz.clazz}"></span>
+                        </label>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </form>
+    <div class="mdui-typo">
+        <hr/>
+    </div>
+    <div class="mdui-progress mdui-hidden" id="loading_progress">
+        <div class="mdui-progress-indeterminate"></div>
+    </div>
+    <div class="mdui-table-fluid data-table mdui-hidden">
+        <table id="result" class="mdui-table mdui-table-selectable mdui-table-hoverable">
+            <thead>
+            <tr>
+                <th>学号</th>
+                <th style="min-width: 115px">姓名</th>
+                <th>起始时间</th>
+                <th>时常(天)</th>
+                <th style="min-width: 115px">事项</th>
+                <th>原因</th>
+                <th>备注</th>
+            </tr>
+            </thead>
+            <tbody id="table_data"></tbody>
+        </table>
+    </div>
+    <div class="mdui-card data-table mdui-hidden">
+        <div class="mdui-card-content">
+            <button id="down_select_btn" onclick="down_select()"
+                    class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" disabled>选中下载
+            </button>
+            <button id="del_select_btn" onclick="del_select(false)" sec:authorize="hasAuthority('A')"
+                    class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" disabled>选中删除
+            </button>
+        </div>
+    </div>
+    <div class="mdui-dialog" id="show_alert">
+        <div class="mdui-dialog-title">确定删除吗?</div>
+        <div class="mdui-dialog-content">这会删除该生请假信息!</div>
+        <div class="mdui-dialog-actions">
+            <button class="mdui-btn mdui-ripple" mdui-dialog-close>取消</button>
+            <button class="mdui-btn mdui-ripple" onclick="del_select(true)" mdui-dialog-close>确认</button>
+        </div>
+    </div>
+</section>
+<script th:src="@{/lib_web/jquery/jquery-3.2.1.min.js}"></script>
+<script th:src="@{/lib_web/mdui/js/mdui.min.js}"></script>
+<script th:src="@{/js/common.js}"></script>
+<script th:src="@{/lib_web/datepicker/WdatePicker.js}"></script>
+<script>
+    'use strict';
+    /*日期格式化方法*/
+    Date.prototype.format = function (fmt) {
+        var o = {
+            "M+": this.getMonth() + 1,                 //月份
+            "d+": this.getDate(),                    //日
+            "h+": this.getHours(),                   //小时
+            "m+": this.getMinutes(),                 //分
+            "s+": this.getSeconds(),                 //秒
+            "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+            "S": this.getMilliseconds()             //毫秒
+        };
+        if (/(y+)/.test(fmt)) {
+            fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+        }
+        for (var k in o) {
+            if (new RegExp("(" + k + ")").test(fmt)) {
+                fmt = fmt.replace(RegExp.$1, (RegExp.$1.length === 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+            }
+        }
+        return fmt;
+    };
+
+    $(function () {
+        $("input[type=radio]").change(function () {
+            var $showInfo = $('#show_info');
+            if ($(this).data('id') === 'a') {
+                $showInfo.html("请输入要查询的姓名");
+            } else {
+                $showInfo.html("请输入要查询的学号");
+            }
+        });
+    });
+
+    function after() {
+        /*根据复选框是否选中设置按钮是否可用*/
+        $('#result .mdui-checkbox input:checkbox').click(function () {
+            var $downSelectBtn = $('#down_select_btn');
+            var $delSelectBtn = $('#del_select_btn');
+            if ($(this).prop('checked')) {
+                $downSelectBtn.removeAttr('disabled');
+                $delSelectBtn.removeAttr('disabled');
+            } else {
+                $downSelectBtn.attr("disabled", "disabled");
+                $delSelectBtn.attr("disabled", "disabled");
+            }
+        });
+    }
+
+    /*取消选择*/
+    function clearChecked(id) {
+        $('#' + id).find("input[type=checkbox]").prop('checked', false);
+    }
+
+    //进度条状态
+    function progressStatus(b) {
+        var $loadingProgress = $("#loading_progress");
+        if (b) {
+            $loadingProgress.removeClass("mdui-hidden");
+        } else {
+            $loadingProgress.addClass("mdui-hidden");
+        }
+    }
+
+    function show_tables(b) {
+        var $data = $('.data-table');
+        if (b) {
+            $data.removeClass("mdui-hidden");
+        } else {
+            $data.addClass("mdui-hidden");
+        }
+    }
+
+    function search() {
+        progressStatus(true);
+        show_tables(false);
+        $.get('/studentLeave/searchLeave?' + $('#search_form').serialize(), function (data) {
+            $("#table_data").html("");
+            if (data.length !== 0) {
+                $.each(data, function (i, n) {
+                    $("#table_data").append("<tr id='" + n.id + "' data-id='" + n.id + "'><td><a href=\"#\" target=\"_blank\" class=\"\">" + n.sid.id + "</a></td><td>" + n.sid.name + "</td><td>" + ((new Date(n.starttime)).format("yyyy.MM.dd")) + "</td><td>" + n.often + "</td><td>" + n.matter.name + "</td><td>" + n.reason + "</td><td>" + n.remarks + "</td></tr>");
+                });
+                show_tables(true);
+                mdui.updateTables();
+                after();
+            }
+            progressStatus(false);
+        });
+    }
+
+    function del_select(b) {
+        if (b) {
+            $('.mdui-table-row-selected').each(function () {
+                var del_id = $(this).data('id');
+                console.log('删除-->' + del_id);
+                $.get("/studentLeave/del/" + del_id, function (data) {
+                    if (data.code === 200) {
+                        console.log('删除-->' + del_id + "成功");
+                        $('#' + del_id).remove();
+                    } else {
+                        alert('删除-->' + del_id + "失败\nCODE:" + data.code + "\nMSG:" + data.msg + "\nURL:" + data.url);
+                        console.error('删除-->' + del_id + "失败\nCODE:" + data.code + "\nMSG:" + data.msg + "\nURL:" + data.url);
+                    }
+                });
+            });
+        } else {
+            new mdui.Dialog('#show_alert').open();
+        }
+    }
+</script>
+</body>
+</html>
