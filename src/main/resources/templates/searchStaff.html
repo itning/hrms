@@ -150,16 +150,16 @@
                         <div class="mdui-textfield mdui-textfield-floating-label">
                             <i class="mdui-icon material-icons">account_box</i>
                             <label class="mdui-textfield-label" id="show_info">请输入要查询的姓名</label>
-                            <input name="key" type="text" class="mdui-textfield-input"/>
+                            <input name="name" type="text" class="mdui-textfield-input"/>
                         </div>
                     </td>
                     <td class="mdui-col-xs-2 mdui-m-t-1" style="width: 10%"><label class="mdui-checkbox">
-                        <input type="checkbox" name="often" value="3"/>
+                        <input type="checkbox" name="sex" value="3"/>
                         <i class="mdui-checkbox-icon"></i>
                         男
                     </label>
                         <label class="mdui-checkbox">
-                            <input type="checkbox" name="often" value="3"/>
+                            <input type="checkbox" name="sex" value="3"/>
                             <i class="mdui-checkbox-icon"></i>
                             女
                         </label></td>
@@ -174,14 +174,14 @@
                         <div class="mdui-textfield mdui-textfield-floating-label">
                             <i class="mdui-icon material-icons">credit_card</i>
                             <label class="mdui-textfield-label">请输入要查询的银行卡号</label>
-                            <input name="key" type="number" class="mdui-textfield-input"/>
+                            <input name="bankID" type="number" class="mdui-textfield-input"/>
                         </div>
                     </td>
                     <td class="mdui-col-xs-6">
                         <div class="mdui-textfield mdui-textfield-floating-label">
                             <i class="mdui-icon material-icons">email</i>
                             <label class="mdui-textfield-label">请输入要查询的邮箱</label>
-                            <input name="key" type="email" class="mdui-textfield-input"/>
+                            <input name="email" type="email" class="mdui-textfield-input"/>
                         </div>
                     </td>
                 </tr>
@@ -190,70 +190,70 @@
                         <div class="mdui-textfield mdui-textfield-floating-label">
                             <i class="mdui-icon material-icons">crop_landscape</i>
                             <label class="mdui-textfield-label">请输入要查询的身份证号</label>
-                            <input name="key" type="text" class="mdui-textfield-input"/>
+                            <input name="nid" type="text" class="mdui-textfield-input"/>
                         </div>
                     </td>
                     <td class="mdui-col-xs-6">
                         <div class="mdui-textfield mdui-textfield-floating-label">
                             <i class="mdui-icon material-icons">phone_android</i>
                             <label class="mdui-textfield-label">请输入要查询的电话号</label>
-                            <input name="key" type="number" class="mdui-textfield-input"/>
+                            <input name="tel" type="number" class="mdui-textfield-input"/>
                         </div>
                     </td>
                 </tr>
                 <tr class="mdui-m-t-5">
                     <td class="mdui-col-xs-2"><p class="mdui-p-a-1">岗位工资开始:</p></td>
-                    <td class="mdui-col-xs-4"><input type="number" class="mdui-textfield-input"></td>
+                    <td class="mdui-col-xs-4"><input name="startWage" type="number" class="mdui-textfield-input"></td>
                     <td class="mdui-col-xs-2"><p class="mdui-p-a-1">岗位工资结束:</p></td>
-                    <td class="mdui-col-xs-4"><input type="number" class="mdui-textfield-input"></td>
+                    <td class="mdui-col-xs-4"><input name="endWage" type="number" class="mdui-textfield-input"></td>
                 </tr>
                 <tr class="mdui-m-t-5">
                     <td class="mdui-col-xs-2"><p class="mdui-p-a-1">绩效工资开始:</p></td>
-                    <td class="mdui-col-xs-4"><input type="number" class="mdui-textfield-input"></td>
+                    <td class="mdui-col-xs-4"><input name="startPerformancePay" type="number" class="mdui-textfield-input"></td>
                     <td class="mdui-col-xs-2"><p class="mdui-p-a-1">绩效工资结束:</p></td>
-                    <td class="mdui-col-xs-4"><input type="number" class="mdui-textfield-input"></td>
+                    <td class="mdui-col-xs-4"><input name="endPerformancePay" type="number" class="mdui-textfield-input"></td>
                 </tr>
                 <tr class="mdui-m-t-5">
                     <td class="mdui-col-xs-2"><p class="mdui-p-a-1">出生日期开始:</p></td>
                     <td class="mdui-col-xs-4"><input readonly="readonly" id="showstartdate"
                                                      class="mdui-textfield-input"
                                                      type="text" maxlength="10"
-                                                     onfocus="WdatePicker({skin:'twoer',dateFmt:'yyyy年MM月dd日',vel:'startb',maxDate:'#F{$dp.$D(\'showenddate\')}'})"/><input
-                            id="startb" name="startdate" type="text" class="mdui-hidden"></td>
+                                                     onfocus="WdatePicker({skin:'twoer',dateFmt:'yyyy年MM月dd日',vel:'startb',maxDate:'#F{$dp.$D(\'endb\')}'})"/><input
+                            id="startb" name="startBirthday" type="text" class="mdui-hidden"></td>
                     <td class="mdui-col-xs-2"><p class="mdui-p-a-1">出生日期结束:</p></td>
                     <td class="mdui-col-xs-4"><input readonly="readonly" id="showenddate"
                                                      class="mdui-textfield-input"
                                                      type="text" maxlength="10"
-                                                     onfocus="WdatePicker({skin:'twoer',dateFmt:'yyyy年MM月dd日',vel:'endb',minDate:'#F{$dp.$D(\'showstartdate\')}'})"/><input
-                            id="endb" name="enddate" type="text" class="mdui-hidden"></td>
+                                                     onfocus="WdatePicker({skin:'twoer',dateFmt:'yyyy年MM月dd日',vel:'endb',minDate:'#F{$dp.$D(\'startb\')}'})"/><input
+                            id="endb" name="endBirthday" type="text" class="mdui-hidden"></td>
                 </tr>
                 <tr class="mdui-m-t-5">
                     <td class="mdui-col-xs-2"><p class="mdui-p-a-1">来校日期开始:</p></td>
                     <td class="mdui-col-xs-4"><input readonly="readonly"
                                                      class="mdui-textfield-input"
                                                      type="text" maxlength="10"
-                                                     onfocus="WdatePicker({skin:'twoer',dateFmt:'yyyy年MM月dd日',vel:'startc',maxDate:'#F{$dp.$D(\'showenddate\')}'})"/><input
-                            id="startc" name="startdate" type="text" class="mdui-hidden"></td>
+                                                     onfocus="WdatePicker({skin:'twoer',dateFmt:'yyyy年MM月dd日',vel:'startc',maxDate:'#F{$dp.$D(\'endc\')}'})"/><input
+                            id="startc" name="startComeDate" type="text" class="mdui-hidden"></td>
                     <td class="mdui-col-xs-2"><p class="mdui-p-a-1">来校日期结束:</p></td>
                     <td class="mdui-col-xs-4"><input readonly="readonly"
                                                      class="mdui-textfield-input"
                                                      type="text" maxlength="10"
-                                                     onfocus="WdatePicker({skin:'twoer',dateFmt:'yyyy年MM月dd日',vel:'endc',minDate:'#F{$dp.$D(\'showstartdate\')}'})"/><input
-                            id="endc" name="enddate" type="text" class="mdui-hidden"></td>
+                                                     onfocus="WdatePicker({skin:'twoer',dateFmt:'yyyy年MM月dd日',vel:'endc',minDate:'#F{$dp.$D(\'startc\')}'})"/><input
+                            id="endc" name="endComeDate" type="text" class="mdui-hidden"></td>
                 </tr>
                 <tr class="mdui-m-t-5">
                     <td class="mdui-col-xs-2"><p class="mdui-p-a-1">工龄起始日期开始:</p></td>
                     <td class="mdui-col-xs-4"><input readonly="readonly"
                                                      class="mdui-textfield-input"
                                                      type="text" maxlength="10"
-                                                     onfocus="WdatePicker({skin:'twoer',dateFmt:'yyyy年MM月dd日',vel:'startDate',maxDate:'#F{$dp.$D(\'showenddate\')}'})"/><input
-                            id="startDate" name="startdate" type="text" class="mdui-hidden"></td>
+                                                     onfocus="WdatePicker({skin:'twoer',dateFmt:'yyyy年MM月dd日',vel:'startDate',maxDate:'#F{$dp.$D(\'endDate\')}'})"/><input
+                            id="startDate" name="startDate" type="text" class="mdui-hidden"></td>
                     <td class="mdui-col-xs-2"><p class="mdui-p-a-1">工龄起始日期结束:</p></td>
                     <td class="mdui-col-xs-4"><input readonly="readonly"
                                                      class="mdui-textfield-input"
                                                      type="text" maxlength="10"
-                                                     onfocus="WdatePicker({skin:'twoer',dateFmt:'yyyy年MM月dd日',vel:'endDate',minDate:'#F{$dp.$D(\'showstartdate\')}'})"/><input
-                            id="endDate" name="enddate" type="text" class="mdui-hidden"></td>
+                                                     onfocus="WdatePicker({skin:'twoer',dateFmt:'yyyy年MM月dd日',vel:'endDate',minDate:'#F{$dp.$D(\'startDate\')}'})"/><input
+                            id="endDate" name="endDate" type="text" class="mdui-hidden"></td>
                 </tr>
                 <tr class="mdui-m-t-5">
                     <td class="mdui-col-xs-1"><p class="mdui-p-a-1">岗位名称:</p></td>
@@ -262,7 +262,7 @@
                            class="mdui-btn mdui-ripple"
                         >不限</a>
                         <label class="mdui-checkbox" th:each="positionTitle:${positionTitleInfoList}">
-                            <input type="checkbox" name="matter" th:value="${positionTitle.id}"/>
+                            <input type="checkbox" name="positionTitle" th:value="${positionTitle.id}"/>
                             <i class="mdui-checkbox-icon"></i>
                             <span th:text="${positionTitle.name}"></span>
                         </label>
@@ -275,7 +275,7 @@
                            class="mdui-btn mdui-ripple"
                         >不限</a>
                         <label class="mdui-checkbox" th:each="positionCategory:${positionCategoryInfoList}">
-                            <input name="clazz" type="checkbox" th:value="${positionCategory.id}"/>
+                            <input name="positionCategory" type="checkbox" th:value="${positionCategory.id}"/>
                             <i class="mdui-checkbox-icon"></i>
                             <span th:text="${positionCategory.name}"></span>
                         </label>
@@ -288,7 +288,7 @@
                            class="mdui-btn mdui-ripple"
                         >不限</a>
                         <label class="mdui-checkbox" th:each="jobTitle:${jobTitleInfoList}">
-                            <input name="clazz" type="checkbox" th:value="${jobTitle.id}"/>
+                            <input name="jobTitle" type="checkbox" th:value="${jobTitle.id}"/>
                             <i class="mdui-checkbox-icon"></i>
                             <span th:text="${jobTitle.name}"></span>
                         </label>
@@ -301,7 +301,7 @@
                            class="mdui-btn mdui-ripple"
                         >不限</a>
                         <label class="mdui-checkbox" th:each="jobLevel:${jobLevelInfoList}">
-                            <input name="clazz" type="checkbox" th:value="${jobLevel.id}"/>
+                            <input name="jobLevel" type="checkbox" th:value="${jobLevel.id}"/>
                             <i class="mdui-checkbox-icon"></i>
                             <span th:text="${jobLevel.name}"></span>
                         </label>
@@ -311,7 +311,7 @@
                     <td class="mdui-col-xs-2"><p class="mdui-p-a-1">部门:</p></td>
                     <td class="mdui-col-xs-10" id="_department">
                         <label class="mdui-checkbox" th:each="department:${departmentList}">
-                            <input name="clazz" type="checkbox" th:data-index="${departmentStat.index}"
+                            <input name="department" type="checkbox" th:data-index="${departmentStat.index}"
                                    th:data-name="${department.name}"
                                    th:value="${department.id}"/>
                             <i class="mdui-checkbox-icon"></i>
@@ -332,13 +332,15 @@
         <table id="result" class="mdui-table mdui-table-selectable mdui-table-hoverable">
             <thead>
             <tr>
-                <th>学号</th>
                 <th style="min-width: 115px">姓名</th>
-                <th>起始时间</th>
-                <th>时常(天)</th>
-                <th style="min-width: 115px">事项</th>
-                <th>原因</th>
-                <th>备注</th>
+                <th style="min-width: 210px">基层单位</th>
+                <th>性别</th>
+                <th>年龄</th>
+                <th style="min-width: 115px">民族</th>
+                <th style="min-width: 150px">政治面貌</th>
+                <th>出生日期</th>
+                <th>身份证号码</th>
+                <th>邮箱</th>
             </tr>
             </thead>
             <tbody id="table_data"></tbody>
@@ -400,7 +402,7 @@
                 if ($(that).prop("checked")) {
                     $('#search_table').append("<tr id='gr-" + $(that).val() + "' class=\"mdui-m-t-5\"><td class=\"mdui-col-xs-2\"><p class=\"mdui-p-a-1\">" + $(that).data('name') + "部门:</p></td><td id='grassroots-" + $(that).val() + "' class=\"mdui-col-xs-10\"></td></tr>");
                     for (var i = 0; i < departmentList[$(that).data('index')].grassroots.length; i++) {
-                        $('#grassroots-' + $(that).val()).append("<label class=\"mdui-checkbox\"><input name=\"clazz\" type=\"checkbox\" value='" + departmentList[$(that).data('index')].grassroots[i].id + "'/><i class=\"mdui-checkbox-icon\"></i><span>" + departmentList[$(that).data('index')].grassroots[i].name + "</span></label>");
+                        $('#grassroots-' + $(that).val()).append("<label class=\"mdui-checkbox\"><input name=\"grassroot\" type=\"checkbox\" value='" + departmentList[$(that).data('index')].grassroots[i].id + "'/><i class=\"mdui-checkbox-icon\"></i><span>" + departmentList[$(that).data('index')].grassroots[i].name + "</span></label>");
                     }
                 } else {
                     $('#gr-' + $(that).val()).remove();
@@ -451,11 +453,11 @@
     function search() {
         progressStatus(true);
         show_tables(false);
-        $.get('/studentLeave/searchLeave?' + $('#search_form').serialize(), function (data) {
+        $.get('/staffInfo/searchStaff?' + $('#search_form').serialize(), function (data) {
             $("#table_data").html("");
             if (data.length !== 0) {
                 $.each(data, function (i, n) {
-                    $("#table_data").append("<tr id='" + n.id + "' data-id='" + n.id + "'><td><a href=\"#\" target=\"_blank\" class=\"\">" + n.sid.id + "</a></td><td>" + n.sid.name + "</td><td>" + ((new Date(n.starttime)).format("yyyy.MM.dd")) + "</td><td>" + n.often + "</td><td>" + n.matter.name + "</td><td>" + n.reason + "</td><td>" + n.remarks + "</td></tr>");
+                    $("#table_data").append("<tr data-id=\"" + n.id + "\"><td><a href=\"/staffInfo/showDetails/" + n.id + "\" target=\"_blank\" class=\"\">" + n.name + "</a></td><td>" + n.grassroot.name + "</td><td>" + (n.sex ? "男" : "女") + "</td><td>" + n.age + "</td><td>" + n.ethnic.name + "</td><td>" + n.ps.name + "</td><td>" + ((new Date(n.birthday)).format("yyyy.MM.dd")) + "</td><td>" + n.nid + "</td><td>" + n.email + "</td></tr>")
                 });
                 show_tables(true);
                 mdui.updateTables();

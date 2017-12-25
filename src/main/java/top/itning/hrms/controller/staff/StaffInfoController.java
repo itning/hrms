@@ -201,7 +201,7 @@ public class StaffInfoController {
      * @param searchStaff 职工搜索实体
      * @return 搜索到的职工信息集合
      */
-    @PostMapping("/search")
+    @GetMapping("/searchStaff")
     @ResponseBody
     public List<Staff> searchStaff(SearchStaff searchStaff) {
         logger.debug("searchStaff::搜索条件->" + searchStaff);

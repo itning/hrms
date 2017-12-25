@@ -1,7 +1,7 @@
 package top.itning.hrms.service;
 
 import org.slf4j.Logger;
-import top.itning.hrms.dao.StaffDao;
+import org.springframework.data.jpa.repository.JpaRepository;
 import top.itning.hrms.entity.Staff;
 import top.itning.hrms.entity.search.SearchStaff;
 import top.itning.hrms.exception.defaults.NoSuchIdException;
@@ -151,7 +151,7 @@ public interface StaffService {
      * @param key      多查询条件关键字
      * @return Predicate
      */
-    default Predicate multipleConditionsQuery(Logger logger, StaffDao staffDao, CriteriaBuilder cb, Root<Staff> root, String field, String[] key) {
+    default Predicate multipleConditionsQuery(Logger logger, JpaRepository staffDao, CriteriaBuilder cb, Root<Staff> root, String field, String[] key) {
         logger.info("multipleConditionsQuery::多查询条件关键字长度->" + key.length);
         Predicate[] p = new Predicate[key.length];
         for (int i = 0; i < key.length; i++) {

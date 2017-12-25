@@ -12,6 +12,11 @@ import org.springframework.stereotype.Service;
 import top.itning.hrms.dao.StaffDao;
 import top.itning.hrms.dao.WageDao;
 import top.itning.hrms.dao.department.DepartmentDao;
+import top.itning.hrms.dao.department.GrassrootDao;
+import top.itning.hrms.dao.job.JobLevelDao;
+import top.itning.hrms.dao.job.JobTitleDao;
+import top.itning.hrms.dao.post.PositionCategoryDao;
+import top.itning.hrms.dao.post.PositionTitleDao;
 import top.itning.hrms.entity.Staff;
 import top.itning.hrms.entity.search.SearchStaff;
 import top.itning.hrms.exception.defaults.NoSuchIdException;
@@ -50,6 +55,21 @@ public class StaffServiceImpl implements StaffService {
 
     @Autowired
     private WageDao wageDao;
+
+    @Autowired
+    private GrassrootDao grassrootDao;
+
+    @Autowired
+    private PositionTitleDao positionTitleDao;
+
+    @Autowired
+    private PositionCategoryDao positionCategoryDao;
+
+    @Autowired
+    private JobTitleDao jobTitleDao;
+
+    @Autowired
+    private JobLevelDao jobLevelDao;
 
     @Override
     @Cacheable(cacheNames = "StaffInfoList", key = "#id")
@@ -154,7 +174,7 @@ public class StaffServiceImpl implements StaffService {
             //查询条件:身份证号(nid)
             if (StringUtils.isNoneBlank(searchStaff.getNid())) {
                 logger.info("searchStaff::查询条件 nid(模糊查询)->" + searchStaff.getNid());
-                list.add(cb.like(root.get("email"), "%" + searchStaff.getNid() + "%"));
+                list.add(cb.like(root.get("nid"), "%" + searchStaff.getNid() + "%"));
             }
             //查询条件:电话号码(tel)
             if (StringUtils.isNoneBlank(searchStaff.getTel())) {
@@ -164,22 +184,22 @@ public class StaffServiceImpl implements StaffService {
             //查询条件:部门ID(department)
             if (searchStaff.getDepartment() != null) {
                 logger.info("searchStaff::查询条件 department(多条件查询)->" + Arrays.toString(searchStaff.getDepartment()));
-                list.add(multipleConditionsQuery(logger, staffDao, cb, root, "department", searchStaff.getDepartment()));
+                list.add(multipleConditionsQuery(logger, departmentDao, cb, root, "department", searchStaff.getDepartment()));
             }
             //查询条件:基层单位ID(grassroot)
             if (searchStaff.getGrassroot() != null) {
                 logger.info("searchStaff::查询条件 grassroot(多条件查询)->" + Arrays.toString(searchStaff.getGrassroot()));
-                list.add(multipleConditionsQuery(logger, staffDao, cb, root, "grassroot", searchStaff.getGrassroot()));
+                list.add(multipleConditionsQuery(logger, grassrootDao, cb, root, "grassroot", searchStaff.getGrassroot()));
             }
             //查询条件:岗位名称(positionTitle)
             if (searchStaff.getPositionTitle() != null) {
                 logger.info("searchStaff::查询条件 positionTitle(多条件查询)->" + Arrays.toString(searchStaff.getPositionTitle()));
-                list.add(multipleConditionsQuery(logger, staffDao, cb, root, "positionTitle", searchStaff.getPositionTitle()));
+                list.add(multipleConditionsQuery(logger, positionTitleDao, cb, root, "positionTitle", searchStaff.getPositionTitle()));
             }
             //查询条件:岗位类别(positionCategory)
             if (searchStaff.getPositionCategory() != null) {
                 logger.info("searchStaff::查询条件 positionCategory(多条件查询)->" + Arrays.toString(searchStaff.getPositionCategory()));
-                list.add(multipleConditionsQuery(logger, staffDao, cb, root, "positionCategory", searchStaff.getPositionCategory()));
+                list.add(multipleConditionsQuery(logger, positionCategoryDao, cb, root, "positionCategory", searchStaff.getPositionCategory()));
             }
             //查询条件:出生日期(birthday)
             if (searchStaff.getStartBirthday() != null || searchStaff.getEndBirthday() != null) {
@@ -199,12 +219,12 @@ public class StaffServiceImpl implements StaffService {
             //查询条件:社会职称(jobTitle)
             if (searchStaff.getJobTitle() != null) {
                 logger.info("searchStaff::查询条件 jobTitle(多条件查询)->" + Arrays.toString(searchStaff.getJobTitle()));
-                list.add(multipleConditionsQuery(logger, staffDao, cb, root, "jobTitle", searchStaff.getJobTitle()));
+                list.add(multipleConditionsQuery(logger, jobTitleDao, cb, root, "jobTitle", searchStaff.getJobTitle()));
             }
             //查询条件:职称级别(jobLevel)
             if (searchStaff.getJobLevel() != null) {
                 logger.info("searchStaff::查询条件 jobLevel(多条件查询)->" + Arrays.toString(searchStaff.getJobLevel()));
-                list.add(multipleConditionsQuery(logger, staffDao, cb, root, "jobLevel", searchStaff.getJobLevel()));
+                list.add(multipleConditionsQuery(logger, jobLevelDao, cb, root, "jobLevel", searchStaff.getJobLevel()));
             }
             //查询条件:岗位工资(wage)
             if (searchStaff.getStartWage() != null || searchStaff.getEndWage() != null) {
@@ -214,7 +234,7 @@ public class StaffServiceImpl implements StaffService {
             //查询条件:绩效工资(performancePay)
             if (searchStaff.getStartPerformancePay() != null || searchStaff.getEndPerformancePay() != null) {
                 logger.info("searchStaff::查询条件 performancePay(字符串区间查询)->" + searchStaff.getStartPerformancePay() + "\t" + searchStaff.getEndPerformancePay());
-                intIntervalQuery(logger, list, cb, root, "wage", searchStaff.getStartPerformancePay(), searchStaff.getEndPerformancePay());
+                intIntervalQuery(logger, list, cb, root, "performancePay", searchStaff.getStartPerformancePay(), searchStaff.getEndPerformancePay());
             }
             Predicate[] p = new Predicate[list.size()];
             return cb.and(list.toArray(p));
