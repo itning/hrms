@@ -1,5 +1,6 @@
 package top.itning.hrms.service.impl;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -18,6 +19,8 @@ import top.itning.hrms.dao.job.JobTitleDao;
 import top.itning.hrms.dao.post.PositionCategoryDao;
 import top.itning.hrms.dao.post.PositionTitleDao;
 import top.itning.hrms.entity.Staff;
+import top.itning.hrms.entity.department.Department;
+import top.itning.hrms.entity.department.Grassroot;
 import top.itning.hrms.entity.search.SearchStaff;
 import top.itning.hrms.exception.defaults.NoSuchIdException;
 import top.itning.hrms.exception.defaults.NullParameterException;
@@ -149,6 +152,24 @@ public class StaffServiceImpl implements StaffService {
     public List<Staff> searchStaff(SearchStaff searchStaff) {
         logger.debug("searchStaff::开始搜索职工");
         logger.info("searchStaff::搜索实体信息->" + searchStaff);
+        //如果选了多个部门并且选了某个部门下的基层单位
+        if (searchStaff.getDepartment().length != 1 && searchStaff.getGrassroot() != null) {
+            logger.info("searchStaff::开始添加选中部门但未选中基层单位的部门下所有基层单位");
+            a:
+            for (String departmentID : searchStaff.getDepartment()) {
+                Department department = departmentDao.getOne(departmentID);
+                for (String g : searchStaff.getGrassroot()) {
+                    //选中的基层单位与选中的部门下所有基层单位比较如果有相同则换部门
+                    for (Grassroot grassroot : department.getGrassroots()) {
+                        if (g.equals(grassroot.getId())) {
+                            continue a;
+                        }
+                    }
+                }
+                searchStaff.setGrassroot(ArrayUtils.addAll(searchStaff.getGrassroot(), department.getGrassroots().stream().map(Grassroot::getId).toArray(String[]::new)));
+                logger.info("searchStaff::完成添加选中部门但未选中基层单位的部门下所有基层单位");
+            }
+        }
         return staffDao.findAll((root, query, cb) -> {
             List<Predicate> list = new ArrayList<>();
             //查询条件:姓名(Name)
