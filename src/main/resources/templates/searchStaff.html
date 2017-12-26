@@ -209,9 +209,11 @@
                 </tr>
                 <tr class="mdui-m-t-5">
                     <td class="mdui-col-xs-2"><p class="mdui-p-a-1">绩效工资开始:</p></td>
-                    <td class="mdui-col-xs-4"><input name="startPerformancePay" type="number" class="mdui-textfield-input"></td>
+                    <td class="mdui-col-xs-4"><input name="startPerformancePay" type="number"
+                                                     class="mdui-textfield-input"></td>
                     <td class="mdui-col-xs-2"><p class="mdui-p-a-1">绩效工资结束:</p></td>
-                    <td class="mdui-col-xs-4"><input name="endPerformancePay" type="number" class="mdui-textfield-input"></td>
+                    <td class="mdui-col-xs-4"><input name="endPerformancePay" type="number"
+                                                     class="mdui-textfield-input"></td>
                 </tr>
                 <tr class="mdui-m-t-5">
                     <td class="mdui-col-xs-2"><p class="mdui-p-a-1">出生日期开始:</p></td>
@@ -364,7 +366,8 @@
             <button class="mdui-btn mdui-ripple" onclick="del_select(true)" mdui-dialog-close>确认</button>
         </div>
     </div>
-    <button onclick="search()" class="mdui-fab mdui-color-theme-accent mdui-ripple mdui-fab-fixed"><i class="mdui-icon material-icons">search</i></button>
+    <button onclick="search()" class="mdui-fab mdui-color-theme-accent mdui-ripple mdui-fab-fixed"><i
+            class="mdui-icon material-icons">search</i></button>
 </section>
 <script th:src="@{/lib_web/jquery/jquery-3.2.1.min.js}"></script>
 <script th:src="@{/lib_web/mdui/js/mdui.min.js}"></script>
@@ -452,20 +455,26 @@
     }
 
     function search() {
-        progressStatus(true);
-        show_tables(false);
-        $.get('/staffInfo/searchStaff?' + $('#search_form').serialize(), function (data) {
-            $("#table_data").html("");
-            if (data.length !== 0) {
-                $.each(data, function (i, n) {
-                    $("#table_data").append("<tr data-id=\"" + n.id + "\"><td><a href=\"/staffInfo/showDetails/" + n.id + "\" target=\"_blank\" class=\"\">" + n.name + "</a></td><td>" + n.grassroot.name + "</td><td>" + (n.sex ? "男" : "女") + "</td><td>" + n.age + "</td><td>" + n.ethnic.name + "</td><td>" + n.ps.name + "</td><td>" + ((new Date(n.birthday)).format("yyyy.MM.dd")) + "</td><td>" + n.nid + "</td><td>" + n.email + "</td></tr>")
+        var $searchForm = $('#search_form');
+        for (var i = 0; i < $searchForm.serializeArray().length; i++) {
+            if ($searchForm.serializeArray()[i].value !== "") {
+                progressStatus(true);
+                show_tables(false);
+                $.get('/staffInfo/searchStaff?' + $searchForm.serialize(), function (data) {
+                    $("#table_data").html("");
+                    if (data.length !== 0) {
+                        $.each(data, function (i, n) {
+                            $("#table_data").append("<tr data-id=\"" + n.id + "\"><td><a href=\"/staffInfo/showDetails/" + n.id + "\" target=\"_blank\" class=\"\">" + n.name + "</a></td><td>" + n.grassroot.name + "</td><td>" + (n.sex ? "男" : "女") + "</td><td>" + n.age + "</td><td>" + n.ethnic.name + "</td><td>" + n.ps.name + "</td><td>" + ((new Date(n.birthday)).format("yyyy.MM.dd")) + "</td><td>" + n.nid + "</td><td>" + n.email + "</td></tr>")
+                        });
+                        show_tables(true);
+                        mdui.updateTables();
+                        after();
+                    }
+                    progressStatus(false);
                 });
-                show_tables(true);
-                mdui.updateTables();
-                after();
+                break;
             }
-            progressStatus(false);
-        });
+        }
     }
 
     function del_select(b) {
