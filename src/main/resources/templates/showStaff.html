@@ -56,7 +56,7 @@
                 <i class="mdui-collapse-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
             </div>
             <div class="mdui-collapse-item-body mdui-list mdui-list-dense">
-                <a class="mdui-list-item mdui-ripple">查询职工信息</a>
+                <a th:href="@{/staffInfo/search}" class="mdui-list-item mdui-ripple">查询职工信息</a>
             </div>
             <div th:each="department : ${departmentList} " class="mdui-collapse-item-body mdui-list mdui-list-dense">
                 <!--/*@thymesVar id="id" type="java.lang.String"*/-->

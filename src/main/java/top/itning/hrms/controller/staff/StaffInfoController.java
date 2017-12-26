@@ -111,7 +111,7 @@ public class StaffInfoController {
         staff.setId(UUID.randomUUID().toString().replace("-", ""));
         logger.debug("addStaff::要添加的职工信息->" + staff);
         staffService.addOrModifyStaffInfo(staff);
-        return "redirect:/index";
+        return "redirect:/index/#/" + staff.getDepartment().getId();
     }
 
     /**

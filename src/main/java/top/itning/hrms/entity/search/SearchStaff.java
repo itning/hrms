@@ -27,7 +27,7 @@ public class SearchStaff implements Serializable {
     /**
      * 性别
      */
-    private Boolean sex;
+    private Boolean[] sex;
     /**
      * 身份证号
      */
