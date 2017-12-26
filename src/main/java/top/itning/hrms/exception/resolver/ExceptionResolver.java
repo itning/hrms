@@ -49,7 +49,7 @@ public class ExceptionResolver {
      * @param e   Exception
      * @return ModelAndView
      */
-   /* @ExceptionHandler(value = Exception.class)
+    @ExceptionHandler(value = Exception.class)
     public ModelAndView otherErrorHandler(HttpServletRequest req, Exception e) {
         logger.error("otherErrorHandler->" + e.getMessage());
         ModelAndView mav = new ModelAndView();
@@ -57,7 +57,7 @@ public class ExceptionResolver {
         mav.addObject("url", req.getRequestURL().toString());
         mav.setViewName(DEFAULT_ERROR_VIEW);
         return mav;
-    }*/
+    }
 
     /**
      * json 格式错误消息
