@@ -153,7 +153,7 @@ public class StaffServiceImpl implements StaffService {
         logger.debug("searchStaff::开始搜索职工");
         logger.info("searchStaff::搜索实体信息->" + searchStaff);
         //如果选了多个部门并且选了某个部门下的基层单位
-        if (searchStaff.getDepartment().length != 1 && searchStaff.getGrassroot() != null) {
+        if (searchStaff.getDepartment() != null && searchStaff.getDepartment().length != 1 && searchStaff.getGrassroot() != null) {
             logger.info("searchStaff::开始添加选中部门但未选中基层单位的部门下所有基层单位");
             a:
             for (String departmentID : searchStaff.getDepartment()) {
