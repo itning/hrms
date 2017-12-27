@@ -20,4 +20,12 @@ public interface StaffDao extends JpaRepository<Staff, String>, JpaSpecification
      * @return 职工信息集合
      */
     List<Staff> findByDepartment(Department department);
+
+    /**
+     * 根据身份证号查找员工
+     *
+     * @param nid 身份证号
+     * @return 职工信息集合
+     */
+    List<Staff> findByNid(String nid);
 }

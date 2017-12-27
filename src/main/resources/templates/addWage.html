@@ -140,8 +140,10 @@
         <form id="search_form" th:action="@{/studentLeave/addLeave}" method="post" class="mdui-card-content">
             <table style="width: 100%">
                 <tr class="mdui-m-t-5">
-                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">1.学号:</p></td>
-                    <td class="mdui-col-xs-10"><input name="sid" type="number" class="mdui-textfield-input"
+                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">01.身份证号(必填):</p></td>
+                    <td class="mdui-col-xs-10"><input onblur="checkNid(this)" name="nid" type="text"
+                                                      oninput="checkRtNid(this)"
+                                                      class="mdui-textfield-input"
                                                       required="required"></td>
                 </tr>
                 <tr>
@@ -152,85 +154,18 @@
                     </td>
                 </tr>
                 <tr class="mdui-m-t-5">
-                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">2.请假时长:</p></td>
-                    <td class="mdui-col-xs-10 custom_input">
-                        <label class="mdui-radio">
-                            <input type="radio" name="often" value="0.5"/>
-                            <i class="mdui-radio-icon"></i>
-                            0.5天
-                        </label>
-                        <label class="mdui-radio">
-                            <input type="radio" name="often" checked="checked" value="1"/>
-                            <i class="mdui-radio-icon"></i>
-                            1天
-                        </label>
-                        <label class="mdui-radio">
-                            <input type="radio" name="often" value="1.5"/>
-                            <i class="mdui-radio-icon"></i>
-                            1.5天
-                        </label>
-                        <label class="mdui-radio">
-                            <input type="radio" name="often" value="2"/>
-                            <i class="mdui-radio-icon"></i>
-                            2天
-                        </label>
-                        <label class="mdui-radio">
-                            <input type="radio" name="often" value="2.5"/>
-                            <i class="mdui-radio-icon"></i>
-                            2.5天
-                        </label>
-                        <label class="mdui-radio">
-                            <input type="radio" name="often" value="3"/>
-                            <i class="mdui-radio-icon"></i>
-                            3天
-                        </label>
-                        <label class="mdui-radio">
-                            <input data-id="custom" name="often" type="radio" id="custom_often"/>
-                            <i class="mdui-radio-icon"></i>
-                            自定义
-                        </label>
-                        <div id="custom_id" class="mdui-textfield mdui-textfield-floating-label mdui-hidden">
-                            <label class="mdui-textfield-label">请输入请假时长</label>
-                            <input name="often" class="mdui-textfield-input" type="number" disabled="disabled"/>
+                    <td class="mdui-col-xs-3"><p class="mdui-p-a-1">02.工资日期(必填):</p></td>
+                    <td class="mdui-col-xs-9">
+                        <div id="comeDate_id" class="mdui-textfield">
+                            <input readonly="readonly"
+                                   class="mdui-textfield-input"
+                                   type="text" maxlength="11"
+                                   onfocus="WdatePicker({skin:'twoer',dateFmt:'yyyy年MM月',vel:'comeDate'})"
+                                   required="required"/><input
+                                id="comeDate" name="comeDate" type="text" class="mdui-hidden" required="required">
+                            <div class="mdui-textfield-error">请选择工资日期</div>
                         </div>
                     </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="mdui-typo">
-                            <hr/>
-                        </div>
-                    </td>
-                </tr>
-                <tr class="mdui-m-t-5">
-                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">3.起始时间:</p></td>
-                    <td class="mdui-col-xs-10"><input readonly="readonly"
-                                                      class="mdui-textfield-input"
-                                                      type="text" maxlength="10"
-                                                      onfocus="WdatePicker({skin:'twoer',dateFmt:'yyyy年MM月dd日',vel:'startdate'})"/><input
-                            id="startdate" name="starttime" type="text" class="mdui-hidden" required="required"></td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="mdui-typo">
-                            <hr/>
-                        </div>
-                    </td>
-                </tr>
-                <tr class="mdui-m-t-5">
-                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">5.原因:</p></td>
-                    <td class="mdui-col-xs-10"><input name="reason" type="text" class="mdui-textfield-input"></td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="mdui-typo">
-                            <hr/>
-                        </div>
-                    </td>
-                </tr>
-                <tr class="mdui-m-t-5">
-                    <td class="mdui-col-xs-2"><p class="mdui-p-a-1">6.备注:</p></td>
-                    <td class="mdui-col-xs-10"><input name="remarks" type="text" class="mdui-textfield-input"></td>
                 </tr>
                 <tr>
                     <td>
@@ -247,6 +182,50 @@
             </table>
         </form>
     </div>
+    <div class="mdui-dialog" id="add-dialog">
+        <div class="mdui-dialog-title">请选择添加方式</div>
+        <div class="mdui-dialog-content">支持通过Excle表格批量导入,您也可以使用Web页面添加职工工资信息</div>
+        <div class="mdui-dialog-actions mdui-dialog-actions-stacked">
+            <button class="mdui-btn mdui-ripple" mdui-dialog-cancel onclick="history.back();">取消添加
+            </button>
+            <button class="mdui-btn mdui-ripple" mdui-dialog-cancel onclick="open_dialog('ID_dialog')">通过网页添加
+            </button>
+            <button class="mdui-btn mdui-ripple" mdui-dialog-cancel onclick="open_dialog('add-excel-dialog')">
+                通过导入Excel表格添加
+            </button>
+        </div>
+    </div>
+    <div class="mdui-dialog" id="add-excel-dialog">
+        <div class="mdui-dialog-title">上传Excel文件</div>
+        <div class="mdui-dialog-content">只能上传一个文件且文件扩展名为xls或xlsx</div>
+        <div class="mdui-dialog-actions mdui-dialog-actions-stacked">
+            <button class="mdui-btn mdui-ripple" mdui-dialog-cancel onclick="open_dialog('add-dialog')">返回</button>
+            <label class="mdui-btn mdui-ripple" for="xFile"><span id="file_name"></span>&nbsp;&nbsp;选择文件</label>
+            <form id="fileUP" th:action="@{/studentInfo/upExcelFile}" method="post" enctype="multipart/form-data">
+                <input type="file" name="file" id="xFile" style="position:absolute;clip:rect(0 0 0 0);"
+                       accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+                <input type="button" class="mdui-btn mdui-ripple" onclick="up_excel_file()" value="开始上传">
+            </form>
+        </div>
+    </div>
+    <div class="mdui-dialog" id="ID_dialog">
+        <div class="mdui-card">
+            <div class="mdui-card-content">
+                <div class="mdui-textfield mdui-textfield-floating-label">
+                    <label class="mdui-textfield-label">请输入要添加工资的职工的身份证号码:</label>
+                    <input onblur="checkNid(this)" name="nid" type="text"
+                           oninput="checkRtNid(this)"
+                           class="mdui-textfield-input"
+                           required="required">
+                </div>
+            </div>
+            <div class="mdui-card-actions">
+                <button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent">确认</button>
+                <button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" mdui-dialog-cancel
+                        onclick="open_dialog('add-dialog')">返回
+                </button>
+            </div>
+        </div>
 </section>
 <script th:src="@{/lib_web/jquery/jquery-3.2.1.min.js}"></script>
 <script th:src="@{/lib_web/mdui/js/mdui.min.js}"></script>
@@ -255,22 +234,42 @@
 <script>
     'use strict';
     $(function () {
-        /*自定义请假时常*/
-        $(".custom_input input[type=radio]").click(function () {
-            var $customId = $('#custom_id');
-            var $customOften = $('#custom_often');
-            if ($(this).data('id') === 'custom') {
-                $customId.removeClass('mdui-hidden');
-                $customId.find('input').removeAttr("disabled");
-                $customOften.attr("disabled", "disabled");
-
-            } else {
-                $customId.addClass('mdui-hidden');
-                $customId.find('input').attr("disabled", "disabled");
-                $customOften.removeAttr("disabled");
-            }
-        });
+        open_dialog('add-dialog');
     });
+
+    function open_dialog(id) {
+        new mdui.Dialog('#' + id, {overlay: true, modal: true, history: false, closeOnEsc: false}).open();
+    }
+
+    //身份证号校验
+    function checkNid(that) {
+        if ($(that).val().length !== 18) {
+            that.focus();
+            mdui.snackbar({
+                message: "身份证号不是18位,当前" + $(that).val().length + "位.请检查!"
+            });
+        }
+    }
+
+    //实时检测用户输入
+    function checkRtNid(that) {
+        var str = $(that).val();
+        var last_str = str.charAt(str.length - 1);
+        if (str.length === 18 && (last_str === "X" || last_str === "x")) {
+            $(that).val(str.substring(0, 17) + "X");
+            return;
+        }
+        if (!$.isNumeric(last_str)) {
+            if (str.length > 1) {
+                $(that).val(str.substring(0, str.length - 1));
+            } else {
+                $(that).val("");
+            }
+
+        } else if (str.length > 18) {
+            $(that).val(str.substring(0, 18));
+        }
+    }
 </script>
 </body>
 </html>

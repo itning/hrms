@@ -8,6 +8,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import top.itning.hrms.service.DepartmentService;
+import top.itning.hrms.service.JobService;
+import top.itning.hrms.service.WageService;
+
+import java.util.Arrays;
 
 /**
  * 职工工资控制器
@@ -22,9 +26,24 @@ public class StaffWageController {
     @Autowired
     private DepartmentService departmentService;
 
+    @Autowired
+    private JobService jobService;
+
+    @Autowired
+    private WageService wageService;
+
     @GetMapping("/add")
     public String addWage(Model model) {
         model.addAttribute("departmentList", departmentService.getAllDepartmentInfoList("getAllDepartmentInfo"));
         return "addWage";
+    }
+
+    @GetMapping("/search")
+    public String searchWage(Model model) {
+        model.addAttribute("departmentList", departmentService.getAllDepartmentInfoList("getAllDepartmentInfo"));
+        model.addAttribute("jobTitleInfoList", jobService.getAllJobTitleInfoList("getAllJobTitleInfoList"));
+        model.addAttribute("wageYears", wageService.getWageYear());
+        System.out.println(Arrays.toString(wageService.getWageYear()));
+        return "searchWage";
     }
 }
