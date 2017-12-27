@@ -167,8 +167,8 @@ public class StaffServiceImpl implements StaffService {
                     }
                 }
                 searchStaff.setGrassroot(ArrayUtils.addAll(searchStaff.getGrassroot(), department.getGrassroots().stream().map(Grassroot::getId).toArray(String[]::new)));
-                logger.info("searchStaff::完成添加选中部门但未选中基层单位的部门下所有基层单位");
             }
+            logger.info("searchStaff::完成添加选中部门但未选中基层单位的部门下所有基层单位");
         }
         return staffDao.findAll((root, query, cb) -> {
             List<Predicate> list = new ArrayList<>();
