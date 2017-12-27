@@ -34,7 +34,7 @@ public class ExceptionResolver {
      */
     @ExceptionHandler(value = DefaultException.class)
     public ModelAndView defaultErrorHandler(HttpServletRequest req, Exception e) {
-        logger.error("defaultErrorHandler->" + e.getMessage());
+        logger.error("defaultErrorHandler->" + e.getClass().getSimpleName() + ":" + e.getMessage());
         ModelAndView mav = new ModelAndView();
         mav.addObject("exceptionMessage", e.getMessage());
         mav.addObject("url", req.getRequestURL().toString());
@@ -51,7 +51,7 @@ public class ExceptionResolver {
      */
     @ExceptionHandler(value = Exception.class)
     public ModelAndView otherErrorHandler(HttpServletRequest req, Exception e) {
-        logger.error("otherErrorHandler->" + e.getMessage());
+        logger.error("otherErrorHandler->" + e.getClass().getSimpleName() + ":" + e.getMessage());
         ModelAndView mav = new ModelAndView();
         mav.addObject("exceptionMessage", e.getMessage());
         mav.addObject("url", req.getRequestURL().toString());
@@ -69,7 +69,7 @@ public class ExceptionResolver {
     @ExceptionHandler(value = JsonException.class)
     @ResponseBody
     public ServerMessage jsonErrorHandler(HttpServletRequest req, JsonException e) {
-        logger.error("jsonErrorHandler->" + e.getMessage());
+        logger.error("jsonErrorHandler->" + e.getClass().getSimpleName() + ":" + e.getMessage());
         ServerMessage serverMessage = new ServerMessage();
         serverMessage.setCode(e.getCode());
         serverMessage.setMsg(e.getMessage());
