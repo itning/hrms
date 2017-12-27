@@ -189,7 +189,7 @@ public class StaffServiceImpl implements StaffService {
             }
             //查询条件:性别(sex)
             if (searchStaff.getSex() != null && searchStaff.getSex().length == 1) {
-                logger.info("searchStaff::查询条件 sex->" + searchStaff.getSex()[0]);
+                logger.info("searchStaff::查询条件 sex(精确查询)->" + searchStaff.getSex()[0]);
                 list.add(cb.equal(root.get("sex"), searchStaff.getSex()[0]));
             }
             //查询条件:身份证号(nid)

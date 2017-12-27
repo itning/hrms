@@ -88,6 +88,10 @@ public class Wage implements Serializable {
      */
     private String otherBenefits;
     /**
+     * 补助小计
+     */
+    private String totalBenefits;
+    /**
      * 工资合计
      */
     private String total;

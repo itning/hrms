@@ -1,6 +1,7 @@
 package top.itning.hrms.dao;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import top.itning.hrms.entity.Staff;
 import top.itning.hrms.entity.Wage;
@@ -10,7 +11,7 @@ import top.itning.hrms.entity.Wage;
  *
  * @author Ning
  */
-public interface WageDao extends JpaRepository<Wage, String> {
+public interface WageDao extends JpaRepository<Wage, String>, JpaSpecificationExecutor<Wage> {
     /**
      * 删除工资信息根据职工
      *

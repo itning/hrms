@@ -28,6 +28,10 @@ public class SearchWage implements Serializable {
      */
     private String[] department;
     /**
+     * 基层单位ID
+     */
+    private String[] grassroot;
+    /**
      * 年份
      */
     private String[] year;

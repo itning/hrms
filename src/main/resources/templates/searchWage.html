@@ -140,7 +140,7 @@
         </li>
     </ul>
 </nav>
-<section class="mdui-container">
+<section class="mdui-container-fluid">
 
     <form id="search_form" th:action="@{/studentLeave/searchLeave}" method="get">
         <div class="mdui-table-fluid">
@@ -212,14 +212,36 @@
             <thead>
             <tr>
                 <th style="min-width: 115px">姓名</th>
-                <th style="min-width: 210px">基层单位</th>
-                <th>性别</th>
-                <th>年龄</th>
-                <th style="min-width: 115px">民族</th>
-                <th style="min-width: 150px">政治面貌</th>
-                <th>出生日期</th>
-                <th>身份证号码</th>
-                <th>邮箱</th>
+                <th style="min-width: 210px">身份证号</th>
+                <th style="min-width: 135px">年月</th>
+                <th mdui-tooltip="{content: '岗位工资+绩效工资+职务津贴+岗位超时补助', position: 'top'}">小计1</th>
+                <th style="min-width: 115px">补款</th>
+                <th>扣款</th>
+                <th>小计2</th>
+                <th>教学奖金</th>
+                <th>带学生津贴</th>
+                <th>奖金</th>
+                <th>校拨津贴</th>
+                <th>教师节津贴</th>
+                <th>加班补助</th>
+                <th>值班补助</th>
+                <th>其他补助</th>
+                <th>补助小计</th>
+                <th>工资合计</th>
+                <th>代扣养老保险</th>
+                <th>代扣医疗保险</th>
+                <th>代扣失业保险</th>
+                <th>代扣住房公积金</th>
+                <th>应发额</th>
+                <th>代扣款</th>
+                <th>个人所得税</th>
+                <th>税后实发</th>
+                <th>单位承担养老保险</th>
+                <th>单位承担医疗保险</th>
+                <th>单位承担工伤保险</th>
+                <th>单位承担生育保险</th>
+                <th>单位承担失业保险</th>
+                <th>单位承担住房公积金</th>
             </tr>
             </thead>
             <tbody id="table_data"></tbody>
@@ -297,7 +319,7 @@
                 if ($(that).prop("checked")) {
                     $('#search_table').append("<tr id='ti-" + $(that).val() + "' class=\"mdui-m-t-5\"><td class=\"mdui-col-xs-2\"><p class=\"mdui-p-a-1\">" + $(that).val() + "年月份:</p></td><td class=\"mdui-col-xs-10\" id=\"trr-" + $(that).val() + "\"></td></tr>")
                     for (var i = 1; i < 13; i++) {
-                        $('#trr-' + $(that).val()).append("<label class=\"mdui-checkbox\"><input name=\"month\" type=\"checkbox\" value=\"" + $(that).val() + i + "\"/><i class=\"mdui-checkbox-icon\"></i><span>" + i + "月</span></label>");
+                        $('#trr-' + $(that).val()).append("<label class=\"mdui-checkbox\"><input name=\"month\" type=\"checkbox\" value=\"" + $(that).val() + "-" + i + "\"/><i class=\"mdui-checkbox-icon\"></i><span>" + i + "月</span></label>");
                     }
                 } else {
                     $('#ti-' + $(that).val()).remove();
@@ -353,11 +375,19 @@
             if ($searchForm.serializeArray()[i].value !== "") {
                 progressStatus(true);
                 show_tables(false);
-                $.get('/staffInfo/searchStaff?' + $searchForm.serialize(), function (data) {
+                $.get('/staffWage/searchWage?' + $searchForm.serialize(), function (data) {
                     $("#table_data").html("");
                     if (data.length !== 0) {
+                        console.log(data);
                         $.each(data, function (i, n) {
-                            $("#table_data").append("<tr data-id=\"" + n.id + "\"><td><a href=\"/staffInfo/showDetails/" + n.id + "\" target=\"_blank\" class=\"\">" + n.name + "</a></td><td>" + n.grassroot.name + "</td><td>" + (n.sex ? "男" : "女") + "</td><td>" + n.age + "</td><td>" + n.ethnic.name + "</td><td>" + n.ps.name + "</td><td>" + ((new Date(n.birthday)).format("yyyy.MM.dd")) + "</td><td>" + n.nid + "</td><td>" + n.email + "</td></tr>")
+                            $("#table_data").append("<tr><td>" + n.staff.name + "</td><td>" + n.staff.nid + "</td><td>" + n.year + "年" + n.month + "月</td>\n" +
+                                "<td mdui-tooltip=\"{content: '" + (n.staff.wage !== null ? n.staff.wage : 0) + "+" + (n.staff.performancePay !== null ? n.staff.performancePay : 0) + "+" + (n.staff.dutyAllowance !== null ? n.staff.dutyAllowance : 0) + "+" + (n.staff.grants !== null ? n.staff.grants : 0) + "', position: 'bottom'}\">" + n.total1 + "</td>\n" +
+                                "<td>" + n.replenishment + "</td><td>" + n.chargeBack + "</td><td>" + n.total2 + "</td><td>" + n.teachingBonus + "</td><td>" + n.studentAllowance + "</td><td>" + n.bonus + "</td>\n" +
+                                "<td>" + n.schoolGrant + "</td><td>" + n.teacherDayAllowance + "</td><td>" + n.overtimeAssistance + "</td><td>" + n.onDutySubsidies + "</td><td>" + n.otherBenefits + "</td>\n" +
+                                "<td>" + n.totalBenefits + "</td><td>" + n.total + "</td><td>" + n.pensionInsurance + "</td><td>" + n.medicalInsurance + "</td><td>" + n.unemploymentInsurance + "</td>\n" +
+                                "<td>" + n.housingFund + "</td><td>" + n.shouldMade + "</td><td>" + n.withholding + "</td><td>" + n.personalIncomeTax + "</td><td>" + n.afterTaxRealHair + "</td>\n" +
+                                "<td>" + n.unitPensionInsurance + "</td><td>" + n.unitMedicalInsurance + "</td><td>" + n.unitInjuryInsurance + "</td>\n" +
+                                "<td>" + n.unitMaternityInsurance + "</td><td>" + n.unitUnemploymentInsurance + "</td><td>" + n.unitHousingFund + "</td></tr>")
                         });
                         show_tables(true);
                         mdui.updateTables();
