@@ -7,8 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import top.itning.hrms.entity.ServerMessage;
 import top.itning.hrms.entity.search.SearchWage;
 import top.itning.hrms.exception.defaults.NoSuchIdException;
 import top.itning.hrms.exception.json.JsonException;
@@ -76,6 +78,16 @@ public class StaffWageController {
         return wageService.searchWage(searchWage);
     }
 
+    /**
+     * 根据ID下载职工工资
+     *
+     * @param id       ID
+     * @param response HttpServletResponse
+     * @throws IllegalAccessException IllegalAccessException
+     * @throws NoSuchIdException      如果工资ID不存在则抛出该异常
+     * @throws IOException            IOException
+     * @throws InstantiationException InstantiationException
+     */
     @GetMapping("/down")
     public void downStaffWageInfoByID(String id, HttpServletResponse response) throws IllegalAccessException, NoSuchIdException, IOException, InstantiationException {
         logger.debug("downStaffWageInfoByID::要下载的工资ID->" + id);
@@ -89,5 +101,27 @@ public class StaffWageController {
         outputStream.flush();
         outputStream.close();
         logger.debug("downStaffWageInfoByID::outputStream close");
+    }
+
+    /**
+     * 根据工资ID删除职工信息
+     *
+     * @param id 工资ID
+     * @return JSON服务器消息
+     */
+    @GetMapping("/del/{id}")
+    @ResponseBody
+    public ServerMessage delStaffWageInfoByID(@PathVariable("id") String id) {
+        ServerMessage serverMessage = new ServerMessage();
+        serverMessage.setCode(ServerMessage.SUCCESS_CODE);
+        serverMessage.setMsg("删除ID为" + id + "的工资信息成功");
+        serverMessage.setUrl("/staffWage/del/" + id);
+        try {
+            wageService.delWageInfoByID(id);
+        } catch (NoSuchIdException e) {
+            serverMessage.setCode(ServerMessage.NOT_FIND);
+            serverMessage.setMsg(e.getMessage());
+        }
+        return serverMessage;
     }
 }

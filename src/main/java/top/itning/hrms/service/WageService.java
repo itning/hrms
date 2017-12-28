@@ -35,7 +35,18 @@ public interface WageService {
      *
      * @param servletOutputStream ServletOutputStream
      * @param id                  要下载的职工工资ID
-     * @throws NoSuchIdException ID不存在时则抛出该异常
+     * @throws NoSuchIdException      ID不存在时则抛出该异常
+     * @throws IllegalAccessException IllegalAccessException
+     * @throws IOException            IOException
+     * @throws InstantiationException InstantiationException
      */
     void downStaffInfoByID(ServletOutputStream servletOutputStream, String... id) throws NoSuchIdException, IllegalAccessException, IOException, InstantiationException;
+
+    /**
+     * 根据工资ID删除职工工资信息
+     *
+     * @param id 工资ID
+     * @throws NoSuchIdException 如果工资ID不存在则抛出该异常
+     */
+    void delWageInfoByID(String id) throws NoSuchIdException;
 }

@@ -547,4 +547,13 @@ public class WageServiceImpl implements WageService {
         workbook.close();
         logger.debug("downStaffInfoByID::workbook已关闭");
     }
+
+    @Override
+    public void delWageInfoByID(String id) throws NoSuchIdException {
+        if (!wageDao.exists(id)) {
+            logger.warn("delStaffInfoByID::ID->" + id + "不存在");
+            throw new NoSuchIdException("ID:" + id + "不存在");
+        }
+        wageDao.delete(id);
+    }
 }

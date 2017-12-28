@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -249,14 +248,14 @@
             <button id="down_select_btn" onclick="down_select()"
                     class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" disabled>选中下载
             </button>
-            <button id="del_select_btn" onclick="del_select(false)" sec:authorize="hasAuthority('A')"
+            <button id="del_select_btn" onclick="del_select(false)"
                     class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" disabled>选中删除
             </button>
         </div>
     </div>
     <div class="mdui-dialog" id="show_alert">
         <div class="mdui-dialog-title">确定删除吗?</div>
-        <div class="mdui-dialog-content">这会删除该生请假信息!</div>
+        <div class="mdui-dialog-content">这会删除该条工资信息!</div>
         <div class="mdui-dialog-actions">
             <button class="mdui-btn mdui-ripple" mdui-dialog-close>取消</button>
             <button class="mdui-btn mdui-ripple" onclick="del_select(true)" mdui-dialog-close>确认</button>
@@ -383,7 +382,7 @@
                     }
                     if (data.wageList.length !== 0) {
                         $.each(data.wageList, function (i, n) {
-                            $("#table_data").append("<tr data-id='" + n.id + "'><td>" + n.staff.name + "</td><td>" + n.staff.nid + "</td><td>" + n.year + "年" + n.month.substring(5) + "月</td>\n" +
+                            $("#table_data").append("<tr id='" + n.id + "' data-id='" + n.id + "'><td>" + n.staff.name + "</td><td>" + n.staff.nid + "</td><td>" + n.year + "年" + n.month.substring(5) + "月</td>\n" +
                                 "<td mdui-tooltip=\"{content: '" + (n.staff.wage !== null ? n.staff.wage : 0) + "+" + (n.staff.performancePay !== null ? n.staff.performancePay : 0) + "+" + (n.staff.dutyAllowance !== null ? n.staff.dutyAllowance : 0) + "+" + (n.staff.grants !== null ? n.staff.grants : 0) + "', position: 'bottom'}\">" + n.total1 + "</td>\n" +
                                 "<td>" + n.replenishment + "</td><td>" + n.chargeBack + "</td><td>" + n.total2 + "</td><td>" + n.teachingBonus + "</td><td>" + n.studentAllowance + "</td><td>" + n.bonus + "</td>\n" +
                                 "<td>" + n.schoolGrant + "</td><td>" + n.teacherDayAllowance + "</td><td>" + n.overtimeAssistance + "</td><td>" + n.onDutySubsidies + "</td><td>" + n.otherBenefits + "</td>\n" +
@@ -416,7 +415,7 @@
             $('.mdui-table-row-selected').each(function () {
                 var del_id = $(this).data('id');
                 console.log('删除-->' + del_id);
-                $.get("/studentLeave/del/" + del_id, function (data) {
+                $.get("/staffWage/del/" + del_id, function (data) {
                     if (data.code === 200) {
                         console.log('删除-->' + del_id + "成功");
                         $('#' + del_id).remove();
