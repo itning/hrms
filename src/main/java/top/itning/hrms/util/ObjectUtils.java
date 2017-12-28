@@ -76,20 +76,17 @@ public class ObjectUtils {
             for (int i = 0; i < tClassDeclaredFields.length; i++) {
                 tClassDeclaredFields[i].setAccessible(true);
                 newInstanceClassDeclaredFields[i].setAccessible(true);
-                if (tClassDeclaredFields[i].getAnnotatedType().getType() == int.class) {
-                    logger.info("getAllFieldsSum::Int类型字段->" + tClassDeclaredFields[i].getName());
-                    try {
+                try {
+                    logger.info("getAllFieldsSum::字段" + tClassDeclaredFields[i].getName() + "的类型:" + tClassDeclaredFields[i].getAnnotatedType().getType().getTypeName() + "字段值:" + tClassDeclaredFields[i].get(t));
+                    if (tClassDeclaredFields[i].getAnnotatedType().getType() == int.class) {
+                        logger.info("getAllFieldsSum::Int类型字段->" + tClassDeclaredFields[i].getName());
                         newInstanceClassDeclaredFields[i].set(newInstance, newInstanceClassDeclaredFields[i].getInt(newInstance) + tClassDeclaredFields[i].getInt(t));
-                    } catch (IllegalAccessException e) {
-                        e.printStackTrace();
-                    }
-                } else if (tClassDeclaredFields[i].getAnnotatedType().getType() == double.class) {
-                    logger.info("getAllFieldsSum::Double类型字段->" + tClassDeclaredFields[i].getName());
-                    try {
+                    } else if (tClassDeclaredFields[i].getAnnotatedType().getType() == double.class) {
+                        logger.info("getAllFieldsSum::Double类型字段->" + tClassDeclaredFields[i].getName());
                         newInstanceClassDeclaredFields[i].set(newInstance, newInstanceClassDeclaredFields[i].getDouble(newInstance) + tClassDeclaredFields[i].getDouble(t));
-                    } catch (IllegalAccessException e) {
-                        e.printStackTrace();
                     }
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
                 }
             }
             logger.info("getAllFieldsSum::结束迭代字段");

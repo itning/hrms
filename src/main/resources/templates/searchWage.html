@@ -383,7 +383,7 @@
                     }
                     if (data.wageList.length !== 0) {
                         $.each(data.wageList, function (i, n) {
-                            $("#table_data").append("<tr><td>" + n.staff.name + "</td><td>" + n.staff.nid + "</td><td>" + n.year + "年" + n.month.substring(5) + "月</td>\n" +
+                            $("#table_data").append("<tr data-id='" + n.id + "'><td>" + n.staff.name + "</td><td>" + n.staff.nid + "</td><td>" + n.year + "年" + n.month.substring(5) + "月</td>\n" +
                                 "<td mdui-tooltip=\"{content: '" + (n.staff.wage !== null ? n.staff.wage : 0) + "+" + (n.staff.performancePay !== null ? n.staff.performancePay : 0) + "+" + (n.staff.dutyAllowance !== null ? n.staff.dutyAllowance : 0) + "+" + (n.staff.grants !== null ? n.staff.grants : 0) + "', position: 'bottom'}\">" + n.total1 + "</td>\n" +
                                 "<td>" + n.replenishment + "</td><td>" + n.chargeBack + "</td><td>" + n.total2 + "</td><td>" + n.teachingBonus + "</td><td>" + n.studentAllowance + "</td><td>" + n.bonus + "</td>\n" +
                                 "<td>" + n.schoolGrant + "</td><td>" + n.teacherDayAllowance + "</td><td>" + n.overtimeAssistance + "</td><td>" + n.onDutySubsidies + "</td><td>" + n.otherBenefits + "</td>\n" +
@@ -429,6 +429,18 @@
         } else {
             new mdui.Dialog('#show_alert').open();
         }
+    }
+
+    /*下载选中*/
+    function down_select() {
+        var downId = "";
+        $('.mdui-table-row-selected').each(function () {
+            var data = $(this).data('id');
+            if (data !== undefined) {
+                downId += data + "-";
+            }
+        });
+        window.open("/staffWage/down?id=" + downId.substring(0, downId.length - 1), "_blank");
     }
 </script>
 </body>

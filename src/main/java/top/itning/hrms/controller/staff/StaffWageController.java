@@ -1,5 +1,6 @@
 package top.itning.hrms.controller.staff;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,11 +10,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import top.itning.hrms.entity.search.SearchWage;
+import top.itning.hrms.exception.defaults.NoSuchIdException;
 import top.itning.hrms.exception.json.JsonException;
 import top.itning.hrms.service.DepartmentService;
 import top.itning.hrms.service.JobService;
 import top.itning.hrms.service.WageService;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -67,5 +74,20 @@ public class StaffWageController {
     public Map<String, Object> searchWage(SearchWage searchWage) throws JsonException {
         logger.debug("searchWage::搜索条件->" + searchWage);
         return wageService.searchWage(searchWage);
+    }
+
+    @GetMapping("/down")
+    public void downStaffWageInfoByID(String id, HttpServletResponse response) throws IllegalAccessException, NoSuchIdException, IOException, InstantiationException {
+        logger.debug("downStaffWageInfoByID::要下载的工资ID->" + id);
+        String[] idArray = StringUtils.split(id, "-");
+        String nowTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        response.setHeader("Content-Disposition", "attachment;filename=" + new String(("职工工资信息" + nowTime + ".xlsx").getBytes(), "ISO-8859-1"));
+        ServletOutputStream outputStream = response.getOutputStream();
+        logger.debug("downStaffWageInfoByID::outputStream.isReady->" + outputStream.isReady());
+        wageService.downStaffInfoByID(outputStream, idArray);
+        outputStream.flush();
+        outputStream.close();
+        logger.debug("downStaffWageInfoByID::outputStream close");
     }
 }
