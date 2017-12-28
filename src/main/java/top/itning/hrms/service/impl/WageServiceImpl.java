@@ -1,5 +1,6 @@
 package top.itning.hrms.service.impl;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,8 +57,23 @@ public class WageServiceImpl implements WageService {
     public Map<String, Object> searchWage(SearchWage searchWage) throws JsonException {
         logger.debug("searchWage::开始搜索职工");
         logger.info("searchWage::搜索实体信息->" + searchWage);
+        //如果选了多个年并且选了年下的月
+        if (searchWage.getMonth() != null && searchWage.getYear().length != 1) {
+            logger.info("searchWage::开始添加选中年但未选中月");
+            a:
+            for (String year : searchWage.getYear()) {
+                for (String month : searchWage.getMonth()) {
+                    if (year.equals(month.substring(0, 4))) {
+                        continue a;
+                    }
+                }
+                String[] allMonth = new String[]{year + "-1", year + "-2", year + "-3", year + "-2", year + "-4", year + "-5", year + "-6", year + "-7", year + "-8", year + "-9", year + "-10", year + "-11", year + "-12"};
+                searchWage.setMonth(ArrayUtils.addAll(searchWage.getMonth(), allMonth));
+            }
+            logger.info("searchWage::完成添加添加选中年但未选中月");
+        }
         Map<String, Object> stringObjectHashMap = new HashMap<>(2);
-        List<Wage> wageList= wageDao.findAll((root, query, cb) -> {
+        List<Wage> wageList = wageDao.findAll((root, query, cb) -> {
             List<Predicate> list = new ArrayList<>();
             //查询条件:姓名(Name)
             if (StringUtils.isNoneBlank(searchWage.getName())) {
