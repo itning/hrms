@@ -8,13 +8,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import top.itning.hrms.entity.Wage;
 import top.itning.hrms.entity.search.SearchWage;
+import top.itning.hrms.exception.json.JsonException;
 import top.itning.hrms.service.DepartmentService;
 import top.itning.hrms.service.JobService;
 import top.itning.hrms.service.WageService;
 
-import java.util.List;
+import java.util.Map;
 
 /**
  * 职工工资控制器
@@ -41,6 +41,12 @@ public class StaffWageController {
         return "addWage";
     }
 
+    /**
+     * 搜索页面
+     *
+     * @param model 模型
+     * @return searchWage.html
+     */
     @GetMapping("/search")
     public String searchWage(Model model) {
         model.addAttribute("departmentList", departmentService.getAllDepartmentInfoList("getAllDepartmentInfo"));
@@ -49,9 +55,16 @@ public class StaffWageController {
         return "searchWage";
     }
 
+    /**
+     * 搜索职工工资信息
+     *
+     * @param searchWage 搜索工资实体
+     * @return Map集合
+     * @throws JsonException JsonException
+     */
     @GetMapping("/searchWage")
     @ResponseBody
-    public List<Wage> searchWage(SearchWage searchWage) {
+    public Map<String, Object> searchWage(SearchWage searchWage) throws JsonException {
         logger.debug("searchWage::搜索条件->" + searchWage);
         return wageService.searchWage(searchWage);
     }

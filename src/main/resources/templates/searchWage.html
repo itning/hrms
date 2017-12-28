@@ -377,9 +377,15 @@
                 show_tables(false);
                 $.get('/staffWage/searchWage?' + $searchForm.serialize(), function (data) {
                     $("#table_data").html("");
-                    if (data.length !== 0) {
-                        console.log(data);
-                        $.each(data, function (i, n) {
+                    if (data.code === 500) {
+                        mdui.snackbar({
+                            message: data.msg
+                        });
+                        progressStatus(false);
+                        return;
+                    }
+                    if (data.wageList.length !== 0) {
+                        $.each(data.wageList, function (i, n) {
                             $("#table_data").append("<tr><td>" + n.staff.name + "</td><td>" + n.staff.nid + "</td><td>" + n.year + "年" + n.month + "月</td>\n" +
                                 "<td mdui-tooltip=\"{content: '" + (n.staff.wage !== null ? n.staff.wage : 0) + "+" + (n.staff.performancePay !== null ? n.staff.performancePay : 0) + "+" + (n.staff.dutyAllowance !== null ? n.staff.dutyAllowance : 0) + "+" + (n.staff.grants !== null ? n.staff.grants : 0) + "', position: 'bottom'}\">" + n.total1 + "</td>\n" +
                                 "<td>" + n.replenishment + "</td><td>" + n.chargeBack + "</td><td>" + n.total2 + "</td><td>" + n.teachingBonus + "</td><td>" + n.studentAllowance + "</td><td>" + n.bonus + "</td>\n" +
@@ -389,6 +395,14 @@
                                 "<td>" + n.unitPensionInsurance + "</td><td>" + n.unitMedicalInsurance + "</td><td>" + n.unitInjuryInsurance + "</td>\n" +
                                 "<td>" + n.unitMaternityInsurance + "</td><td>" + n.unitUnemploymentInsurance + "</td><td>" + n.unitHousingFund + "</td></tr>")
                         });
+                        $("#table_data").append("<tr><td colspan='3' class='mdui-text-center'>统计求和:</td>\n" +
+                            "<td mdui-tooltip=\"{content: '" + data.sumWage.staff.wage + "+" + data.sumWage.staff.performancePay + "+" + data.sumWage.staff.dutyAllowance + "+" + data.sumWage.staff.grants + "', position: 'bottom'}\">" + data.sumWage.total1 + "</td>\n" +
+                            "<td>" + data.sumWage.replenishment + "</td><td>" + data.sumWage.chargeBack + "</td><td>" + data.sumWage.total2 + "</td><td>" + data.sumWage.teachingBonus + "</td><td>" + data.sumWage.studentAllowance + "</td><td>" + data.sumWage.bonus + "</td>\data.sumWage" +
+                            "<td>" + data.sumWage.schoolGrant + "</td><td>" + data.sumWage.teacherDayAllowance + "</td><td>" + data.sumWage.overtimeAssistance + "</td><td>" + data.sumWage.onDutySubsidies + "</td><td>" + data.sumWage.otherBenefits + "</td>\data.sumWage" +
+                            "<td>" + data.sumWage.totalBenefits + "</td><td>" + data.sumWage.total + "</td><td>" + data.sumWage.pensionInsurance + "</td><td>" + data.sumWage.medicalInsurance + "</td><td>" + data.sumWage.unemploymentInsurance + "</td>\data.sumWage" +
+                            "<td>" + data.sumWage.housingFund + "</td><td>" + data.sumWage.shouldMade + "</td><td>" + data.sumWage.withholding + "</td><td>" + data.sumWage.personalIncomeTax + "</td><td>" + data.sumWage.afterTaxRealHair + "</td>\data.sumWage" +
+                            "<td>" + data.sumWage.unitPensionInsurance + "</td><td>" + data.sumWage.unitMedicalInsurance + "</td><td>" + data.sumWage.unitInjuryInsurance + "</td>\data.sumWage" +
+                            "<td>" + data.sumWage.unitMaternityInsurance + "</td><td>" + data.sumWage.unitUnemploymentInsurance + "</td><td>" + data.sumWage.unitHousingFund + "</td></tr>");
                         show_tables(true);
                         mdui.updateTables();
                         after();

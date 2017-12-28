@@ -42,113 +42,113 @@ public class Wage implements Serializable {
      * wage+performancePay+dutyAllowance+grants
      * "岗位工资"	"绩效工资"	"职务津贴"	岗位超时补助
      */
-    private String total1;
+    private int total1;
     /**
      * 补款
      */
-    private String replenishment;
+    private int replenishment;
     /**
      * 扣款
      */
-    private String chargeBack;
+    private int chargeBack;
     /**
      * 小计2
      */
-    private String total2;
+    private int total2;
     /**
      * 教学奖金
      */
-    private String teachingBonus;
+    private int teachingBonus;
     /**
      * 带学生津贴
      */
-    private String studentAllowance;
+    private int studentAllowance;
     /**
      * 奖金
      */
-    private String bonus;
+    private int bonus;
     /**
      * 校拨津贴
      */
-    private String schoolGrant;
+    private int schoolGrant;
     /**
      * 教师节津贴
      */
-    private String teacherDayAllowance;
+    private int teacherDayAllowance;
     /**
      * 加班补助
      */
-    private String overtimeAssistance;
+    private int overtimeAssistance;
     /**
      * 值班补助
      */
-    private String onDutySubsidies;
+    private int onDutySubsidies;
     /**
      * 其他补助
      */
-    private String otherBenefits;
+    private int otherBenefits;
     /**
      * 补助小计
      */
-    private String totalBenefits;
+    private int totalBenefits;
     /**
      * 工资合计
      */
-    private String total;
+    private int total;
     /**
      * 代扣养老保险
      */
-    private String pensionInsurance;
+    private int pensionInsurance;
     /**
      * 代扣医疗保险
      */
-    private String medicalInsurance;
+    private int medicalInsurance;
     /**
      * 代扣失业保险
      */
-    private String unemploymentInsurance;
+    private int unemploymentInsurance;
     /**
      * 代扣住房公积金
      */
-    private String housingFund;
+    private int housingFund;
     /**
      * 应发额
      */
-    private String shouldMade;
+    private int shouldMade;
     /**
      * 代扣款
      */
-    private String withholding;
+    private int withholding;
     /**
      * 个人所得税
      */
-    private String personalIncomeTax;
+    private int personalIncomeTax;
     /**
      * 税后实发
      */
-    private String afterTaxRealHair;
+    private int afterTaxRealHair;
     /**
      * 单位承担养老保险
      */
-    private String unitPensionInsurance;
+    private int unitPensionInsurance;
     /**
      * 单位承担医疗保险
      */
-    private String unitMedicalInsurance;
+    private int unitMedicalInsurance;
     /**
      * 单位承担工伤保险
      */
-    private String unitInjuryInsurance;
+    private int unitInjuryInsurance;
     /**
      * 单位承担生育保险
      */
-    private String unitMaternityInsurance;
+    private int unitMaternityInsurance;
     /**
      * 单位承担失业保险
      */
-    private String unitUnemploymentInsurance;
+    private int unitUnemploymentInsurance;
     /**
      * 单位承担住房公积金
      */
-    private String unitHousingFund;
+    private int unitHousingFund;
 }

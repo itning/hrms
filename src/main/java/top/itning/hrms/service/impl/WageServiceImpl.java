@@ -10,15 +10,17 @@ import top.itning.hrms.dao.WageDao;
 import top.itning.hrms.dao.department.DepartmentDao;
 import top.itning.hrms.dao.department.GrassrootDao;
 import top.itning.hrms.dao.job.JobTitleDao;
+import top.itning.hrms.entity.ServerMessage;
+import top.itning.hrms.entity.Staff;
 import top.itning.hrms.entity.Wage;
 import top.itning.hrms.entity.search.SearchWage;
+import top.itning.hrms.exception.json.JsonException;
 import top.itning.hrms.service.WageService;
+import top.itning.hrms.util.ObjectUtils;
 
 import javax.persistence.criteria.Predicate;
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * 职工工资服务实现类
@@ -51,10 +53,11 @@ public class WageServiceImpl implements WageService {
     }
 
     @Override
-    public List<Wage> searchWage(SearchWage searchWage) {
+    public Map<String, Object> searchWage(SearchWage searchWage) throws JsonException {
         logger.debug("searchWage::开始搜索职工");
         logger.info("searchWage::搜索实体信息->" + searchWage);
-        return wageDao.findAll((root, query, cb) -> {
+        Map<String, Object> stringObjectHashMap = new HashMap<>(2);
+        List<Wage> wageList= wageDao.findAll((root, query, cb) -> {
             List<Predicate> list = new ArrayList<>();
             //查询条件:姓名(Name)
             if (StringUtils.isNoneBlank(searchWage.getName())) {
@@ -118,5 +121,31 @@ public class WageServiceImpl implements WageService {
             Predicate[] p = new Predicate[list.size()];
             return cb.and(list.toArray(p));
         });
+        stringObjectHashMap.put("wageList", wageList);
+        try {
+            Wage allFieldsSum = ObjectUtils.getAllFieldsSum(wageList, Wage.class);
+            Staff staff = new Staff();
+            staff.setWage(wageList.stream().mapToInt(w -> w.getStaff().getWage()).sum());
+            staff.setPerformancePay(wageList.stream().mapToInt(w -> w.getStaff().getPerformancePay()).sum());
+            staff.setDutyAllowance(wageList.stream().mapToInt(w -> {
+                if (w.getStaff().getDutyAllowance() == null) {
+                    return 0;
+                } else {
+                    return w.getStaff().getDutyAllowance();
+                }
+            }).sum());
+            staff.setGrants(wageList.stream().mapToInt(w -> {
+                if (w.getStaff().getGrants() == null) {
+                    return 0;
+                } else {
+                    return w.getStaff().getGrants();
+                }
+            }).sum());
+            allFieldsSum.setStaff(staff);
+            stringObjectHashMap.put("sumWage", allFieldsSum);
+        } catch (IllegalAccessException | InstantiationException e) {
+            throw new JsonException("求和出现异常,请联系管理员->" + e.getMessage(), ServerMessage.SERVICE_ERROR);
+        }
+        return stringObjectHashMap;
     }
 }
