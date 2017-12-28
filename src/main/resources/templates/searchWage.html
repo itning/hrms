@@ -80,11 +80,8 @@
                 <i class="mdui-collapse-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
             </div>
             <div class="mdui-collapse-item-body mdui-list mdui-list-dense">
-                <!--/*@thymesVar id="studentLeaveNum" type="java.lang.Long"*/-->
-                <!-- <a th:if="${studentLeaveNum!=0}" th:href="@{/studentLeave/show}" class="mdui-list-item mdui-ripple">历史请假信息</a>
-                 <a th:if="${studentLeaveNum!=0}" th:href="@{/studentLeave/search}" class="mdui-list-item mdui-ripple">查询请假信息</a>-->
-                <a th:href="@{/studentLeave/add}" class="mdui-list-item mdui-ripple mdui-list-item-active">查询工资信息</a>
-                <a th:href="@{/studentLeave/add}" class="mdui-list-item mdui-ripple">添加工资信息</a>
+                <a th:href="@{/staffWage/search}" class="mdui-list-item mdui-ripple mdui-list-item-active">查询工资信息</a>
+                <a th:href="@{/staffWage/add}" class="mdui-list-item mdui-ripple">添加工资信息</a>
             </div>
         </li>
         <li class="mdui-list-item mdui-ripple" id="postTitle">
