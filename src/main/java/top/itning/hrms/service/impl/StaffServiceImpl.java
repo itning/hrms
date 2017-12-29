@@ -366,6 +366,50 @@ public class StaffServiceImpl implements StaffService {
             Cell nameCell = dataRow.createCell(1);
             nameCell.setCellValue(staff.getName());
             //TODO 写入数据
+            Cell sexCell = dataRow.createCell(2);
+            sexCell.setCellValue(staff.isSex() ? "男" : "女");
+
+            Cell ethnicCell = dataRow.createCell(3);
+            ethnicCell.setCellValue(staff.getEthnic().getName());
+
+            Cell politicalStatusCell = dataRow.createCell(4);
+            politicalStatusCell.setCellValue(staff.getPs().getName());
+
+            Cell birthdayCell = dataRow.createCell(5);
+            birthdayCell.setCellValue(new SimpleDateFormat("yyyy-MM-dd").format(staff.getBirthday()));
+
+            Cell nidCell = dataRow.createCell(6);
+            nidCell.setCellValue(staff.getNid());
+
+            Cell ageCell = dataRow.createCell(7);
+            ageCell.setCellValue(staff.getAge());
+
+            Cell addressCell = dataRow.createCell(8);
+            addressCell.setCellValue(staff.getAddress());
+
+            Cell naddressCell = dataRow.createCell(9);
+            naddressCell.setCellValue(staff.getNaddress());
+
+            Cell telCell = dataRow.createCell(10);
+            telCell.setCellValue(staff.getTel());
+
+            Cell departmentCell = dataRow.createCell(11);
+            departmentCell.setCellValue(staff.getDepartment().getName());
+
+            Cell grassrootCell = dataRow.createCell(12);
+            grassrootCell.setCellValue(staff.getGrassroot().getName());
+
+            Cell positionTitleCell = dataRow.createCell(13);
+            positionTitleCell.setCellValue(staff.getPositionTitle().getName());
+
+            Cell positionCategoryCell = dataRow.createCell(14);
+            positionCategoryCell.setCellValue(staff.getPositionCategory().getName());
+
+            Cell marksCell = dataRow.createCell(15);
+            marksCell.setCellValue(staff.getMarks());
+
+            Cell comeDateCell = dataRow.createCell(16);
+            comeDateCell.setCellValue(new SimpleDateFormat("yyyy-MM-dd").format(staff.getComeDate()));
 
         }
         workbook.write(servletOutputStream);
