@@ -10,6 +10,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import top.itning.hrms.dao.StaffDao;
 import top.itning.hrms.dao.WageDao;
@@ -147,7 +148,7 @@ public class WageServiceImpl implements WageService {
             }
             Predicate[] p = new Predicate[list.size()];
             return cb.and(list.toArray(p));
-        });
+        },new Sort(Sort.Direction.DESC,"month"));
         stringObjectHashMap.put("wageList", wageList);
         try {
             Wage allFieldsSum = ObjectUtils.getAllFieldsSum(wageList, Wage.class);
