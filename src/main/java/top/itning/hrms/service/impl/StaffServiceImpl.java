@@ -284,6 +284,7 @@ public class StaffServiceImpl implements StaffService {
         logger.debug("downStaffInfoByID::准备标题数据");
         List<String> titleList = new ArrayList<>();
         titleList.add("序号");
+        titleList.add("姓名");
         titleList.add("性别");
         titleList.add("民族");
         titleList.add("政治面貌");
