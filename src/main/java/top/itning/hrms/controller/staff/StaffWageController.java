@@ -97,7 +97,7 @@ public class StaffWageController {
         response.setHeader("Content-Disposition", "attachment;filename=" + new String(("职工工资信息" + nowTime + ".xlsx").getBytes(), "ISO-8859-1"));
         ServletOutputStream outputStream = response.getOutputStream();
         logger.debug("downStaffWageInfoByID::outputStream.isReady->" + outputStream.isReady());
-        wageService.downStaffInfoByID(outputStream, idArray);
+        wageService.downWageInfoByID(outputStream, idArray);
         outputStream.flush();
         outputStream.close();
         logger.debug("downStaffWageInfoByID::outputStream close");

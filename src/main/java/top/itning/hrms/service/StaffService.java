@@ -10,6 +10,7 @@ import top.itning.hrms.exception.defaults.NullParameterException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import javax.servlet.ServletOutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -67,6 +68,15 @@ public interface StaffService {
      * @return 搜索到的职工信息集合
      */
     List<Staff> searchStaff(SearchStaff searchStaff);
+
+    /**
+     * 根据ID下载职工信息
+     *
+     * @param servletOutputStream servletOutputStream
+     * @param id                  职工ID
+     * @throws NoSuchIdException 如果ID没有找到则抛出该异常
+     */
+    void downStaffInfoByID(ServletOutputStream servletOutputStream, String... id) throws NoSuchIdException;
 
     /**
      * 日期区间查询

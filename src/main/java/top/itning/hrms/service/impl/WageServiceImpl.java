@@ -178,11 +178,11 @@ public class WageServiceImpl implements WageService {
     }
 
     @Override
-    public void downStaffInfoByID(ServletOutputStream servletOutputStream, String... id) throws NoSuchIdException, IllegalAccessException, IOException, InstantiationException {
+    public void downWageInfoByID(ServletOutputStream servletOutputStream, String... id) throws NoSuchIdException, IllegalAccessException, IOException, InstantiationException {
         ArrayList<Wage> wageLists = new ArrayList<>();
         for (String s : id) {
             if (!wageDao.exists(s)) {
-                logger.warn("downStaffInfoByID::工资ID:" + s + "没有找到");
+                logger.warn("downWageInfoByID::工资ID:" + s + "没有找到");
                 throw new NoSuchIdException("工资ID:" + s + "没有找到");
             } else {
                 wageLists.add(wageDao.findOne(s));
@@ -194,7 +194,7 @@ public class WageServiceImpl implements WageService {
         Sheet sheet = workbook.createSheet();
         Row row = sheet.createRow(0);
         row.setHeightInPoints(40.5f);
-        logger.debug("downStaffInfoByID::准备标题数据");
+        logger.debug("downWageInfoByID::准备标题数据");
         List<String> titleList = new ArrayList<>();
         titleList.add("年月");
         titleList.add("姓名");
@@ -245,21 +245,21 @@ public class WageServiceImpl implements WageService {
         titleList.add("账号");
         titleList.add("性别");
         titleList.add("邮箱");
-        logger.debug("downStaffInfoByID::标题数据集合大小->" + titleList.size());
+        logger.debug("downWageInfoByID::标题数据集合大小->" + titleList.size());
         final int[] nowCell = {0};
-        logger.debug("downStaffInfoByID::开始写入标题数据");
+        logger.debug("downWageInfoByID::开始写入标题数据");
         titleList.forEach(s -> {
             Cell cell = row.createCell(nowCell[0]++);
-            logger.debug("downStaffInfoByID::已创建Cell->" + (nowCell[0] - 1));
+            logger.debug("downWageInfoByID::已创建Cell->" + (nowCell[0] - 1));
             cell.setCellValue(s);
-            logger.debug("downStaffInfoByID::写入标题数据->" + s);
+            logger.debug("downWageInfoByID::写入标题数据->" + s);
         });
         nowCell[0] = 1;
         for (String s : id) {
             Wage wage = wageDao.getOne(s);
             Row dataRow = sheet.createRow(nowCell[0]++);
-            logger.debug("downStaffInfoByID::已创建Cell->" + (nowCell[0] - 1));
-            logger.debug("downStaffInfoByID::开始写入");
+            logger.debug("downWageInfoByID::已创建Cell->" + (nowCell[0] - 1));
+            logger.debug("downWageInfoByID::开始写入");
             Cell monthCell = dataRow.createCell(0);
             monthCell.setCellValue(wage.getMonth());
 
@@ -414,7 +414,7 @@ public class WageServiceImpl implements WageService {
             Cell emailCell = dataRow.createCell(48);
             sheet.setColumnWidth(48, wage.getStaff().getEmail().length() * 280);
             emailCell.setCellValue(wage.getStaff().getEmail());
-            logger.debug("downStaffInfoByID::结束写入");
+            logger.debug("downWageInfoByID::结束写入");
         }
 
         Staff staff = new Staff();
@@ -544,9 +544,9 @@ public class WageServiceImpl implements WageService {
         unitHousingFundCell.setCellValue(totalWage.getUnitHousingFund());
 
         workbook.write(servletOutputStream);
-        logger.debug("downStaffInfoByID::workbook写入到输出流完成");
+        logger.debug("downWageInfoByID::workbook写入到输出流完成");
         workbook.close();
-        logger.debug("downStaffInfoByID::workbook已关闭");
+        logger.debug("downWageInfoByID::workbook已关闭");
     }
 
     @Override

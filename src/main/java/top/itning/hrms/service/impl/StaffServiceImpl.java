@@ -3,6 +3,10 @@ package top.itning.hrms.service.impl;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +31,7 @@ import top.itning.hrms.exception.defaults.NullParameterException;
 import top.itning.hrms.service.StaffService;
 
 import javax.persistence.criteria.Predicate;
+import javax.servlet.ServletOutputStream;
 import javax.transaction.Transactional;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -260,5 +265,82 @@ public class StaffServiceImpl implements StaffService {
             Predicate[] p = new Predicate[list.size()];
             return cb.and(list.toArray(p));
         });
+    }
+
+    @Override
+    public void downStaffInfoByID(ServletOutputStream servletOutputStream, String... id) throws NoSuchIdException {
+        for (String s : id) {
+            if (!wageDao.exists(s)) {
+                logger.warn("downStaffInfoByID::职工ID:" + s + "没有找到");
+                throw new NoSuchIdException("职工ID:" + s + "没有找到");
+            }
+        }
+        Workbook workbook = new XSSFWorkbook();
+        //创建工作簿
+        Sheet sheet = workbook.createSheet();
+        Row row = sheet.createRow(1);
+        logger.debug("downStaffInfoByID::准备标题数据");
+        List<String> titleList = new ArrayList<>();
+        titleList.add("序号");
+        titleList.add("性别");
+        titleList.add("民族");
+        titleList.add("政治面貌");
+        titleList.add("出生日期");
+        titleList.add("身份证号码");
+        titleList.add("年龄");
+        titleList.add("户籍地址");
+        titleList.add("现住址");
+        titleList.add("电话号码");
+        titleList.add("部门");
+        titleList.add("专业/基层单位");
+        titleList.add("岗位名称");
+        titleList.add("岗位类别");
+        titleList.add("备注");
+        titleList.add("来校日期");
+        titleList.add("校龄 ");
+        titleList.add("工龄起始日期");
+        titleList.add("工龄");
+        titleList.add("社会职称");
+        titleList.add("职称级别");
+        titleList.add("职称授予专业");
+        titleList.add("获证时间");
+        titleList.add("职业资格证（1）");
+        titleList.add("发证单位");
+        titleList.add("获证时间");
+        titleList.add("职业资格证（2）");
+        titleList.add("认定专业");
+        titleList.add("岗前培训证");
+        titleList.add("岗前培训获得时间");
+        titleList.add("岗位工资");
+        titleList.add("绩效工资");
+        titleList.add("职务津贴");
+        titleList.add("岗位超时补助");
+        titleList.add("硕士津贴");
+        titleList.add("电话补助");
+        titleList.add("应发额");
+        titleList.add("用工形式");
+        titleList.add("用工起始时间");
+        titleList.add("第一次签约劳动合同期限");
+        titleList.add("第一次签约到期日");
+        titleList.add("第二次签约劳动合同期限");
+        titleList.add("第二次签约到期日");
+        titleList.add("第三次签约劳动合同期限");
+        titleList.add("第三次签约到期日");
+        titleList.add("第一学历[1]");
+        titleList.add("获得学位");
+        titleList.add("性质[1]");
+        titleList.add("毕业时间[1]");
+        titleList.add("毕业学校[1]");
+        titleList.add("专业名称[1]");
+        titleList.add("最高学历");
+        titleList.add("最高学位");
+        titleList.add("性质[2]");
+        titleList.add("毕业时间[2]");
+        titleList.add("毕业学校[2]");
+        titleList.add("最高学历学缘结构");
+        titleList.add("专业名称[2]");
+        titleList.add("外语语种");
+        titleList.add("外语等级");
+        titleList.add("其他证书");
     }
 }

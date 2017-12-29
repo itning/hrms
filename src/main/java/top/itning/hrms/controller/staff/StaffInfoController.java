@@ -17,7 +17,10 @@ import top.itning.hrms.exception.defaults.NullParameterException;
 import top.itning.hrms.exception.json.JsonException;
 import top.itning.hrms.service.*;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -206,5 +209,20 @@ public class StaffInfoController {
     public List<Staff> searchStaff(SearchStaff searchStaff) {
         logger.debug("searchStaff::搜索条件->" + searchStaff);
         return staffService.searchStaff(searchStaff);
+    }
+
+    @GetMapping("/down")
+    public void downStaffInfoByID(String id, HttpServletResponse response) throws IOException {
+        logger.info("downStaffInfoByID::要下载的职工ID->" + id);
+        String[] idArray = StringUtils.split(id, "-");
+        String nowTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        response.setHeader("Content-Disposition", "attachment;filename=" + new String(("职工信息" + nowTime + ".xlsx").getBytes(), "ISO-8859-1"));
+        ServletOutputStream outputStream = response.getOutputStream();
+        logger.debug("downStaffInfoByID::outputStream.isReady->" + outputStream.isReady());
+
+        outputStream.flush();
+        outputStream.close();
+        logger.debug("downStaffInfoByID::outputStream close");
     }
 }

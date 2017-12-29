@@ -40,7 +40,7 @@ public interface WageService {
      * @throws IOException            IOException
      * @throws InstantiationException InstantiationException
      */
-    void downStaffInfoByID(ServletOutputStream servletOutputStream, String... id) throws NoSuchIdException, IllegalAccessException, IOException, InstantiationException;
+    void downWageInfoByID(ServletOutputStream servletOutputStream, String... id) throws NoSuchIdException, IllegalAccessException, IOException, InstantiationException;
 
     /**
      * 根据工资ID删除职工工资信息
