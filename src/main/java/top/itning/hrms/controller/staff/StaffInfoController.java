@@ -212,7 +212,7 @@ public class StaffInfoController {
     }
 
     @GetMapping("/down")
-    public void downStaffInfoByID(String id, HttpServletResponse response) throws IOException {
+    public void downStaffInfoByID(String id, HttpServletResponse response) throws IOException, NoSuchIdException {
         logger.info("downStaffInfoByID::要下载的职工ID->" + id);
         String[] idArray = StringUtils.split(id, "-");
         String nowTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
@@ -220,7 +220,7 @@ public class StaffInfoController {
         response.setHeader("Content-Disposition", "attachment;filename=" + new String(("职工信息" + nowTime + ".xlsx").getBytes(), "ISO-8859-1"));
         ServletOutputStream outputStream = response.getOutputStream();
         logger.debug("downStaffInfoByID::outputStream.isReady->" + outputStream.isReady());
-
+        staffService.downStaffInfoByID(outputStream, idArray);
         outputStream.flush();
         outputStream.close();
         logger.debug("downStaffInfoByID::outputStream close");

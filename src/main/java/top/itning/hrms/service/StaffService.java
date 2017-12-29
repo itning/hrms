@@ -11,6 +11,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.servlet.ServletOutputStream;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -76,7 +77,7 @@ public interface StaffService {
      * @param id                  职工ID
      * @throws NoSuchIdException 如果ID没有找到则抛出该异常
      */
-    void downStaffInfoByID(ServletOutputStream servletOutputStream, String... id) throws NoSuchIdException;
+    void downStaffInfoByID(ServletOutputStream servletOutputStream, String... id) throws NoSuchIdException, IOException;
 
     /**
      * 日期区间查询

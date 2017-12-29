@@ -3,6 +3,7 @@ package top.itning.hrms.service.impl;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -33,6 +34,7 @@ import top.itning.hrms.service.StaffService;
 import javax.persistence.criteria.Predicate;
 import javax.servlet.ServletOutputStream;
 import javax.transaction.Transactional;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -268,7 +270,7 @@ public class StaffServiceImpl implements StaffService {
     }
 
     @Override
-    public void downStaffInfoByID(ServletOutputStream servletOutputStream, String... id) throws NoSuchIdException {
+    public void downStaffInfoByID(ServletOutputStream servletOutputStream, String... id) throws NoSuchIdException, IOException {
         for (String s : id) {
             if (!wageDao.exists(s)) {
                 logger.warn("downStaffInfoByID::职工ID:" + s + "没有找到");
@@ -342,5 +344,32 @@ public class StaffServiceImpl implements StaffService {
         titleList.add("外语语种");
         titleList.add("外语等级");
         titleList.add("其他证书");
+        logger.debug("downStaffInfoByID::标题数据集合大小->" + titleList.size());
+        final int[] nowCell = {0};
+        logger.debug("downStaffInfoByID::开始写入标题数据");
+        titleList.forEach(s -> {
+            Cell cell = row.createCell(nowCell[0]++);
+            logger.debug("downStaffInfoByID::已创建Cell->" + (nowCell[0] - 1));
+            cell.setCellValue(s);
+            logger.debug("downStaffInfoByID::写入标题数据->" + s);
+        });
+        nowCell[0] = 2;
+        for (String s : id) {
+            Staff staff = staffDao.getOne(s);
+            Row dataRow = sheet.createRow(nowCell[0]++);
+            logger.debug("downStaffInfoByID::已创建Cell->" + (nowCell[0] - 1));
+            logger.debug("downStaffInfoByID::开始写入");
+            Cell numCell = dataRow.createCell(0);
+            numCell.setCellValue(nowCell[0] - 2);
+
+            Cell nameCell = dataRow.createCell(1);
+            nameCell.setCellValue(staff.getName());
+            //TODO 写入数据
+
+        }
+        workbook.write(servletOutputStream);
+        logger.debug("downStaffInfoByID::workbook写入到输出流完成");
+        workbook.close();
+        logger.debug("downStaffInfoByID::workbook已关闭");
     }
 }
