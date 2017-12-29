@@ -272,7 +272,7 @@ public class StaffServiceImpl implements StaffService {
     @Override
     public void downStaffInfoByID(ServletOutputStream servletOutputStream, String... id) throws NoSuchIdException, IOException {
         for (String s : id) {
-            if (!wageDao.exists(s)) {
+            if (!staffDao.exists(s)) {
                 logger.warn("downStaffInfoByID::职工ID:" + s + "没有找到");
                 throw new NoSuchIdException("职工ID:" + s + "没有找到");
             }
