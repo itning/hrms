@@ -11,6 +11,7 @@ import top.itning.hrms.exception.defaults.DefaultException;
 import top.itning.hrms.exception.json.JsonException;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
 
 /**
  * 异常处理
@@ -52,6 +53,7 @@ public class ExceptionResolver {
     @ExceptionHandler(value = Exception.class)
     public ModelAndView otherErrorHandler(HttpServletRequest req, Exception e) {
         logger.error("otherErrorHandler->" + e.getClass().getSimpleName() + ":" + e.getMessage());
+        logger.error("otherErrorHandler->" + Arrays.toString(e.getStackTrace()));
         ModelAndView mav = new ModelAndView();
         mav.addObject("exceptionMessage", e.getMessage());
         mav.addObject("url", req.getRequestURL().toString());

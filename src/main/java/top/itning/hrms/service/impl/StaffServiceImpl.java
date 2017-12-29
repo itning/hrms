@@ -27,9 +27,11 @@ import top.itning.hrms.entity.Staff;
 import top.itning.hrms.entity.department.Department;
 import top.itning.hrms.entity.department.Grassroot;
 import top.itning.hrms.entity.search.SearchStaff;
+import top.itning.hrms.exception.defaults.IllegalParametersException;
 import top.itning.hrms.exception.defaults.NoSuchIdException;
 import top.itning.hrms.exception.defaults.NullParameterException;
 import top.itning.hrms.service.StaffService;
+import top.itning.hrms.util.StaffUtils;
 
 import javax.persistence.criteria.Predicate;
 import javax.servlet.ServletOutputStream;
@@ -37,10 +39,7 @@ import javax.transaction.Transactional;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.List;
+import java.util.*;
 import java.util.zip.DataFormatException;
 
 /**
@@ -365,7 +364,7 @@ public class StaffServiceImpl implements StaffService {
 
             Cell nameCell = dataRow.createCell(1);
             nameCell.setCellValue(staff.getName());
-            //TODO 写入数据
+
             Cell sexCell = dataRow.createCell(2);
             sexCell.setCellValue(staff.isSex() ? "男" : "女");
 
@@ -376,7 +375,7 @@ public class StaffServiceImpl implements StaffService {
             politicalStatusCell.setCellValue(staff.getPs().getName());
 
             Cell birthdayCell = dataRow.createCell(5);
-            birthdayCell.setCellValue(new SimpleDateFormat("yyyy-MM-dd").format(staff.getBirthday()));
+            birthdayCell.setCellValue(dateFormat(staff.getBirthday()));
 
             Cell nidCell = dataRow.createCell(6);
             nidCell.setCellValue(staff.getNid());
@@ -409,12 +408,167 @@ public class StaffServiceImpl implements StaffService {
             marksCell.setCellValue(staff.getMarks());
 
             Cell comeDateCell = dataRow.createCell(16);
-            comeDateCell.setCellValue(new SimpleDateFormat("yyyy-MM-dd").format(staff.getComeDate()));
+            comeDateCell.setCellValue(dateFormat(staff.getComeDate()));
 
+            Cell comeDateYearCell = dataRow.createCell(17);
+            try {
+                comeDateYearCell.setCellValue(StaffUtils.getFormatTime(staff.getComeDate()));
+            } catch (IllegalParametersException e) {
+                e.printStackTrace();
+            }
+
+            Cell startDateCell = dataRow.createCell(18);
+            startDateCell.setCellValue(dateFormat(staff.getStartDate()));
+
+            Cell startDateYearCell = dataRow.createCell(19);
+            try {
+                startDateYearCell.setCellValue(StaffUtils.getFormatTime(staff.getStartDate()));
+            } catch (IllegalParametersException e) {
+                e.printStackTrace();
+            }
+
+            Cell jobTitleCell = dataRow.createCell(20);
+            jobTitleCell.setCellValue(staff.getJobTitle().getName());
+
+            Cell jobLevelCell = dataRow.createCell(21);
+            jobLevelCell.setCellValue(staff.getJobLevel().getName());
+
+            Cell rtaCell = dataRow.createCell(22);
+            rtaCell.setCellValue(staff.getRta());
+
+            Cell certifiedTimeCell = dataRow.createCell(23);
+            certifiedTimeCell.setCellValue(dateFormat(staff.getCertifiedTime()));
+
+            Cell oqc1Cell = dataRow.createCell(24);
+            oqc1Cell.setCellValue(staff.getOqc1());
+
+            Cell issuingUnitCell = dataRow.createCell(25);
+            issuingUnitCell.setCellValue(staff.getIssuingUnit());
+
+            Cell oqc1TimeCell = dataRow.createCell(26);
+            oqc1TimeCell.setCellValue(dateFormat(staff.getOqc1Time()));
+
+            Cell oqc2Cell = dataRow.createCell(27);
+            oqc2Cell.setCellValue(staff.getOqc2());
+
+            Cell cpCell = dataRow.createCell(28);
+            cpCell.setCellValue(staff.getCp());
+
+            Cell ptcCell = dataRow.createCell(29);
+            ptcCell.setCellValue(staff.getPtc());
+
+            Cell ptcTimeCell = dataRow.createCell(30);
+            ptcTimeCell.setCellValue(dateFormat(staff.getPtcTime()));
+
+            Cell wageCell = dataRow.createCell(31);
+            wageCell.setCellValue(staff.getWage());
+
+            Cell performancePayCell = dataRow.createCell(32);
+            performancePayCell.setCellValue(staff.getPerformancePay());
+
+            Cell dutyAllowanceCell = dataRow.createCell(33);
+            dutyAllowanceCell.setCellValue(staff.getDutyAllowance() == null ? 0 : staff.getDutyAllowance());
+
+            Cell grantsCell = dataRow.createCell(34);
+            grantsCell.setCellValue(staff.getGrants() == null ? 0 : staff.getGrants());
+
+            Cell mAllowanceCell = dataRow.createCell(35);
+            mAllowanceCell.setCellValue(staff.getMAllowance() == null ? 0 : staff.getMAllowance());
+
+            Cell pSubsidiesCell = dataRow.createCell(36);
+            pSubsidiesCell.setCellValue(staff.getPSubsidies() == null ? 0 : staff.getPSubsidies());
+
+            Cell yingfaCell = dataRow.createCell(37);
+            yingfaCell.setCellValue(staff.getWage() + staff.getPerformancePay() + (staff.getDutyAllowance() == null ? 0 : staff.getDutyAllowance()) + (staff.getGrants() == null ? 0 : staff.getGrants()) + (staff.getMAllowance() == null ? 0 : staff.getMAllowance()) + (staff.getPSubsidies() == null ? 0 : staff.getPSubsidies()));
+
+            Cell employmentFormCell = dataRow.createCell(38);
+            employmentFormCell.setCellValue(staff.getEmploymentForm().getName());
+
+            Cell eStartDateCell = dataRow.createCell(39);
+            eStartDateCell.setCellValue(dateFormat(staff.getEStartDate()));
+
+            Cell laborContract1Cell = dataRow.createCell(40);
+            laborContract1Cell.setCellValue(dateFormat(staff.getLaborContract1()));
+
+            Cell laborContract1EndCell = dataRow.createCell(41);
+            laborContract1EndCell.setCellValue(dateFormat(staff.getLaborContract1End()));
+
+            Cell laborContract2Cell = dataRow.createCell(42);
+            laborContract2Cell.setCellValue(dateFormat(staff.getLaborContract2()));
+
+            Cell laborContract2EndCell = dataRow.createCell(43);
+            laborContract2EndCell.setCellValue(dateFormat(staff.getLaborContract2End()));
+
+            Cell laborContract3Cell = dataRow.createCell(44);
+            laborContract3Cell.setCellValue(dateFormat(staff.getLaborContract3()));
+
+            Cell laborContract3EndCell = dataRow.createCell(45);
+            laborContract3EndCell.setCellValue(dateFormat(staff.getLaborContract3End()));
+
+            Cell ducation1Cell = dataRow.createCell(46);
+            ducation1Cell.setCellValue(staff.getDucation1());
+
+            Cell bsCell = dataRow.createCell(47);
+            bsCell.setCellValue(staff.getBs());
+
+            Cell nature1Cell = dataRow.createCell(48);
+            nature1Cell.setCellValue(staff.getNature1());
+
+            Cell graduationTime1Cell = dataRow.createCell(49);
+            graduationTime1Cell.setCellValue(dateFormat(staff.getGraduationTime1()));
+
+            Cell graduatedSchool1Cell = dataRow.createCell(50);
+            graduatedSchool1Cell.setCellValue(staff.getGraduatedSchool1());
+
+            Cell professionalTitle1Cell = dataRow.createCell(51);
+            professionalTitle1Cell.setCellValue(staff.getProfessionalTitle1());
+
+            Cell highestEducationCell = dataRow.createCell(52);
+            highestEducationCell.setCellValue(staff.getHighestEducation());
+
+            Cell hghestDegreeCell = dataRow.createCell(53);
+            hghestDegreeCell.setCellValue(staff.getHghestDegree());
+
+            Cell nature2Cell = dataRow.createCell(54);
+            nature2Cell.setCellValue(staff.getNature2());
+
+            Cell graduationTime2Cell = dataRow.createCell(55);
+            graduationTime2Cell.setCellValue(dateFormat(staff.getGraduationTime2()));
+
+            Cell graduatedSchool2Cell = dataRow.createCell(56);
+            graduatedSchool2Cell.setCellValue(staff.getGraduatedSchool2());
+
+            Cell thCell = dataRow.createCell(57);
+            thCell.setCellValue(staff.getTh());
+
+            Cell professionalTitle2Cell = dataRow.createCell(58);
+            professionalTitle2Cell.setCellValue(staff.getProfessionalTitle2());
+
+            Cell foreignLanguageCell = dataRow.createCell(59);
+            foreignLanguageCell.setCellValue(staff.getForeignLanguage());
+
+            Cell flLevelCell = dataRow.createCell(60);
+            flLevelCell.setCellValue(staff.getFlLevel());
+
+            Cell otherCertificatesCell = dataRow.createCell(61);
+            otherCertificatesCell.setCellValue(staff.getOtherCertificates());
         }
         workbook.write(servletOutputStream);
         logger.debug("downStaffInfoByID::workbook写入到输出流完成");
         workbook.close();
         logger.debug("downStaffInfoByID::workbook已关闭");
+    }
+
+    /**
+     * 日期格式化
+     *
+     * @param date 日期
+     * @return 如果data为null则返回"" 反之格式化 yyyy-MM-dd
+     */
+    private String dateFormat(Date date) {
+        if (date == null) {
+            return "";
+        }
+        return new SimpleDateFormat("yyyy-MM-dd").format(date);
     }
 }
