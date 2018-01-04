@@ -1,0 +1,31 @@
+#!application-prod.yml 生产环境配置文件
+server:
+  port: 8080 #端口
+debug: false #调试模式
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false #显示sql
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver #驱动类
+    url: jdbc:mysql://localhost:3306/hrms?createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=utf-8&useSSL=false&autoReconnect=true&failOverReadOnly=false&connectTimeout=0&serverTimezone=UTC
+    username: root #数据库用户名
+    password: kingston #数据库密码
+  thymeleaf:
+    cache: true #thymeleaf模板缓存是否开启
+    mode: HTML
+  mvc:
+    favicon:
+      enabled: false
+  output:
+    ansi:
+      enabled: detect #控制台多彩输出
+logging:
+  level: warn
+  level.top: warn
+  file: C:/Users/Ning/Desktop/upload/log.log #日志文件路径
+security:
+  user:
+    name: 1
+    password: 1

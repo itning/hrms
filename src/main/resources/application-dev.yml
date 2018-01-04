@@ -1,4 +1,4 @@
-#!application-dev.yml 开发配置文件
+#!application-dev.yml 开发环境配置文件
 server:
   port: 8080 #端口
 debug: false #调试模式
@@ -21,11 +21,6 @@ spring:
   output:
     ansi:
       enabled: detect #控制台多彩输出
-  http:
-    multipart:
-      location: C:/Users/Ning/Desktop/upload/ #文件上传路径
-  resources:
-    static-locations: /META-INF/resources/,classpath:/resources/, classpath:/static/, classpath:/public/, file:${spring.http.multipart.location}
 logging:
   level: debug
   level.top: debug
