@@ -82,7 +82,16 @@ public interface StaffService {
     void downStaffInfoByID(ServletOutputStream servletOutputStream, String... id) throws NoSuchIdException, IOException;
 
 
-    void addStaffInfoByFile(MultipartFile file) throws NullParameterException, IllegalParametersException, IOException;
+    /**
+     * 通过Excel文件添加职工信息
+     *
+     * @param file 文件
+     * @throws NullParameterException     参数为空则抛出该异常
+     * @throws IllegalParametersException 外键关联没有找到则抛出该异常
+     * @throws IOException                IOException
+     * @throws DataFormatException        日期格式化问题
+     */
+    void addStaffInfoByFile(MultipartFile file) throws NullParameterException, IllegalParametersException, IOException, DataFormatException;
 
     /**
      * 日期区间查询

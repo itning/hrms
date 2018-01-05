@@ -3,6 +3,7 @@ package top.itning.hrms.service.impl;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -21,6 +22,9 @@ import top.itning.hrms.dao.StaffDao;
 import top.itning.hrms.dao.WageDao;
 import top.itning.hrms.dao.department.DepartmentDao;
 import top.itning.hrms.dao.department.GrassrootDao;
+import top.itning.hrms.dao.employee.EmploymentFormDao;
+import top.itning.hrms.dao.fixed.EthnicDao;
+import top.itning.hrms.dao.fixed.PoliticalStatusDao;
 import top.itning.hrms.dao.job.JobLevelDao;
 import top.itning.hrms.dao.job.JobTitleDao;
 import top.itning.hrms.dao.post.PositionCategoryDao;
@@ -28,6 +32,13 @@ import top.itning.hrms.dao.post.PositionTitleDao;
 import top.itning.hrms.entity.Staff;
 import top.itning.hrms.entity.department.Department;
 import top.itning.hrms.entity.department.Grassroot;
+import top.itning.hrms.entity.employment.EmploymentForm;
+import top.itning.hrms.entity.fixed.Ethnic;
+import top.itning.hrms.entity.fixed.PoliticalStatus;
+import top.itning.hrms.entity.job.JobLevel;
+import top.itning.hrms.entity.job.JobTitle;
+import top.itning.hrms.entity.post.PositionCategory;
+import top.itning.hrms.entity.post.PositionTitle;
 import top.itning.hrms.entity.search.SearchStaff;
 import top.itning.hrms.exception.defaults.IllegalParametersException;
 import top.itning.hrms.exception.defaults.NoSuchIdException;
@@ -89,6 +100,15 @@ public class StaffServiceImpl implements StaffService {
 
     @Autowired
     private JobLevelDao jobLevelDao;
+
+    @Autowired
+    private EthnicDao ethnicDao;
+
+    @Autowired
+    private PoliticalStatusDao politicalStatusDao;
+
+    @Autowired
+    private EmploymentFormDao employmentFormDao;
 
     @Override
     @Cacheable(cacheNames = "StaffInfoList", key = "#id")
@@ -570,7 +590,8 @@ public class StaffServiceImpl implements StaffService {
     }
 
     @Override
-    public void addStaffInfoByFile(MultipartFile file) throws NullParameterException, IllegalParametersException, IOException {
+    @CacheEvict(cacheNames = "StaffInfoList", allEntries = true)
+    public void addStaffInfoByFile(MultipartFile file) throws NullParameterException, IllegalParametersException, IOException, DataFormatException {
         if (file.isEmpty()) {
             logger.warn("addStaffInfoByFile::file参数为空");
             throw new NullParameterException("文件未获取到");
@@ -594,11 +615,254 @@ public class StaffServiceImpl implements StaffService {
             logger.debug("addStaffInfoByFile::获取第" + index + "个工作表");
             Sheet sheetAt = workbook.getSheetAt(index);
             logger.debug("addStaffInfoByFile::获取到最后的行数->" + sheetAt.getLastRowNum());
-            for (int i = 2; i <= sheetAt.getLastRowNum(); i++) {
+            for (int i = 1; i <= sheetAt.getLastRowNum(); i++) {
                 logger.debug("addStaffInfoByFile::开始获取第" + i + "行");
                 Row row = sheetAt.getRow(i);
-                String name = getCellValue(row, 1);
+                String name = getCellValue(row, 0);
+                String bankID = getCellValue(row, 1);
+                String email = getCellValue(row, 2);
+                String ethnic = getCellValue(row, 3);
+                String politicalStatus = getCellValue(row, 4);
+                String nid = getCellValue(row, 5);
+                String address = getCellValue(row, 6);
+                String naddress = getCellValue(row, 7);
+                String tel = getCellValue(row, 8);
+                String department = getCellValue(row, 9);
+                String grassroot = getCellValue(row, 10);
+                String positionTitle = getCellValue(row, 11);
+                String positionCategory = getCellValue(row, 12);
+                String marks = getCellValue(row, 13);
+                String comeDate = getCellValue(row, 14);
+                String startDate = getCellValue(row, 15);
+                String jobTitle = getCellValue(row, 16);
+                String jobLevel = getCellValue(row, 17);
+                String rta = getCellValue(row, 18);
+                String certifiedTime = getCellValue(row, 19);
+                String oqc1 = getCellValue(row, 20);
+                String issuingUnit = getCellValue(row, 21);
+                String oqc1Time = getCellValue(row, 22);
+                String oqc2 = getCellValue(row, 23);
+                String cp = getCellValue(row, 24);
+                String ptc = getCellValue(row, 25);
+                String ptcTime = getCellValue(row, 26);
+                String wage = getCellValue(row, 27);
+                String performancePay = getCellValue(row, 28);
+                String dutyAllowance = getCellValue(row, 29);
+                String grants = getCellValue(row, 30);
+                String mAllowance = getCellValue(row, 31);
+                String pSubsidies = getCellValue(row, 32);
+                String employmentForm = getCellValue(row, 33);
+                String eStartDate = getCellValue(row, 34);
+                String laborContract1 = getCellValue(row, 35);
+                String laborContract1End = getCellValue(row, 36);
+                String laborContract2 = getCellValue(row, 37);
+                String laborContract2End = getCellValue(row, 38);
+                String laborContract3 = getCellValue(row, 39);
+                String laborContract3End = getCellValue(row, 40);
+                String ducation1 = getCellValue(row, 41);
+                String bs = getCellValue(row, 42);
+                String nature1 = getCellValue(row, 43);
+                String graduationTime1 = getCellValue(row, 44);
+                String graduatedSchool1 = getCellValue(row, 45);
+                String professionalTitle1 = getCellValue(row, 46);
+                String highestEducation = getCellValue(row, 47);
+                String hghestDegree = getCellValue(row, 48);
+                String nature2 = getCellValue(row, 49);
+                String graduationTime2 = getCellValue(row, 50);
+                String graduatedSchool2 = getCellValue(row, 51);
+                String th = getCellValue(row, 52);
+                String professionalTitle2 = getCellValue(row, 53);
+                String foreignLanguage = getCellValue(row, 54);
+                String flLevel = getCellValue(row, 55);
+                String otherCertificates = getCellValue(row, 56);
+                String hasHousingFund = getCellValue(row, 57);
+                if (StringUtils.isAnyEmpty(name, bankID, email, ethnic, politicalStatus, nid, address, naddress, tel, department, grassroot, positionTitle, positionCategory, comeDate, startDate, jobTitle, jobLevel, wage, performancePay, employmentForm, hasHousingFund)) {
+                    logger.info("addStaffInfoByFile::非空字段有空值,已跳过本次循环");
+                    logger.warn("第" + (i + 1) + "行数据不正确->非空字段有空值");
+                    continue;
+                }
+                Staff staff = new Staff();
+                staff.setId(UUID.randomUUID().toString().replace("-", ""));
+                staff.setName(name);
+                staff.setBankID(bankID);
+                staff.setEmail(email);
+                //判断是否为数字
+                if (!StringUtils.isNumeric(nid.substring(0, nid.length() - 1))) {
+                    logger.warn("addStaffInfoByFile::nid不是纯数字->" + nid);
+                    continue;
+                }
+                //判断身份证号长度
+                if (nid.length() != ID_NUM_LENGTH) {
+                    logger.warn("addStaffInfoByFile::nid位数为" + nid.length() + "与" + ID_NUM_LENGTH + "不匹配");
+                    continue;
+                }
+                try {
+                    //根据身份证号设置出生日期
+                    staff.setBirthday(new SimpleDateFormat("yyyyMMdd").parse(nid.substring(6, 14)));
+                } catch (ParseException e) {
+                    logger.warn("addStaffInfoByFile::出生日期格式化出错,日期->" + nid.substring(6, 14) + "异常信息->" + e.getMessage());
+                    continue;
+                }
+                //根据身份证号设置性别
+                staff.setSex(Integer.parseInt(nid.substring(16, 17)) % 2 != 0);
+                //根据身份证号设置年龄
+                staff.setAge(String.valueOf(Calendar.getInstance().get(Calendar.YEAR) - Integer.parseInt(nid.substring(6, 10))));
+                List<Ethnic> ethnicList = ethnicDao.findByName(ethnic);
+                if (ethnicList.size() == 0) {
+                    logger.warn("addStaffInfoByFile::民族->" + ethnic + "没有找到");
+                    continue;
+                } else {
+                    staff.setEthnic(ethnicList.get(0));
+                }
+                List<PoliticalStatus> politicalStatusList = politicalStatusDao.findByName(politicalStatus);
+                if (politicalStatusList.size() == 0) {
+                    logger.warn("addStaffInfoByFile::政治面貌->" + politicalStatus + "没有找到");
+                    continue;
+                } else {
+                    staff.setPs(politicalStatusList.get(0));
+                }
+                staff.setNid(nid);
+                staff.setAddress(address);
+                staff.setNaddress(naddress);
+                staff.setTel(tel);
+                List<Department> departmentList = departmentDao.findByName(department);
+                if (departmentList.size() == 0) {
+                    logger.warn("addStaffInfoByFile::部门->" + department + "没有找到");
+                    continue;
+                } else {
+                    staff.setDepartment(departmentList.get(0));
+                }
+                List<Grassroot> grassrootList = grassrootDao.findByName(grassroot);
+                if (grassrootList.size() == 0) {
+                    logger.warn("addStaffInfoByFile::基层单位->" + grassroot + "没有找到");
+                    continue;
+                } else {
+                    staff.setGrassroot(grassrootList.get(0));
+                }
+                List<PositionTitle> positionTitleList = positionTitleDao.findByName(positionTitle);
+                if (positionTitleList.size() == 0) {
+                    logger.warn("addStaffInfoByFile::岗位名称->" + positionTitle + "没有找到");
+                    continue;
+                } else {
+                    staff.setPositionTitle(positionTitleList.get(0));
+                }
+                List<PositionCategory> positionCategoryList = positionCategoryDao.findByName(positionCategory);
+                if (positionCategoryList.size() == 0) {
+                    logger.warn("addStaffInfoByFile::岗位类别->" + positionCategory + "没有找到");
+                    continue;
+                } else {
+                    staff.setPositionCategory(positionCategoryList.get(0));
+                }
+                try {
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                    Date comeDateDate = simpleDateFormat.parse(comeDate);
+                    Date startDateDate = simpleDateFormat.parse(startDate);
+                    Date certifiedTimeDate = simpleDateFormat.parse(certifiedTime);
+                    Date oqc1TimeDate = simpleDateFormat.parse(oqc1Time);
+                    Date ptcTimeDate = simpleDateFormat.parse(ptcTime);
+                    Date eStartDateDate = simpleDateFormat.parse(eStartDate);
+                    Date laborContract1Date = simpleDateFormat.parse(laborContract1);
+                    Date laborContract1EndDate = simpleDateFormat.parse(laborContract1End);
+                    Date laborContract2Date = simpleDateFormat.parse(laborContract2);
+                    Date laborContract2EndDate = simpleDateFormat.parse(laborContract2End);
+                    Date laborContract3Date = simpleDateFormat.parse(laborContract3);
+                    Date laborContract3EndDate = simpleDateFormat.parse(laborContract3End);
+                    Date graduationTime1Date = simpleDateFormat.parse(graduationTime1);
+                    Date graduationTime2Date = simpleDateFormat.parse(graduationTime2);
+                    staff.setComeDate(comeDateDate);
+                    staff.setStartDate(startDateDate);
+                    staff.setCertifiedTime(certifiedTimeDate);
+                    staff.setOqc1Time(oqc1TimeDate);
+                    staff.setPtcTime(ptcTimeDate);
+                    staff.setEStartDate(eStartDateDate);
+                    staff.setLaborContract1(laborContract1Date);
+                    staff.setLaborContract1End(laborContract1EndDate);
+                    staff.setLaborContract2(laborContract2Date);
+                    staff.setLaborContract2End(laborContract2EndDate);
+                    staff.setLaborContract3(laborContract3Date);
+                    staff.setLaborContract3End(laborContract3EndDate);
+                    staff.setGraduationTime1(graduationTime1Date);
+                    staff.setGraduationTime2(graduationTime2Date);
+                } catch (ParseException e) {
+                    logger.info("addStudentInfoByExcel::日期格式化出错->" + e.getMessage());
+                    logger.warn("第" + (i + 1) + "行数据不正确->日期格式化出错->" + e.getMessage());
+                    continue;
+                }
+                List<JobTitle> jobTitleList = jobTitleDao.findByName(jobTitle);
+                if (jobTitleList.size() == 0) {
+                    logger.warn("addStaffInfoByFile::社会职称->" + jobTitle + "没有找到");
+                    continue;
+                } else {
+                    staff.setJobTitle(jobTitleList.get(0));
+                }
+                List<JobLevel> jobLevelList = jobLevelDao.findByName(jobLevel);
+                if (jobLevelList.size() == 0) {
+                    logger.warn("addStaffInfoByFile::职称级别->" + jobLevel + "没有找到");
+                    continue;
+                } else {
+                    staff.setJobLevel(jobLevelList.get(0));
+                }
+                List<EmploymentForm> employmentFormList = employmentFormDao.findByName(employmentForm);
+                if (employmentFormList.size() == 0) {
+                    logger.warn("addStaffInfoByFile::用工形式->" + employmentForm + "没有找到");
+                    continue;
+                } else {
+                    staff.setEmploymentForm(employmentFormList.get(0));
+                }
+                staff.setMarks(marks);
+                staff.setRta(rta);
+                staff.setOqc1(oqc1);
+                staff.setIssuingUnit(issuingUnit);
+                staff.setOqc2(oqc2);
+                staff.setCp(cp);
+                staff.setPtc(ptc);
+                if (NumberUtils.isParsable(wage)) {
+                    staff.setWage(Integer.parseInt(wage));
+                } else {
+                    logger.warn("addStaffInfoByFile::岗位工资->" + wage + "没有找到");
+                    continue;
+                }
+                if (NumberUtils.isParsable(performancePay)) {
+                    staff.setPerformancePay(Integer.parseInt(performancePay));
+                } else {
+                    logger.warn("addStaffInfoByFile::绩效工资->" + performancePay + "没有找到");
+                    continue;
+                }
+                if (NumberUtils.isParsable(dutyAllowance)) {
+                    staff.setDutyAllowance(Integer.parseInt(dutyAllowance));
+                }
+                if (NumberUtils.isParsable(grants)) {
+                    staff.setGrants(Integer.parseInt(grants));
+                }
+                if (NumberUtils.isParsable(mAllowance)) {
+                    staff.setMAllowance(Integer.parseInt(mAllowance));
+                }
+                if (NumberUtils.isParsable(pSubsidies)) {
+                    staff.setPSubsidies(Integer.parseInt(pSubsidies));
+                }
+                staff.setDucation1(ducation1);
+                staff.setBs(bs);
+                staff.setNature1(nature1);
+                staff.setGraduatedSchool1(graduatedSchool1);
+                staff.setProfessionalTitle1(professionalTitle1);
+                staff.setHighestEducation(highestEducation);
+                staff.setHghestDegree(hghestDegree);
+                staff.setNature2(nature2);
+                staff.setGraduatedSchool2(graduatedSchool2);
+                staff.setTh(th);
+                staff.setProfessionalTitle2(professionalTitle2);
+                staff.setForeignLanguage(foreignLanguage);
+                staff.setFlLevel(flLevel);
+                staff.setOtherCertificates(otherCertificates);
+                staff.setHasHousingFund("有".equals(hasHousingFund));
+                staffList.add(staff);
             }
+        }
+        if (staffList.size() != 0) {
+            logger.info("addStaffInfoByFile::将要添加" + staffList.size() + "条数据");
+            staffList.forEach(staffDao::saveAndFlush);
+        } else {
+            logger.info("addStaffInfoByFile::集合中数据为0,未添加任何数据");
         }
     }
 

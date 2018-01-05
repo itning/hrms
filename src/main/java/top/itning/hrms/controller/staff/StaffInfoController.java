@@ -238,7 +238,7 @@ public class StaffInfoController {
      * @throws IllegalParametersException 关联信息没有找到时抛出该异常
      */
     @PostMapping("/upExcelFile")
-    public String addStaffByFile(@RequestParam("file") MultipartFile file) throws NullParameterException, IOException, IllegalParametersException {
+    public String addStaffByFile(@RequestParam("file") MultipartFile file) throws NullParameterException, IOException, IllegalParametersException, DataFormatException {
         if (file.isEmpty()) {
             logger.warn("addStaffByFile::参数为空");
             throw new NullParameterException("file参数为空");

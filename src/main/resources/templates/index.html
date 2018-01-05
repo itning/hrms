@@ -193,7 +193,7 @@
         <div class="mdui-dialog-content">只能上传一个文件且文件扩展名为xls或xlsx</div>
         <div class="mdui-dialog-actions mdui-dialog-actions-stacked">
             <label class="mdui-btn mdui-ripple" for="xFile"><span id="file_name"></span>&nbsp;&nbsp;选择文件</label>
-            <form id="fileUP" th:action="@{/studentInfo/upExcelFile}" method="post" enctype="multipart/form-data">
+            <form id="fileUP" th:action="@{/staffInfo/upExcelFile}" method="post" enctype="multipart/form-data">
                 <input type="file" name="file" id="xFile" style="position:absolute;clip:rect(0 0 0 0);"
                        accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
                 <input type="button" class="mdui-btn mdui-ripple" onclick="up_excel_file()" value="开始上传">
