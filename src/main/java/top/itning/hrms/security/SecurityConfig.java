@@ -118,7 +118,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     /**用户自定义的AuthenticationUserDetailsService*/
     @Bean
     public AuthenticationUserDetailsService<CasAssertionAuthenticationToken> customUserDetailsService(){
-        return new CustomUserDetailsService();
+        return new CustomUserDetailsServiceImpl();
     }
 
     @Bean
