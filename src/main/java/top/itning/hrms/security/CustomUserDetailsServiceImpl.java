@@ -19,10 +19,13 @@ public class CustomUserDetailsServiceImpl implements AuthenticationUserDetailsSe
     @Override
     public UserDetails loadUserDetails(CasAssertionAuthenticationToken token) throws UsernameNotFoundException {
         logger.info("当前的用户名是：" + token.getName());
+        logger.info(token.getCredentials().toString());
+        logger.info(token.getPrincipal().toString());
+        logger.info(String.valueOf(token.getAuthorities()));
         /*这里我为了方便，就直接返回一个用户信息，实际当中这里修改为查询数据库或者调用服务什么的来获取用户信息*/
         UserInfo userInfo = new UserInfo();
-        userInfo.setUsername("admin");
-        userInfo.setName("admin");
+        userInfo.setUsername(token.getName());
+        userInfo.setName(token.getName());
         Set<AuthorityInfo> authorities = new HashSet<>();
         AuthorityInfo authorityInfo = new AuthorityInfo("TEST");
         authorities.add(authorityInfo);

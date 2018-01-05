@@ -1,5 +1,7 @@
 package top.itning.hrms.controller;
 
+import org.apache.catalina.servlet4preview.http.HttpServletRequest;
+import org.jasig.cas.client.authentication.AttributePrincipal;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import top.itning.hrms.entity.department.Department;
 import top.itning.hrms.service.DepartmentService;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 框架控制器
@@ -29,8 +32,13 @@ public class FrameController {
      * @return 重定向到主页
      */
     @GetMapping("/")
-    public String root() {
+    public String root(HttpServletRequest request) {
         logger.debug("root::重定向到主页");
+        AttributePrincipal principal = (AttributePrincipal) request.getUserPrincipal();
+        Map attributes = principal.getAttributes();
+        logger.info(String.valueOf(attributes));
+        String email= (String) attributes .get("phone");
+        logger.info(String.valueOf(email));
         return "redirect:/index";
     }
 
