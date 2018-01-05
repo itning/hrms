@@ -2,8 +2,10 @@ package top.itning.hrms.service;
 
 import org.slf4j.Logger;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.web.multipart.MultipartFile;
 import top.itning.hrms.entity.Staff;
 import top.itning.hrms.entity.search.SearchStaff;
+import top.itning.hrms.exception.defaults.IllegalParametersException;
 import top.itning.hrms.exception.defaults.NoSuchIdException;
 import top.itning.hrms.exception.defaults.NullParameterException;
 
@@ -78,6 +80,9 @@ public interface StaffService {
      * @throws NoSuchIdException 如果ID没有找到则抛出该异常
      */
     void downStaffInfoByID(ServletOutputStream servletOutputStream, String... id) throws NoSuchIdException, IOException;
+
+
+    void addStaffInfoByFile(MultipartFile file) throws NullParameterException, IllegalParametersException, IOException;
 
     /**
      * 日期区间查询

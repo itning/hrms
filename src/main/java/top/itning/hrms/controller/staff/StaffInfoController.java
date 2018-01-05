@@ -9,9 +9,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import top.itning.hrms.entity.ServerMessage;
 import top.itning.hrms.entity.Staff;
 import top.itning.hrms.entity.search.SearchStaff;
+import top.itning.hrms.exception.defaults.IllegalParametersException;
 import top.itning.hrms.exception.defaults.NoSuchIdException;
 import top.itning.hrms.exception.defaults.NullParameterException;
 import top.itning.hrms.exception.json.JsonException;
@@ -224,5 +226,24 @@ public class StaffInfoController {
         outputStream.flush();
         outputStream.close();
         logger.debug("downStaffInfoByID::outputStream close");
+    }
+
+    /**
+     * 通过Excel文件添加职工信息
+     *
+     * @param file 文件
+     * @return 重定向到首页
+     * @throws NullParameterException     文件中必填参数为空则抛出该异常
+     * @throws IOException                IOException
+     * @throws IllegalParametersException 关联信息没有找到时抛出该异常
+     */
+    @PostMapping("/upExcelFile")
+    public String addStaffByFile(@RequestParam("file") MultipartFile file) throws NullParameterException, IOException, IllegalParametersException {
+        if (file.isEmpty()) {
+            logger.warn("addStaffByFile::参数为空");
+            throw new NullParameterException("file参数为空");
+        }
+        staffService.addStaffInfoByFile(file);
+        return "redirect:/";
     }
 }

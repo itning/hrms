@@ -3,6 +3,7 @@ package top.itning.hrms.service.impl;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -15,6 +16,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import top.itning.hrms.dao.StaffDao;
 import top.itning.hrms.dao.WageDao;
 import top.itning.hrms.dao.department.DepartmentDao;
@@ -51,6 +53,14 @@ import java.util.zip.DataFormatException;
 @Transactional(rollbackOn = Exception.class)
 public class StaffServiceImpl implements StaffService {
     private static final Logger logger = LoggerFactory.getLogger(StaffServiceImpl.class);
+    /**
+     * xlsx mime type
+     */
+    private static final String MIME_XLSX = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+    /**
+     * xls mime type
+     */
+    private static final String MIME_XLS = "application/vnd.ms-excel";
     /**
      * 身份证号位数
      */
@@ -559,6 +569,39 @@ public class StaffServiceImpl implements StaffService {
         logger.debug("downStaffInfoByID::workbook已关闭");
     }
 
+    @Override
+    public void addStaffInfoByFile(MultipartFile file) throws NullParameterException, IllegalParametersException, IOException {
+        if (file.isEmpty()) {
+            logger.warn("addStaffInfoByFile::file参数为空");
+            throw new NullParameterException("文件未获取到");
+        }
+        String contentType = file.getContentType();
+        logger.debug("addStaffInfoByFile::获取到文件MIME类型->" + contentType);
+        Workbook workbook;
+        if (MIME_XLSX.equals(contentType)) {
+            logger.debug("addStaffInfoByFile::创建xlsx类型");
+            workbook = new XSSFWorkbook(file.getInputStream());
+        } else if (MIME_XLS.equals(contentType)) {
+            logger.debug("addStaffInfoByFile::创建xls类型");
+            workbook = new HSSFWorkbook(file.getInputStream());
+        } else {
+            logger.warn("addStaffInfoByFile::文件类型不正确:" + contentType);
+            throw new IllegalArgumentException("文件类型不正确:" + contentType);
+        }
+        List<Staff> staffList = new ArrayList<>();
+        logger.debug("addStaffInfoByFile::获取到的工作表个数->" + workbook.getNumberOfSheets());
+        for (int index = 0; index < workbook.getNumberOfSheets(); index++) {
+            logger.debug("addStaffInfoByFile::获取第" + index + "个工作表");
+            Sheet sheetAt = workbook.getSheetAt(index);
+            logger.debug("addStaffInfoByFile::获取到最后的行数->" + sheetAt.getLastRowNum());
+            for (int i = 2; i <= sheetAt.getLastRowNum(); i++) {
+                logger.debug("addStaffInfoByFile::开始获取第" + i + "行");
+                Row row = sheetAt.getRow(i);
+                String name = getCellValue(row, 1);
+            }
+        }
+    }
+
     /**
      * 日期格式化
      *
@@ -570,5 +613,45 @@ public class StaffServiceImpl implements StaffService {
             return "";
         }
         return new SimpleDateFormat("yyyy-MM-dd").format(date);
+    }
+
+    /**
+     * 获取单元格中的数据
+     *
+     * @param row     行
+     * @param cellNum 单元格号
+     * @return 该单元格的数据
+     */
+    private String getCellValue(Row row, int cellNum) {
+        String stringCellValue = null;
+        Cell cell;
+        if ((cell = row.getCell(cellNum)) != null) {
+            try {
+                stringCellValue = cell.getStringCellValue();
+            } catch (IllegalStateException e) {
+                logger.info("getCellValue::CellNum->" + cellNum + "<-尝试获取String类型数据失败");
+                try {
+                    logger.info("getCellValue::CellNum->" + cellNum + "<-尝试获取Double类型数据");
+                    stringCellValue = String.valueOf(cell.getNumericCellValue());
+                } catch (IllegalStateException e1) {
+                    try {
+                        logger.info("getCellValue::CellNum->" + cellNum + "<-尝试获取Boolean类型数据");
+                        stringCellValue = String.valueOf(cell.getBooleanCellValue());
+                    } catch (IllegalStateException e2) {
+                        try {
+                            logger.info("getCellValue::CellNum->" + cellNum + "<-尝试获取Date类型数据");
+                            stringCellValue = String.valueOf(cell.getDateCellValue());
+                        } catch (IllegalStateException e3) {
+                            logger.warn("getCellValue::CellNum->" + cellNum + "<-未知类型数据->" + e3.getMessage());
+                        }
+                    }
+                }
+            } finally {
+                logger.debug("getCellValue::第" + cellNum + "格获取到的数据为->" + stringCellValue);
+            }
+        } else {
+            logger.debug("getCellValue::第" + cellNum + "格为空");
+        }
+        return stringCellValue;
     }
 }
