@@ -1,48 +1,49 @@
 package top.itning.hrms.entity;
 
+import lombok.Data;
+
 /**
- * 异常消息实体
+ * 服务器消息实体
  *
  * @author wangn
  */
+@Data
 public class ServerMessage {
+    /**
+     * 未找到
+     */
     public static final int NOT_FIND = 404;
+    /**
+     * 内部服务错误
+     */
     public static final int SERVICE_ERROR = 500;
+    /**
+     * 成功
+     */
     public static final int SUCCESS_CODE = 200;
     /**
-     * 错误码
+     * 消息代码
      */
     private int code;
     /**
-     * 错误消息
+     * 消息内容
      */
     private String msg;
     /**
-     * 发生错误的URL
+     * 发生该消息的URL
      */
     private String url;
 
-    public int getCode() {
-        return code;
-    }
-
-    public void setCode(int code) {
-        this.code = code;
-    }
-
-    public String getMsg() {
-        return msg;
-    }
-
-    public void setMsg(String msg) {
-        this.msg = msg;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
+    /**
+     * 添加消息
+     *
+     * @param msg 消息
+     */
+    public void addMsg(String msg) {
+        if (this.msg == null) {
+            this.msg = msg;
+        } else {
+            this.msg += msg;
+        }
     }
 }

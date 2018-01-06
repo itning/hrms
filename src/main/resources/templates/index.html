@@ -498,7 +498,27 @@
     function up_excel_file() {
         var fileName = $('#xFile').val();
         if (fileName.indexOf('xlsx') !== -1 || fileName.indexOf('xls') !== -1) {
-            $('#fileUP').submit();
+            new mdui.Dialog("#add-excel-dialog").close();
+            progressStatus(true);
+            $.ajax({
+                url: '/staffInfo/upExcelFile',
+                type: 'POST',
+                cache: false,
+                data: new FormData($('#fileUP')[0]),
+                processData: false,
+                contentType: false,
+                success: function (msg) {
+                    if (msg.code === 200) {
+                        progressStatus(false);
+                        window.location.reload();
+                    } else {
+                        progressStatus(false);
+                        mdui.alert(msg.msg + "<br>其余数据已正常添加<br>", '上传情况反馈', function () {
+                            window.location.reload();
+                        }, {history: false, modal: true, closeOnEsc: false});
+                    }
+                }
+            })
         } else if (fileName === "") {
             showSnackbar('未选择文件');
         } else {

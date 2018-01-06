@@ -13,7 +13,6 @@ import org.springframework.web.multipart.MultipartFile;
 import top.itning.hrms.entity.ServerMessage;
 import top.itning.hrms.entity.Staff;
 import top.itning.hrms.entity.search.SearchStaff;
-import top.itning.hrms.exception.defaults.IllegalParametersException;
 import top.itning.hrms.exception.defaults.NoSuchIdException;
 import top.itning.hrms.exception.defaults.NullParameterException;
 import top.itning.hrms.exception.json.JsonException;
@@ -233,17 +232,30 @@ public class StaffInfoController {
      *
      * @param file 文件
      * @return 重定向到首页
-     * @throws NullParameterException     文件中必填参数为空则抛出该异常
-     * @throws IOException                IOException
-     * @throws IllegalParametersException 关联信息没有找到时抛出该异常
      */
     @PostMapping("/upExcelFile")
-    public String addStaffByFile(@RequestParam("file") MultipartFile file) throws NullParameterException, IOException, IllegalParametersException, DataFormatException {
+    @ResponseBody
+    public ServerMessage addStaffByFile(@RequestParam("file") MultipartFile file) {
+        ServerMessage serverMessage = new ServerMessage();
+        serverMessage.setUrl("/upExcelFile");
         if (file.isEmpty()) {
             logger.warn("addStaffByFile::参数为空");
-            throw new NullParameterException("file参数为空");
+            serverMessage.setCode(ServerMessage.NOT_FIND);
+            serverMessage.setMsg("file 参数为空");
+            return serverMessage;
         }
-        staffService.addStaffInfoByFile(file);
-        return "redirect:/";
+        try {
+            ServerMessage s = staffService.addStaffInfoByFile(file);
+            if (s.getMsg() != null) {
+                serverMessage.setCode(ServerMessage.SERVICE_ERROR);
+                serverMessage.setMsg(s.getMsg());
+            }
+        } catch (NullParameterException | IOException e) {
+            if (serverMessage.getMsg() != null) {
+                serverMessage.setCode(ServerMessage.NOT_FIND);
+                serverMessage.setMsg(e.getMessage());
+            }
+        }
+        return serverMessage;
     }
 }

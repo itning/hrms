@@ -29,6 +29,7 @@ import top.itning.hrms.dao.job.JobLevelDao;
 import top.itning.hrms.dao.job.JobTitleDao;
 import top.itning.hrms.dao.post.PositionCategoryDao;
 import top.itning.hrms.dao.post.PositionTitleDao;
+import top.itning.hrms.entity.ServerMessage;
 import top.itning.hrms.entity.Staff;
 import top.itning.hrms.entity.department.Department;
 import top.itning.hrms.entity.department.Grassroot;
@@ -591,7 +592,8 @@ public class StaffServiceImpl implements StaffService {
 
     @Override
     @CacheEvict(cacheNames = "StaffInfoList", allEntries = true)
-    public void addStaffInfoByFile(MultipartFile file) throws NullParameterException, IllegalParametersException, IOException, DataFormatException {
+    public ServerMessage addStaffInfoByFile(MultipartFile file) throws NullParameterException, IOException {
+        ServerMessage serverMessage = new ServerMessage();
         if (file.isEmpty()) {
             logger.warn("addStaffInfoByFile::file参数为空");
             throw new NullParameterException("文件未获取到");
@@ -679,6 +681,7 @@ public class StaffServiceImpl implements StaffService {
                 if (StringUtils.isAnyEmpty(name, bankID, email, ethnic, politicalStatus, nid, address, naddress, tel, department, grassroot, positionTitle, positionCategory, comeDate, startDate, jobTitle, jobLevel, wage, performancePay, employmentForm, hasHousingFund)) {
                     logger.info("addStaffInfoByFile::非空字段有空值,已跳过本次循环");
                     logger.warn("第" + (i + 1) + "行数据不正确->非空字段有空值");
+                    serverMessage.addMsg("第" + (i + 1) + "行数据不正确->非空字段有空值<br>");
                     continue;
                 }
                 Staff staff = new Staff();
@@ -689,11 +692,13 @@ public class StaffServiceImpl implements StaffService {
                 //判断是否为数字
                 if (!StringUtils.isNumeric(nid.substring(0, nid.length() - 1))) {
                     logger.warn("addStaffInfoByFile::nid不是纯数字->" + nid);
+                    serverMessage.addMsg("第" + (i + 1) + "行数据不正确->身份证号前17位不是纯数字->" + nid + "<br>");
                     continue;
                 }
                 //判断身份证号长度
                 if (nid.length() != ID_NUM_LENGTH) {
                     logger.warn("addStaffInfoByFile::nid位数为" + nid.length() + "与" + ID_NUM_LENGTH + "不匹配");
+                    serverMessage.addMsg("第" + (i + 1) + "行数据不正确->身份证号位数为" + nid.length() + "与" + ID_NUM_LENGTH + "不匹配<br>");
                     continue;
                 }
                 try {
@@ -701,6 +706,7 @@ public class StaffServiceImpl implements StaffService {
                     staff.setBirthday(new SimpleDateFormat("yyyyMMdd").parse(nid.substring(6, 14)));
                 } catch (ParseException e) {
                     logger.warn("addStaffInfoByFile::出生日期格式化出错,日期->" + nid.substring(6, 14) + "异常信息->" + e.getMessage());
+                    serverMessage.addMsg("第" + (i + 1) + "行数据不正确->出生日期格式化出错,日期->" + nid.substring(6, 14) + "异常信息->" + e.getMessage() + "<br>");
                     continue;
                 }
                 //根据身份证号设置性别
@@ -710,6 +716,7 @@ public class StaffServiceImpl implements StaffService {
                 List<Ethnic> ethnicList = ethnicDao.findByName(ethnic);
                 if (ethnicList.size() == 0) {
                     logger.warn("addStaffInfoByFile::民族->" + ethnic + "没有找到");
+                    serverMessage.addMsg("第" + (i + 1) + "行数据不正确->民族->" + ethnic + "没有找到<br>");
                     continue;
                 } else {
                     staff.setEthnic(ethnicList.get(0));
@@ -717,6 +724,7 @@ public class StaffServiceImpl implements StaffService {
                 List<PoliticalStatus> politicalStatusList = politicalStatusDao.findByName(politicalStatus);
                 if (politicalStatusList.size() == 0) {
                     logger.warn("addStaffInfoByFile::政治面貌->" + politicalStatus + "没有找到");
+                    serverMessage.addMsg("第" + (i + 1) + "行数据不正确->政治面貌->" + politicalStatus + "没有找到<br>");
                     continue;
                 } else {
                     staff.setPs(politicalStatusList.get(0));
@@ -728,6 +736,7 @@ public class StaffServiceImpl implements StaffService {
                 List<Department> departmentList = departmentDao.findByName(department);
                 if (departmentList.size() == 0) {
                     logger.warn("addStaffInfoByFile::部门->" + department + "没有找到");
+                    serverMessage.addMsg("第" + (i + 1) + "行数据不正确->部门->" + department + "没有找到<br>");
                     continue;
                 } else {
                     staff.setDepartment(departmentList.get(0));
@@ -735,13 +744,15 @@ public class StaffServiceImpl implements StaffService {
                 List<Grassroot> grassrootList = grassrootDao.findByName(grassroot);
                 if (grassrootList.size() == 0) {
                     logger.warn("addStaffInfoByFile::基层单位->" + grassroot + "没有找到");
+                    serverMessage.addMsg("第" + (i + 1) + "行数据不正确->基层单位->" + grassroot + "没有找到<br>");
                     continue;
                 } else {
                     staff.setGrassroot(grassrootList.get(0));
                 }
                 List<PositionTitle> positionTitleList = positionTitleDao.findByName(positionTitle);
                 if (positionTitleList.size() == 0) {
-                    logger.warn("addStaffInfoByFile::岗位名称->" + positionTitle + "没有找到");
+                    logger.warn("addStaffInfoByFile::第" + (i + 1) + "行数据不正确->岗位名称->" + positionTitle + "没有找到");
+                    serverMessage.addMsg("第" + (i + 1) + "行数据不正确->岗位名称->" + positionTitle + "没有找到<br>");
                     continue;
                 } else {
                     staff.setPositionTitle(positionTitleList.get(0));
@@ -749,6 +760,7 @@ public class StaffServiceImpl implements StaffService {
                 List<PositionCategory> positionCategoryList = positionCategoryDao.findByName(positionCategory);
                 if (positionCategoryList.size() == 0) {
                     logger.warn("addStaffInfoByFile::岗位类别->" + positionCategory + "没有找到");
+                    serverMessage.addMsg("第" + (i + 1) + "行数据不正确->岗位类别->" + positionCategory + "没有找到<br>");
                     continue;
                 } else {
                     staff.setPositionCategory(positionCategoryList.get(0));
@@ -786,11 +798,13 @@ public class StaffServiceImpl implements StaffService {
                 } catch (ParseException e) {
                     logger.info("addStudentInfoByExcel::日期格式化出错->" + e.getMessage());
                     logger.warn("第" + (i + 1) + "行数据不正确->日期格式化出错->" + e.getMessage());
+                    serverMessage.addMsg("第" + (i + 1) + "行数据不正确->日期格式化出错->" + e.getMessage() + "<br>");
                     continue;
                 }
                 List<JobTitle> jobTitleList = jobTitleDao.findByName(jobTitle);
                 if (jobTitleList.size() == 0) {
                     logger.warn("addStaffInfoByFile::社会职称->" + jobTitle + "没有找到");
+                    serverMessage.addMsg("第" + (i + 1) + "行数据不正确->社会职称->" + jobTitle + "没有找到<br>");
                     continue;
                 } else {
                     staff.setJobTitle(jobTitleList.get(0));
@@ -798,6 +812,7 @@ public class StaffServiceImpl implements StaffService {
                 List<JobLevel> jobLevelList = jobLevelDao.findByName(jobLevel);
                 if (jobLevelList.size() == 0) {
                     logger.warn("addStaffInfoByFile::职称级别->" + jobLevel + "没有找到");
+                    serverMessage.addMsg("第" + (i + 1) + "行数据不正确->职称级别->" + jobLevel + "没有找到<br>");
                     continue;
                 } else {
                     staff.setJobLevel(jobLevelList.get(0));
@@ -805,6 +820,7 @@ public class StaffServiceImpl implements StaffService {
                 List<EmploymentForm> employmentFormList = employmentFormDao.findByName(employmentForm);
                 if (employmentFormList.size() == 0) {
                     logger.warn("addStaffInfoByFile::用工形式->" + employmentForm + "没有找到");
+                    serverMessage.addMsg("第" + (i + 1) + "行数据不正确->用工形式->" + employmentForm + "没有找到<br>");
                     continue;
                 } else {
                     staff.setEmploymentForm(employmentFormList.get(0));
@@ -820,12 +836,14 @@ public class StaffServiceImpl implements StaffService {
                     staff.setWage(Integer.parseInt(wage));
                 } else {
                     logger.warn("addStaffInfoByFile::岗位工资->" + wage + "没有找到");
+                    serverMessage.addMsg("第" + (i + 1) + "行数据不正确->岗位工资->" + wage + "没有找到<br>");
                     continue;
                 }
                 if (NumberUtils.isParsable(performancePay)) {
                     staff.setPerformancePay(Integer.parseInt(performancePay));
                 } else {
                     logger.warn("addStaffInfoByFile::绩效工资->" + performancePay + "没有找到");
+                    serverMessage.addMsg("第" + (i + 1) + "行数据不正确->绩效工资->" + performancePay + "没有找到<br>");
                     continue;
                 }
                 if (NumberUtils.isParsable(dutyAllowance)) {
@@ -864,6 +882,7 @@ public class StaffServiceImpl implements StaffService {
         } else {
             logger.info("addStaffInfoByFile::集合中数据为0,未添加任何数据");
         }
+        return serverMessage;
     }
 
     /**
