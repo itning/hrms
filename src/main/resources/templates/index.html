@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org"  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -173,20 +174,24 @@
                         class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent"
                         mdui-dialog="{target: '#add-dialog'}">添加职工
                 </button>
-                <button id="first_page_btn" mdui-tooltip="{content: '首页'}"
-                        class="mdui-btn mdui-btn-icon mdui-btn-dense mdui-btn-raised mdui-ripple mdui-color-theme-accent"><i class="mdui-icon material-icons">first_page</i>
+                <button id="first_page_btn" mdui-tooltip="{content: '首页'}" onclick="changePage('first')"
+                        class="mdui-btn mdui-btn-icon mdui-btn-dense mdui-btn-raised mdui-ripple mdui-color-theme-accent">
+                    <i class="mdui-icon material-icons">first_page</i>
                 </button>
-                <button id="previous_page_btn" mdui-tooltip="{content: '上一页'}"
-                        class="mdui-btn mdui-btn-icon mdui-btn-dense mdui-btn-raised mdui-ripple mdui-color-theme-accent"><i class="mdui-icon material-icons">chevron_left</i>
+                <button id="previous_page_btn" mdui-tooltip="{content: '上一页'}" onclick="changePage('previous')"
+                        class="mdui-btn mdui-btn-icon mdui-btn-dense mdui-btn-raised mdui-ripple mdui-color-theme-accent">
+                    <i class="mdui-icon material-icons">chevron_left</i>
                 </button>
-                <button id="next_page_btn" mdui-tooltip="{content: '下一页'}"
-                        class="mdui-btn mdui-btn-icon mdui-btn-dense mdui-btn-raised mdui-ripple mdui-color-theme-accent"><i class="mdui-icon material-icons">chevron_right</i>
+                <button id="next_page_btn" mdui-tooltip="{content: '下一页'}" onclick="changePage('next')"
+                        class="mdui-btn mdui-btn-icon mdui-btn-dense mdui-btn-raised mdui-ripple mdui-color-theme-accent">
+                    <i class="mdui-icon material-icons">chevron_right</i>
                 </button>
-                <button id="last_page_btn" mdui-tooltip="{content: '尾页'}"
-                        class="mdui-btn mdui-btn-icon mdui-btn-dense mdui-btn-raised mdui-ripple mdui-color-theme-accent"><i class="mdui-icon material-icons">last_page</i>
+                <button id="last_page_btn" mdui-tooltip="{content: '尾页'}" onclick="changePage('last')"
+                        class="mdui-btn mdui-btn-icon mdui-btn-dense mdui-btn-raised mdui-ripple mdui-color-theme-accent">
+                    <i class="mdui-icon material-icons">last_page</i>
                 </button>
                 <div class="mdui-chip">
-                    <span class="mdui-chip-title">当前第1页共4页</span>
+                    <span class="mdui-chip-title" id="page_info">当前第1页共4页</span>
                 </div>
             </div>
         </div>
@@ -278,6 +283,12 @@
 
     //获取数据
     var last_id = "";
+    var initData;
+    var pageSession = sessionStorage.getItem('nowPage');
+    var defPage = 1;
+    if (pageSession !== null) {
+        defPage = pageSession;
+    }
 
     function getData(id) {
         if (last_id !== "") {
@@ -297,13 +308,11 @@
                 var $downSelectBtn = $('#down_select_btn');
                 var $delSelectBtn = $('#del_select_btn');
                 if (data.length !== 0) {
-
                     $showTable.show();
                     $downSelectBtn.show();
                     $delSelectBtn.show();
-                    $.each(data, function (i, n) {
-                        $("#table_data").append("<tr data-id=\"" + n.id + "\"><td><a href=\"/staffInfo/showDetails/" + n.id + "\" target=\"_blank\" class=\"\">" + n.name + "</a></td><td>" + n.grassroot.name + "</td><td>" + (n.sex ? "男" : "女") + "</td><td>" + n.age + "</td><td>" + n.ethnic.name + "</td><td>" + n.ps.name + "</td><td>" + ((new Date(n.birthday)).format("yyyy.MM.dd")) + "</td><td>" + n.nid + "</td><td>" + n.email + "</td></tr>")
-                    });
+                    initData = data;
+                    page(data, defPage);
                 } else {
                     $showTable.hide("normal");
                     $downSelectBtn.hide("normal");
@@ -321,7 +330,69 @@
             after();
         });
     }
+    var pageShow = 10;
 
+    function changePage(pages) {
+        //总页数 = (记录总数+一页显示的记录数-1) / 一页显示的记录数
+        var totalPage = Math.floor((initData.length + pageShow - 1) / pageShow);
+        switch (pages) {
+            case "first":
+                page(initData, 1);
+                defPage = 1;
+                break;
+            case "previous":
+                page(initData, --defPage);
+                break;
+            case "next":
+                page(initData, ++defPage);
+                break;
+            case "last":
+                page(initData, totalPage);
+                defPage = totalPage;
+                break;
+        }
+        sessionStorage.setItem('nowPage', defPage);
+    }
+
+    function page(data, nowPage) {
+        var $firstPageBtn = $('#first_page_btn');
+        var $previousPageBtn = $('#previous_page_btn');
+        var $nextPageBtn = $('#next_page_btn');
+        var $lastPageBtn = $('#last_page_btn');
+        var $pageInfo = $('#page_info');
+        var totalPage = Math.floor((data.length + pageShow - 1) / pageShow);
+        if (totalPage === 1) {
+            $firstPageBtn.addClass("mdui-hidden");
+            $previousPageBtn.addClass("mdui-hidden");
+            $nextPageBtn.addClass("mdui-hidden");
+            $lastPageBtn.addClass("mdui-hidden");
+        } else {
+            $firstPageBtn.removeClass("mdui-hidden");
+            $previousPageBtn.removeClass("mdui-hidden");
+            $nextPageBtn.removeClass("mdui-hidden");
+            $lastPageBtn.removeClass("mdui-hidden");
+        }
+        if (nowPage >= totalPage) {
+            nowPage = totalPage;
+            $nextPageBtn.addClass("mdui-hidden");
+            $lastPageBtn.addClass("mdui-hidden");
+        }
+        if (nowPage <= 1) {
+            nowPage = 1;
+            $firstPageBtn.addClass("mdui-hidden");
+            $previousPageBtn.addClass("mdui-hidden");
+        }
+        var firstIndex = (nowPage - 1) * pageShow;
+        var lastIndex = firstIndex + pageShow - 1;
+        $pageInfo.html("当前第" + nowPage + "页共" + totalPage + "页");
+        var pageData = data.slice(firstIndex, lastIndex + 1);
+        $("#table_data").empty();
+        $.each(pageData, function (i, n) {
+            $("#table_data").append("<tr data-id=\"" + n.id + "\"><td><a href=\"/staffInfo/showDetails/" + n.id + "\" target=\"_blank\" class=\"\">" + n.name + "</a></td><td>" + n.grassroot.name + "</td><td>" + (n.sex ? "男" : "女") + "</td><td>" + n.age + "</td><td>" + n.ethnic.name + "</td><td>" + n.ps.name + "</td><td>" + ((new Date(n.birthday)).format("yyyy.MM.dd")) + "</td><td>" + n.nid + "</td><td>" + n.email + "</td></tr>")
+        });
+        mdui.updateTables();
+        after();
+    }
 
     /*添加职工按钮*/
     function addStudent() {
