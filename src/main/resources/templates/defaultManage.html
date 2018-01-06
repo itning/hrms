@@ -319,8 +319,9 @@
                 $downSelectBtn.removeAttr('disabled');
                 $delSelectBtn.removeAttr('disabled');
             } else {
-                var checked_length = $('.mdui-table-row-selected').length - 2;
-                if (checked_length < 0) {
+                var checked_length = $('.mdui-table-row-selected').length - 1;
+                var tr_length = $('#table_data').children().length;
+                if (checked_length <= 0 || tr_length - 1 === checked_length) {
                     $downSelectBtn.attr("disabled", "disabled");
                     $delSelectBtn.attr("disabled", "disabled");
                 }
