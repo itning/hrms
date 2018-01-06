@@ -412,19 +412,30 @@
 
     function after() {
         /*根据复选框是否选中设置按钮是否可用*/
-        $('.mdui-checkbox input:checkbox').click(function () {
-            var $downSelectBtn = $('#down_select_btn');
-            var $delSelectBtn = $('#del_select_btn');
+        var $downSelectBtn = $('#down_select_btn');
+        var $delSelectBtn = $('#del_select_btn');
+        $("thead .mdui-checkbox input:checkbox").click(function () {
             if ($(this).prop('checked')) {
                 $downSelectBtn.removeAttr('disabled');
                 $delSelectBtn.removeAttr('disabled');
             } else {
-                var checked_length = $('.mdui-table-row-selected').length - 1;
-                var tr_length = $('#table_data').children().length;
-                if (checked_length <= 0 || tr_length - 1 === checked_length) {
-                    $downSelectBtn.attr("disabled", "disabled");
-                    $delSelectBtn.attr("disabled", "disabled");
+                $downSelectBtn.attr("disabled", "disabled");
+                $delSelectBtn.attr("disabled", "disabled");
+            }
+        });
+        $('tbody .mdui-checkbox input:checkbox').click(function () {
+            var hasChecked = false;
+            $('.mdui-checkbox input:checkbox').each(function () {
+                if ($(this).prop('checked')) {
+                    hasChecked = true;
                 }
+            });
+            if (hasChecked) {
+                $downSelectBtn.removeAttr('disabled');
+                $delSelectBtn.removeAttr('disabled');
+            } else {
+                $downSelectBtn.attr("disabled", "disabled");
+                $delSelectBtn.attr("disabled", "disabled");
             }
         });
     }
