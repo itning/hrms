@@ -289,6 +289,11 @@
     if (pageSession !== null) {
         defPage = pageSession;
     }
+    var $firstPageBtn = $('#first_page_btn');
+    var $previousPageBtn = $('#previous_page_btn');
+    var $nextPageBtn = $('#next_page_btn');
+    var $lastPageBtn = $('#last_page_btn');
+    var $pageInfo = $('#page_info');
 
     function getData(id) {
         if (last_id !== "") {
@@ -311,9 +316,19 @@
                     $showTable.show();
                     $downSelectBtn.show();
                     $delSelectBtn.show();
+                    $firstPageBtn.show();
+                    $previousPageBtn.show();
+                    $nextPageBtn.show();
+                    $lastPageBtn.show();
+                    $pageInfo.show();
                     initData = data;
                     page(data, defPage);
                 } else {
+                    $firstPageBtn.hide("normal");
+                    $previousPageBtn.hide("normal");
+                    $nextPageBtn.hide("normal");
+                    $lastPageBtn.hide("normal");
+                    $pageInfo.hide("normal");
                     $showTable.hide("normal");
                     $downSelectBtn.hide("normal");
                     $delSelectBtn.hide("normal");
@@ -356,11 +371,6 @@
     }
 
     function page(data, nowPage) {
-        var $firstPageBtn = $('#first_page_btn');
-        var $previousPageBtn = $('#previous_page_btn');
-        var $nextPageBtn = $('#next_page_btn');
-        var $lastPageBtn = $('#last_page_btn');
-        var $pageInfo = $('#page_info');
         var totalPage = Math.floor((data.length + pageShow - 1) / pageShow);
         if (totalPage === 1) {
             $firstPageBtn.addClass("mdui-hidden");
