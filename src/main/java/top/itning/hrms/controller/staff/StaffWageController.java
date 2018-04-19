@@ -35,14 +35,18 @@ import java.util.Map;
 public class StaffWageController {
     private static final Logger logger = LoggerFactory.getLogger(StaffWageController.class);
 
-    @Autowired
-    private DepartmentService departmentService;
+    private final DepartmentService departmentService;
+
+    private final JobService jobService;
+
+    private final WageService wageService;
 
     @Autowired
-    private JobService jobService;
-
-    @Autowired
-    private WageService wageService;
+    public StaffWageController(DepartmentService departmentService, JobService jobService, WageService wageService) {
+        this.departmentService = departmentService;
+        this.jobService = jobService;
+        this.wageService = wageService;
+    }
 
     @GetMapping("/add")
     public String addWage(Model model) {

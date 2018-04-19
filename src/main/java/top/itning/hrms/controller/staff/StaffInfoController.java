@@ -38,23 +38,27 @@ import java.util.zip.DataFormatException;
 public class StaffInfoController {
     private static final Logger logger = LoggerFactory.getLogger(StaffInfoController.class);
 
-    @Autowired
-    private StaffService staffService;
+    private final StaffService staffService;
+
+    private final DepartmentService departmentService;
+
+    private final EmploymentService employmentService;
+
+    private final JobService jobService;
+
+    private final PostService postService;
+
+    private final FixedService fixedService;
 
     @Autowired
-    private DepartmentService departmentService;
-
-    @Autowired
-    private EmploymentService employmentService;
-
-    @Autowired
-    private JobService jobService;
-
-    @Autowired
-    private PostService postService;
-
-    @Autowired
-    private FixedService fixedService;
+    public StaffInfoController(StaffService staffService, DepartmentService departmentService, EmploymentService employmentService, JobService jobService, PostService postService, FixedService fixedService) {
+        this.staffService = staffService;
+        this.departmentService = departmentService;
+        this.employmentService = employmentService;
+        this.jobService = jobService;
+        this.postService = postService;
+        this.fixedService = fixedService;
+    }
 
     @InitBinder
     protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) {
