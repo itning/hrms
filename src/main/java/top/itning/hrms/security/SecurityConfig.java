@@ -20,6 +20,7 @@ import org.springframework.security.web.authentication.logout.SecurityContextLog
 
 /**
  * 安全配置
+ *
  * @author Ning
  */
 @Configuration
@@ -32,7 +33,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         this.casProperties = casProperties;
     }
 
-    /**定义认证用户信息获取来源，密码校验规则等*/
+    /**
+     * 定义认证用户信息获取来源，密码校验规则等
+     */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         super.configure(auth);
@@ -50,7 +53,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //auth.userDetailsService(userDetailsService);
     }
 
-    /**定义安全策略*/
+    /**
+     * 定义安全策略
+     */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()//配置安全策略
@@ -71,7 +76,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //http.csrf().disable(); //禁用CSRF
     }
 
-    /**认证的入口*/
+    /**
+     * 认证的入口
+     */
     @Bean
     public CasAuthenticationEntryPoint casAuthenticationEntryPoint() {
         CasAuthenticationEntryPoint casAuthenticationEntryPoint = new CasAuthenticationEntryPoint();
@@ -80,7 +87,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return casAuthenticationEntryPoint;
     }
 
-    /**指定service相关信息*/
+    /**
+     * 指定service相关信息
+     */
     @Bean
     public ServiceProperties serviceProperties() {
         ServiceProperties serviceProperties = new ServiceProperties();
@@ -89,7 +98,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return serviceProperties;
     }
 
-    /**CAS认证过滤器*/
+    /**
+     * CAS认证过滤器
+     */
     @Bean
     public CasAuthenticationFilter casAuthenticationFilter() throws Exception {
         CasAuthenticationFilter casAuthenticationFilter = new CasAuthenticationFilter();
@@ -98,7 +109,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return casAuthenticationFilter;
     }
 
-    /**cas 认证 Provider*/
+    /**
+     * cas 认证 Provider
+     */
     @Bean
     public CasAuthenticationProvider casAuthenticationProvider() {
         CasAuthenticationProvider casAuthenticationProvider = new CasAuthenticationProvider();
@@ -115,9 +128,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new CustomUserDetailsService();
     }*/
 
-    /**用户自定义的AuthenticationUserDetailsService*/
+    /**
+     * 用户自定义的AuthenticationUserDetailsService
+     */
     @Bean
-    public AuthenticationUserDetailsService<CasAssertionAuthenticationToken> customUserDetailsService(){
+    public AuthenticationUserDetailsService<CasAssertionAuthenticationToken> customUserDetailsService() {
         return new CustomUserDetailsServiceImpl();
     }
 
@@ -126,7 +141,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new Cas20ServiceTicketValidator(casProperties.getCasServerUrl());
     }
 
-    /**单点登出过滤器*/
+    /**
+     * 单点登出过滤器
+     */
     @Bean
     public SingleSignOutFilter singleSignOutFilter() {
         SingleSignOutFilter singleSignOutFilter = new SingleSignOutFilter();
@@ -135,7 +152,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return singleSignOutFilter;
     }
 
-    /**请求单点退出过滤器*/
+    /**
+     * 请求单点退出过滤器
+     */
     @Bean
     public LogoutFilter casLogoutFilter() {
         LogoutFilter logoutFilter = new LogoutFilter(casProperties.getCasServerLogoutUrl(), new SecurityContextLogoutHandler());

@@ -33,7 +33,7 @@ public interface DepartmentService {
      * 添加或修改部门
      *
      * @param department 部门
-     * @param key      该参数用于删除缓存名为key的缓存
+     * @param key        该参数用于删除缓存名为key的缓存
      * @throws NullParameterException 如果参数为空则抛出该异常
      */
     void addOrModifyDepartmentInfo(Department department, String key) throws NullParameterException;

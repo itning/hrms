@@ -33,7 +33,7 @@ public interface EmploymentService {
      * 添加或修改用工形式
      *
      * @param employmentForm 用工形式
-     * @param key      该参数用于删除缓存名为key的缓存
+     * @param key            该参数用于删除缓存名为key的缓存
      * @throws NullParameterException 如果参数为空则抛出该异常
      */
     void addOrModifyEmploymentFormInfo(EmploymentForm employmentForm, String key) throws NullParameterException;

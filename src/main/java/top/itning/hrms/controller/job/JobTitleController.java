@@ -29,6 +29,7 @@ public class JobTitleController {
 
     @Autowired
     private JobService jobService;
+
     /**
      * 获取社会职称信息集合
      *

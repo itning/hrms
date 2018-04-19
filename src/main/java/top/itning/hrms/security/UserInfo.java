@@ -7,7 +7,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Data
-public class UserInfo  implements UserDetails {
+public class UserInfo implements UserDetails {
     /**
      * 用户ID
      */

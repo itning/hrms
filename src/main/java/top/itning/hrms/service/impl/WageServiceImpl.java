@@ -148,7 +148,7 @@ public class WageServiceImpl implements WageService {
             }
             Predicate[] p = new Predicate[list.size()];
             return cb.and(list.toArray(p));
-        },new Sort(Sort.Direction.DESC,"month"));
+        }, new Sort(Sort.Direction.DESC, "month"));
         stringObjectHashMap.put("wageList", wageList);
         try {
             Wage allFieldsSum = ObjectUtils.getAllFieldsSum(wageList, Wage.class);

@@ -19,6 +19,7 @@ import java.util.UUID;
 
 /**
  * 部门控制器
+ *
  * @author Ning
  */
 @RestController
@@ -70,7 +71,7 @@ public class DepartmentController {
      */
     @GetMapping("/add/{name}")
     public ServerMessage addDepartmentInfo(@PathVariable("name") String name) {
-        Department department = new Department(UUID.randomUUID().toString().replace("-", ""), name,null);
+        Department department = new Department(UUID.randomUUID().toString().replace("-", ""), name, null);
         logger.debug("addEmploymentFormInfo::要添加的部门->" + department);
         ServerMessage serverMessage = new ServerMessage();
         serverMessage.setCode(ServerMessage.SUCCESS_CODE);

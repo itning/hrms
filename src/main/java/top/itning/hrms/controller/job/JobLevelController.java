@@ -29,6 +29,7 @@ public class JobLevelController {
 
     @Autowired
     private JobService jobService;
+
     /**
      * 获取职称级别信息集合
      *

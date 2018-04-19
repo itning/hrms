@@ -8,7 +8,7 @@ import org.springframework.cache.annotation.EnableCaching;
 @EnableCaching
 public class HrmsApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(HrmsApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(HrmsApplication.class, args);
+    }
 }

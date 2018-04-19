@@ -5,7 +5,7 @@ import org.springframework.security.core.GrantedAuthority;
 /**
  * @author Ning
  */
-public class AuthorityInfo  implements GrantedAuthority {
+public class AuthorityInfo implements GrantedAuthority {
     /**
      * 权限CODE
      */
