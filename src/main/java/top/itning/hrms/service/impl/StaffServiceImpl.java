@@ -14,7 +14,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -132,7 +131,7 @@ public class StaffServiceImpl implements StaffService {
 
     @Override
     @CacheEvict(cacheNames = "StaffInfoList", key = "#staff.department.id")
-    @CachePut(cacheNames = "StaffInfoByID", key = "#staff.id")
+    //@CachePut(cacheNames = "StaffInfoByID", key = "#staff.id")
     public Staff addOrModifyStaffInfo(Staff staff) throws NumberFormatException, NullParameterException, DataFormatException {
         String nid = staff.getNid();
         //判断是否为数字
@@ -166,7 +165,7 @@ public class StaffServiceImpl implements StaffService {
     }
 
     @Override
-    @Cacheable(cacheNames = "StaffInfoByID", key = "#id")
+    //@Cacheable(cacheNames = "StaffInfoByID", key = "#id")
     public Staff getStaffInfoByID(String id) throws NoSuchIdException, NullParameterException {
         logger.debug("getStaffInfoByID::要查找的职工ID为->" + id);
         if (StringUtils.isBlank(id)) {

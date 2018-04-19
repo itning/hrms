@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import top.itning.hrms.dao.department.DepartmentDao;
 import top.itning.hrms.dao.department.GrassrootDao;
@@ -49,7 +50,9 @@ public class GrassrootServiceImpl implements GrassrootService {
     }
 
     @Override
-    @CacheEvict(cacheNames = "GrassrootListByDepartment", key = "#did")
+    @Caching(evict = {
+            @CacheEvict(value = "GrassrootListByDepartment", key = "#did"),
+            @CacheEvict(value = "StaffInfoList", key = "#did")})
     public void modifyGrassroot(Grassroot grassroot, String did) throws NullParameterException {
         if (StringUtils.isAnyBlank(grassroot.getId(), grassroot.getName())) {
             logger.warn("modifyGrassrootByDepartment::参数为空->" + grassroot);
