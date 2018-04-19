@@ -772,32 +772,56 @@ public class StaffServiceImpl implements StaffService {
                     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
                     Date comeDateDate = simpleDateFormat.parse(comeDate);
                     Date startDateDate = simpleDateFormat.parse(startDate);
-                    Date certifiedTimeDate = simpleDateFormat.parse(certifiedTime);
-                    Date oqc1TimeDate = simpleDateFormat.parse(oqc1Time);
-                    Date ptcTimeDate = simpleDateFormat.parse(ptcTime);
-                    Date eStartDateDate = simpleDateFormat.parse(eStartDate);
-                    Date laborContract1Date = simpleDateFormat.parse(laborContract1);
-                    Date laborContract1EndDate = simpleDateFormat.parse(laborContract1End);
-                    Date laborContract2Date = simpleDateFormat.parse(laborContract2);
-                    Date laborContract2EndDate = simpleDateFormat.parse(laborContract2End);
-                    Date laborContract3Date = simpleDateFormat.parse(laborContract3);
-                    Date laborContract3EndDate = simpleDateFormat.parse(laborContract3End);
-                    Date graduationTime1Date = simpleDateFormat.parse(graduationTime1);
-                    Date graduationTime2Date = simpleDateFormat.parse(graduationTime2);
+                    if (certifiedTime != null) {
+                        Date certifiedTimeDate = simpleDateFormat.parse(certifiedTime);
+                        staff.setCertifiedTime(certifiedTimeDate);
+                    }
+                    if (oqc1Time != null) {
+                        Date oqc1TimeDate = simpleDateFormat.parse(oqc1Time);
+                        staff.setOqc1Time(oqc1TimeDate);
+                    }
+                    if (ptcTime != null) {
+                        Date ptcTimeDate = simpleDateFormat.parse(ptcTime);
+                        staff.setPtcTime(ptcTimeDate);
+                    }
+                    if (eStartDate != null) {
+                        Date eStartDateDate = simpleDateFormat.parse(eStartDate);
+                        staff.setEStartDate(eStartDateDate);
+                    }
+                    if (laborContract1 != null) {
+                        Date laborContract1Date = simpleDateFormat.parse(laborContract1);
+                        staff.setLaborContract1(laborContract1Date);
+                    }
+                    if (laborContract1End != null) {
+                        Date laborContract1EndDate = simpleDateFormat.parse(laborContract1End);
+                        staff.setLaborContract1End(laborContract1EndDate);
+                    }
+                    if (laborContract2 != null) {
+                        Date laborContract2Date = simpleDateFormat.parse(laborContract2);
+                        staff.setLaborContract2(laborContract2Date);
+                    }
+                    if (laborContract2End != null) {
+                        Date laborContract2EndDate = simpleDateFormat.parse(laborContract2End);
+                        staff.setLaborContract2End(laborContract2EndDate);
+                    }
+                    if (laborContract3 != null) {
+                        Date laborContract3Date = simpleDateFormat.parse(laborContract3);
+                        staff.setLaborContract3(laborContract3Date);
+                    }
+                    if (laborContract3End != null) {
+                        Date laborContract3EndDate = simpleDateFormat.parse(laborContract3End);
+                        staff.setLaborContract3End(laborContract3EndDate);
+                    }
+                    if (graduationTime1 != null) {
+                        Date graduationTime1Date = simpleDateFormat.parse(graduationTime1);
+                        staff.setGraduationTime1(graduationTime1Date);
+                    }
+                    if (graduationTime2 != null) {
+                        Date graduationTime2Date = simpleDateFormat.parse(graduationTime2);
+                        staff.setGraduationTime2(graduationTime2Date);
+                    }
                     staff.setComeDate(comeDateDate);
                     staff.setStartDate(startDateDate);
-                    staff.setCertifiedTime(certifiedTimeDate);
-                    staff.setOqc1Time(oqc1TimeDate);
-                    staff.setPtcTime(ptcTimeDate);
-                    staff.setEStartDate(eStartDateDate);
-                    staff.setLaborContract1(laborContract1Date);
-                    staff.setLaborContract1End(laborContract1EndDate);
-                    staff.setLaborContract2(laborContract2Date);
-                    staff.setLaborContract2End(laborContract2EndDate);
-                    staff.setLaborContract3(laborContract3Date);
-                    staff.setLaborContract3End(laborContract3EndDate);
-                    staff.setGraduationTime1(graduationTime1Date);
-                    staff.setGraduationTime2(graduationTime2Date);
                 } catch (ParseException e) {
                     logger.info("addStudentInfoByExcel::日期格式化出错->" + e.getMessage());
                     logger.warn("第" + (i + 1) + "行数据不正确->日期格式化出错->" + e.getMessage());
