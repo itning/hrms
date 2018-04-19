@@ -8,6 +8,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import top.itning.hrms.dao.department.DepartmentDao;
+import top.itning.hrms.dao.department.GrassrootDao;
 import top.itning.hrms.entity.department.Department;
 import top.itning.hrms.exception.defaults.NoSuchIdException;
 import top.itning.hrms.exception.defaults.NullParameterException;
@@ -28,9 +29,12 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     private final DepartmentDao departmentDao;
 
+    private final GrassrootDao grassrootDao;
+
     @Autowired
-    public DepartmentServiceImpl(DepartmentDao departmentDao) {
+    public DepartmentServiceImpl(DepartmentDao departmentDao, GrassrootDao grassrootDao) {
         this.departmentDao = departmentDao;
+        this.grassrootDao = grassrootDao;
     }
 
     @Override
@@ -47,7 +51,7 @@ public class DepartmentServiceImpl implements DepartmentService {
             logger.warn("delDepartmentByID::ID->" + id + "的部门不存在");
             throw new NoSuchIdException("ID为" + id + "的部门信息不存在");
         }
-        //TODO 基层单位外键删除
+        grassrootDao.delete(departmentDao.getOne(id).getGrassroots());
         departmentDao.delete(id);
     }
 
