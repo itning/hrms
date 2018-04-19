@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -43,7 +44,7 @@
         <img th:src="@{/image/card.jpg}"/>
         <div class="mdui-card-media-covered">
             <div class="mdui-card-primary">
-                <div class="mdui-card-primary-title">舒露</div>
+                <div class="mdui-card-primary-title" sec:authentication="name">舒露</div>
                 <div class="mdui-card-primary-subtitle">欢迎</div>
             </div>
         </div>
