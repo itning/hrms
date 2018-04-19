@@ -272,7 +272,6 @@
             if (modifyId === "") {
                 $.get("/" + last_id + "/add/" + nameVal, function (data) {
                     if (data.code === 200) {
-                        console.log("ok");
                         location.reload();
                     } else {
                         showSnackbar(data.msg);
