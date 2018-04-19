@@ -8,8 +8,10 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
+import top.itning.hrms.dao.StaffDao;
 import top.itning.hrms.dao.department.DepartmentDao;
 import top.itning.hrms.dao.department.GrassrootDao;
+import top.itning.hrms.entity.Staff;
 import top.itning.hrms.entity.department.Department;
 import top.itning.hrms.entity.department.Grassroot;
 import top.itning.hrms.exception.defaults.NoSuchIdException;
@@ -33,10 +35,13 @@ public class GrassrootServiceImpl implements GrassrootService {
 
     private final GrassrootDao grassrootDao;
 
+    private final StaffDao staffDao;
+
     @Autowired
-    public GrassrootServiceImpl(DepartmentDao departmentDao, GrassrootDao grassrootDao) {
+    public GrassrootServiceImpl(DepartmentDao departmentDao, GrassrootDao grassrootDao, StaffDao staffDao) {
         this.departmentDao = departmentDao;
         this.grassrootDao = grassrootDao;
+        this.staffDao = staffDao;
     }
 
     @Override
@@ -85,6 +90,10 @@ public class GrassrootServiceImpl implements GrassrootService {
         if (StringUtils.isBlank(id) && !grassrootDao.exists(id)) {
             logger.warn("delGrassrootByID::ID不存在或为空->" + id);
             throw new NoSuchIdException("ID:" + id + "不存在或为空");
+        }
+        List<Staff> staffList = staffDao.findByGrassroot(grassrootDao.findOne(id));
+        if (staffList != null && staffList.size() != 0) {
+            throw new NoSuchIdException("请先检查该基层单位下职工是否已经移除!");
         }
         grassrootDao.delete(id);
     }

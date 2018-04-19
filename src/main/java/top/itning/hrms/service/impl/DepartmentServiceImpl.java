@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import top.itning.hrms.dao.department.DepartmentDao;
 import top.itning.hrms.dao.department.GrassrootDao;
 import top.itning.hrms.entity.department.Department;
+import top.itning.hrms.entity.department.Grassroot;
 import top.itning.hrms.exception.defaults.NoSuchIdException;
 import top.itning.hrms.exception.defaults.NullParameterException;
 import top.itning.hrms.service.DepartmentService;
@@ -51,7 +52,11 @@ public class DepartmentServiceImpl implements DepartmentService {
             logger.warn("delDepartmentByID::ID->" + id + "的部门不存在");
             throw new NoSuchIdException("ID为" + id + "的部门信息不存在");
         }
-        grassrootDao.delete(departmentDao.getOne(id).getGrassroots());
+        //逻辑:检查基层单位是否存在,存在提示,不存在删除
+        List<Grassroot> grassrootList = departmentDao.getOne(id).getGrassroots();
+        if (grassrootList != null && grassrootList.size() != 0) {
+            throw new NoSuchIdException("请先检查该部门下是否存在基层单位!");
+        }
         departmentDao.delete(id);
     }
 
