@@ -27,8 +27,12 @@ import java.util.UUID;
 public class JobLevelController {
     private static final Logger logger = LoggerFactory.getLogger(JobLevelController.class);
 
+    private final JobService jobService;
+
     @Autowired
-    private JobService jobService;
+    public JobLevelController(JobService jobService) {
+        this.jobService = jobService;
+    }
 
     /**
      * 获取职称级别信息集合

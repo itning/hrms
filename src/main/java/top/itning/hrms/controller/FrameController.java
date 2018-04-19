@@ -21,8 +21,12 @@ import java.util.List;
 public class FrameController {
     private static final Logger logger = LoggerFactory.getLogger(FrameController.class);
 
+    private final DepartmentService departmentService;
+
     @Autowired
-    private DepartmentService departmentService;
+    public FrameController(DepartmentService departmentService) {
+        this.departmentService = departmentService;
+    }
 
     /**
      * 根路径

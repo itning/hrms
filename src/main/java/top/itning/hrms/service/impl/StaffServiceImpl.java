@@ -78,38 +78,42 @@ public class StaffServiceImpl implements StaffService {
      */
     private static final int ID_NUM_LENGTH = 18;
 
-    @Autowired
-    private StaffDao staffDao;
+    private final StaffDao staffDao;
+
+    private final DepartmentDao departmentDao;
+
+    private final WageDao wageDao;
+
+    private final GrassrootDao grassrootDao;
+
+    private final PositionTitleDao positionTitleDao;
+
+    private final PositionCategoryDao positionCategoryDao;
+
+    private final JobTitleDao jobTitleDao;
+
+    private final JobLevelDao jobLevelDao;
+
+    private final EthnicDao ethnicDao;
+
+    private final PoliticalStatusDao politicalStatusDao;
+
+    private final EmploymentFormDao employmentFormDao;
 
     @Autowired
-    private DepartmentDao departmentDao;
-
-    @Autowired
-    private WageDao wageDao;
-
-    @Autowired
-    private GrassrootDao grassrootDao;
-
-    @Autowired
-    private PositionTitleDao positionTitleDao;
-
-    @Autowired
-    private PositionCategoryDao positionCategoryDao;
-
-    @Autowired
-    private JobTitleDao jobTitleDao;
-
-    @Autowired
-    private JobLevelDao jobLevelDao;
-
-    @Autowired
-    private EthnicDao ethnicDao;
-
-    @Autowired
-    private PoliticalStatusDao politicalStatusDao;
-
-    @Autowired
-    private EmploymentFormDao employmentFormDao;
+    public StaffServiceImpl(JobTitleDao jobTitleDao, StaffDao staffDao, DepartmentDao departmentDao, WageDao wageDao, GrassrootDao grassrootDao, PositionCategoryDao positionCategoryDao, JobLevelDao jobLevelDao, EthnicDao ethnicDao, PoliticalStatusDao politicalStatusDao, EmploymentFormDao employmentFormDao, PositionTitleDao positionTitleDao) {
+        this.jobTitleDao = jobTitleDao;
+        this.staffDao = staffDao;
+        this.departmentDao = departmentDao;
+        this.wageDao = wageDao;
+        this.grassrootDao = grassrootDao;
+        this.positionCategoryDao = positionCategoryDao;
+        this.jobLevelDao = jobLevelDao;
+        this.ethnicDao = ethnicDao;
+        this.politicalStatusDao = politicalStatusDao;
+        this.employmentFormDao = employmentFormDao;
+        this.positionTitleDao = positionTitleDao;
+    }
 
     @Override
     @Cacheable(cacheNames = "StaffInfoList", key = "#id")

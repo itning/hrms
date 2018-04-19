@@ -27,8 +27,12 @@ import java.util.UUID;
 public class DepartmentController {
     private static final Logger logger = LoggerFactory.getLogger(DepartmentController.class);
 
+    private final DepartmentService departmentService;
+
     @Autowired
-    private DepartmentService departmentService;
+    public DepartmentController(DepartmentService departmentService) {
+        this.departmentService = departmentService;
+    }
 
     /**
      * 获取部门信息集合

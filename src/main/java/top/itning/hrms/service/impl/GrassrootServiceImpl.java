@@ -28,11 +28,15 @@ import java.util.List;
 public class GrassrootServiceImpl implements GrassrootService {
     private static final Logger logger = LoggerFactory.getLogger(GrassrootServiceImpl.class);
 
-    @Autowired
-    private DepartmentDao departmentDao;
+    private final DepartmentDao departmentDao;
+
+    private final GrassrootDao grassrootDao;
 
     @Autowired
-    private GrassrootDao grassrootDao;
+    public GrassrootServiceImpl(DepartmentDao departmentDao, GrassrootDao grassrootDao) {
+        this.departmentDao = departmentDao;
+        this.grassrootDao = grassrootDao;
+    }
 
     @Override
     @Cacheable(cacheNames = "GrassrootListByDepartment", key = "#id")

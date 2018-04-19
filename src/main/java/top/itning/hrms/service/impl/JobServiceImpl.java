@@ -28,11 +28,15 @@ import java.util.List;
 public class JobServiceImpl implements JobService {
     private static final Logger logger = LoggerFactory.getLogger(JobServiceImpl.class);
 
-    @Autowired
-    private JobTitleDao jobTitleDao;
+    private final JobTitleDao jobTitleDao;
+
+    private final JobLevelDao jobLevelDao;
 
     @Autowired
-    private JobLevelDao jobLevelDao;
+    public JobServiceImpl(JobTitleDao jobTitleDao, JobLevelDao jobLevelDao) {
+        this.jobTitleDao = jobTitleDao;
+        this.jobLevelDao = jobLevelDao;
+    }
 
     @Override
     @Cacheable(cacheNames = "JobTitleInfoList", key = "#key")

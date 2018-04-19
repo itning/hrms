@@ -28,11 +28,15 @@ import java.util.List;
 public class PostServiceImpl implements PostService {
     private static final Logger logger = LoggerFactory.getLogger(PostServiceImpl.class);
 
-    @Autowired
-    private PositionTitleDao positionTitleDao;
+    private final PositionTitleDao positionTitleDao;
+
+    private final PositionCategoryDao positionCategoryDao;
 
     @Autowired
-    private PositionCategoryDao positionCategoryDao;
+    public PostServiceImpl(PositionTitleDao positionTitleDao, PositionCategoryDao positionCategoryDao) {
+        this.positionTitleDao = positionTitleDao;
+        this.positionCategoryDao = positionCategoryDao;
+    }
 
     @Override
     @Cacheable(cacheNames = "PositionTitleInfoList", key = "#key")

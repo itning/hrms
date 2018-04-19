@@ -45,20 +45,24 @@ import java.util.*;
 public class WageServiceImpl implements WageService {
     private static final Logger logger = LoggerFactory.getLogger(WageServiceImpl.class);
 
-    @Autowired
-    private WageDao wageDao;
+    private final WageDao wageDao;
+
+    private final DepartmentDao departmentDao;
+
+    private final StaffDao staffDao;
+
+    private final GrassrootDao grassrootDao;
+
+    private final JobTitleDao jobTitleDao;
 
     @Autowired
-    private DepartmentDao departmentDao;
-
-    @Autowired
-    private StaffDao staffDao;
-
-    @Autowired
-    private GrassrootDao grassrootDao;
-
-    @Autowired
-    private JobTitleDao jobTitleDao;
+    public WageServiceImpl(WageDao wageDao, DepartmentDao departmentDao, StaffDao staffDao, GrassrootDao grassrootDao, JobTitleDao jobTitleDao) {
+        this.wageDao = wageDao;
+        this.departmentDao = departmentDao;
+        this.staffDao = staffDao;
+        this.grassrootDao = grassrootDao;
+        this.jobTitleDao = jobTitleDao;
+    }
 
     @Override
     public String[] getWageYear() {

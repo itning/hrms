@@ -24,8 +24,12 @@ import java.util.UUID;
 public class GrassrootController {
     private static final Logger logger = LoggerFactory.getLogger(GrassrootController.class);
 
+    private final GrassrootService grassrootService;
+
     @Autowired
-    private GrassrootService grassrootService;
+    public GrassrootController(GrassrootService grassrootService) {
+        this.grassrootService = grassrootService;
+    }
 
     /**
      * 根据部门ID获取基层单位信息集合

@@ -27,8 +27,12 @@ import java.util.UUID;
 public class EmploymentFormController {
     private static final Logger logger = LoggerFactory.getLogger(EmploymentFormController.class);
 
+    private final EmploymentService employmentService;
+
     @Autowired
-    private EmploymentService employmentService;
+    public EmploymentFormController(EmploymentService employmentService) {
+        this.employmentService = employmentService;
+    }
 
     /**
      * 获取用工形式信息集合

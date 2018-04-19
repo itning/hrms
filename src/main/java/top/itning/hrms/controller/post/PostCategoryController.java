@@ -27,8 +27,12 @@ import java.util.UUID;
 public class PostCategoryController {
     private static final Logger logger = LoggerFactory.getLogger(PostCategoryController.class);
 
+    private final PostService postService;
+
     @Autowired
-    private PostService postService;
+    public PostCategoryController(PostService postService) {
+        this.postService = postService;
+    }
 
     /**
      * 获取岗位类别信息集合

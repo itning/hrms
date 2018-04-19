@@ -26,8 +26,12 @@ import java.util.List;
 public class DepartmentServiceImpl implements DepartmentService {
     private static final Logger logger = LoggerFactory.getLogger(DepartmentServiceImpl.class);
 
+    private final DepartmentDao departmentDao;
+
     @Autowired
-    private DepartmentDao departmentDao;
+    public DepartmentServiceImpl(DepartmentDao departmentDao) {
+        this.departmentDao = departmentDao;
+    }
 
     @Override
     @Cacheable(cacheNames = "DepartmentList", key = "#key")

@@ -26,8 +26,12 @@ import java.util.List;
 public class EmploymentServiceImpl implements EmploymentService {
     private static final Logger logger = LoggerFactory.getLogger(EmploymentServiceImpl.class);
 
+    private final EmploymentFormDao employmentFormDao;
+
     @Autowired
-    private EmploymentFormDao employmentFormDao;
+    public EmploymentServiceImpl(EmploymentFormDao employmentFormDao) {
+        this.employmentFormDao = employmentFormDao;
+    }
 
     @Override
     @Cacheable(cacheNames = "EmploymentList", key = "#key")
