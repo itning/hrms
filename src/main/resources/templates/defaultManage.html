@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -282,7 +283,8 @@
             } else {//修改
                 $.get("/" + last_id + "/modify?id=" + modifyId + "&name=" + nameVal, function (data) {
                     if (data.code === 200) {
-                        window.open("/manage/#/" + last_id, '_self');
+                        //window.open("/manage/#/" + last_id, '_self');
+                        location.reload();
                     } else {
                         showSnackbar(data.msg);
                     }
@@ -296,7 +298,7 @@
             if (id === undefined && modifyId !== "") {
                 modifyId = "";
             }
-            new mdui.Dialog('#addOrModify_dialog').open();
+            new mdui.Dialog('#addOrModify_dialog', {'history': false}).open();
         }
     }
 

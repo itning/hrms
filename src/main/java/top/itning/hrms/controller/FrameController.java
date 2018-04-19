@@ -53,7 +53,7 @@ public class FrameController {
     @GetMapping("/index")
     public String index(Model model) {
         logger.debug("index::开始获取部门信息集合");
-        List<Department> departmentList = departmentService.getAllDepartmentInfoList("getAllDepartmentInfo");
+        List<Department> departmentList = departmentService.getAllDepartmentInfoList("getAllDepartmentInfoList");
         logger.debug("index::获取部门信息集合完成,大小->" + departmentList.size());
         model.addAttribute("departmentList", departmentList);
         return "index";
@@ -67,7 +67,7 @@ public class FrameController {
      */
     @GetMapping("/manage")
     public String manage(Model model) {
-        model.addAttribute("departmentList", departmentService.getAllDepartmentInfoList("getAllDepartmentInfo"));
+        model.addAttribute("departmentList", departmentService.getAllDepartmentInfoList("getAllDepartmentInfoList"));
         return "defaultManage";
     }
 
@@ -79,7 +79,7 @@ public class FrameController {
      */
     @GetMapping("/grassroot")
     public String grassroot(Model model) {
-        model.addAttribute("departmentList", departmentService.getAllDepartmentInfoList("getAllDepartmentInfo"));
+        model.addAttribute("departmentList", departmentService.getAllDepartmentInfoList("getAllDepartmentInfoList"));
         return "grassroot";
     }
 }
