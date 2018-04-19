@@ -58,6 +58,11 @@ public class DepartmentServiceImpl implements DepartmentService {
             logger.warn("addOrModifyDepartmentInfo::参数为空->" + department);
             throw new NullParameterException("参数为空");
         }
+        //如果基层单位不存在且有这个部门(修改操作)
+        if (department.getGrassroots() == null && departmentDao.exists(department.getId())) {
+            Department wantUpDepartment = departmentDao.findOne(department.getId());
+            department.setGrassroots(wantUpDepartment.getGrassroots());
+        }
         departmentDao.saveAndFlush(department);
     }
 }
