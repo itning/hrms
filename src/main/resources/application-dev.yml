@@ -25,10 +25,6 @@ logging:
   level: debug
   level.top: debug
   file: C:/Users/Ning/Desktop/upload/log.log
-#security:
- # user:
- #   name: 1
- #   password: 1
 cas:
   server:
     host:
