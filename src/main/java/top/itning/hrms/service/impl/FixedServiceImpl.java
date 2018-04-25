@@ -48,7 +48,8 @@ public class FixedServiceImpl implements FixedService {
             politicalStatusList.add(new PoliticalStatus(String.valueOf(new DecimalFormat("00").format(i + 1)), psStr[i]));
         }
         logger.info("init::初始化政治面貌信息数量->" + politicalStatusList.size());
-        politicalStatusList.forEach(politicalStatusDao::saveAndFlush);
+        politicalStatusDao.save(politicalStatusList);
+        politicalStatusDao.flush();
         logger.info("init::添加政治面貌信息完成");
     }
 

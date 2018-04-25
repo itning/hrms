@@ -8,7 +8,6 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import top.itning.hrms.dao.department.DepartmentDao;
-import top.itning.hrms.dao.department.GrassrootDao;
 import top.itning.hrms.entity.department.Department;
 import top.itning.hrms.entity.department.Grassroot;
 import top.itning.hrms.exception.defaults.NoSuchIdException;
@@ -30,12 +29,9 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     private final DepartmentDao departmentDao;
 
-    private final GrassrootDao grassrootDao;
-
     @Autowired
-    public DepartmentServiceImpl(DepartmentDao departmentDao, GrassrootDao grassrootDao) {
+    public DepartmentServiceImpl(DepartmentDao departmentDao) {
         this.departmentDao = departmentDao;
-        this.grassrootDao = grassrootDao;
     }
 
     @Override
