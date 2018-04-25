@@ -16,14 +16,15 @@
 
 ### 技术架构
 #### 前端
-- [MDUI](https://www.mdui.org/)
-- [canvas-nest](https://github.com/hustcc/canvas-nest.js)
-- [My97 DatePicker](http://www.my97.net/index.asp)
-- [Jquery](https://jquery.org/)
+- [MDUI](https://www.mdui.org/) -> 一个Material Design风格的CSS框架
+- [canvas-nest](https://github.com/hustcc/canvas-nest.js) -> 好看的动态背景
+- [My97 DatePicker](http://www.my97.net/index.asp) -> 日期控件
+- [Jquery](https://jquery.org/) -> 前端常用框架工具
 #### 后端
-- Spring Boot
-- Spring JPA
-- Spring Security
-- Apache POI
+- Spring Boot -> 约定优于配置
+- Spring JPA -> Spring的JAVA持久层实现
+- Spring Security -> Spring的安全控制框架
+- [Apache POI](https://poi.apache.org/) -> 用JAVA对Excel进行操作
+- [CAS](https://github.com/apereo/cas) -> 单点登录
 ### 开源协议
 - [MIT](https://github.com/itning/Ta/blob/master/LICENSE)
