@@ -4,6 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,6 +41,7 @@ public class PostCategoryController {
      * @return 岗位类别信息集合
      */
     @GetMapping("")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     public List<PositionCategory> getPostCategoryInfoList() {
         logger.debug("getPostCategoryInfoList::获取岗位名称集合");
         return postService.getAllPositionCategoryInfoList("getAllPositionCategoryInfoList");
@@ -52,6 +54,7 @@ public class PostCategoryController {
      * @return JSON格式服务器消息
      */
     @GetMapping("/del/{id}")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ServerMessage delPostCategoryInfoByID(@PathVariable("id") String id) {
         logger.debug("delPostCategoryInfoByID::要删除的ID->" + id);
         ServerMessage serverMessage = new ServerMessage();
@@ -74,6 +77,7 @@ public class PostCategoryController {
      * @return JSON服务器消息
      */
     @GetMapping("/add/{name}")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ServerMessage addPostCategoryInfo(@PathVariable("name") String name) {
         PositionCategory positionCategory = new PositionCategory(UUID.randomUUID().toString().replace("-", ""), name);
         logger.debug("addPostTitleInfo::要添加的岗位实体->" + positionCategory);
@@ -97,6 +101,7 @@ public class PostCategoryController {
      * @return JSON服务器消息
      */
     @GetMapping("/modify")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ServerMessage modifyPostCategoryInfo(PositionCategory positionCategory) {
         ServerMessage serverMessage = new ServerMessage();
         serverMessage.setUrl("/postCategory/modify");

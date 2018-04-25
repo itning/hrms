@@ -56,7 +56,7 @@
         </div>
     </div>
     <ul class="mdui-list mdui-card-content" mdui-collapse="{accordion: true}">
-        <li th:if="${departmentList.size()!=0}" class="mdui-collapse-item">
+        <li th:if="${departmentList.size()!=0}" class="mdui-collapse-item" sec:authorize="hasAuthority('ADMIN')">
             <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
                 <i class="mdui-list-item-icon mdui-icon material-icons">people</i>
                 <div class="mdui-list-item-content">职工信息管理</div>
@@ -80,34 +80,34 @@
             </div>
             <div class="mdui-collapse-item-body mdui-list mdui-list-dense">
                 <a th:href="@{/staffWage/search}" class="mdui-list-item mdui-ripple mdui-list-item-active">查询工资信息</a>
-                <a th:href="@{/staffWage/add}" class="mdui-list-item mdui-ripple">添加工资信息</a>
+                <a th:href="@{/staffWage/add}" class="mdui-list-item mdui-ripple" sec:authorize="hasAuthority('ADMIN')">添加工资信息</a>
             </div>
         </li>
-        <li class="mdui-list-item mdui-ripple" id="postTitle">
+        <li class="mdui-list-item mdui-ripple" id="postTitle" sec:authorize="hasAuthority('ADMIN')">
             <i class="mdui-list-item-icon mdui-icon material-icons">nature_people</i>
             <a th:href="${'/manage/#/postTitle'}" class="mdui-list-item-content">岗位名称管理</a>
         </li>
-        <li class="mdui-list-item mdui-ripple" id="postCategory">
+        <li class="mdui-list-item mdui-ripple" id="postCategory" sec:authorize="hasAuthority('ADMIN')">
             <i class="mdui-list-item-icon mdui-icon material-icons">nature</i>
             <a th:href="${'/manage/#/postCategory'}" class="mdui-list-item-content">岗位类别管理</a>
         </li>
-        <li class="mdui-list-item mdui-ripple" id="jobTitle">
+        <li class="mdui-list-item mdui-ripple" id="jobTitle" sec:authorize="hasAuthority('ADMIN')">
             <i class="mdui-list-item-icon mdui-icon material-icons">accessibility</i>
             <a th:href="${'/manage/#/jobTitle'}" class="mdui-list-item-content">社会职称管理</a>
         </li>
-        <li class="mdui-list-item mdui-ripple" id="jobLevel">
+        <li class="mdui-list-item mdui-ripple" id="jobLevel" sec:authorize="hasAuthority('ADMIN')">
             <i class="mdui-list-item-icon mdui-icon material-icons">bubble_chart</i>
             <a th:href="${'/manage/#/jobLevel'}" class="mdui-list-item-content">职称级别管理</a>
         </li>
-        <li class="mdui-list-item mdui-ripple" id="employmentForm">
+        <li class="mdui-list-item mdui-ripple" id="employmentForm" sec:authorize="hasAuthority('ADMIN')">
             <i class="mdui-list-item-icon mdui-icon material-icons">dvr</i>
             <a th:href="${'/manage/#/employmentForm'}" class="mdui-list-item-content">用工形式管理</a>
         </li>
-        <li class="mdui-list-item mdui-ripple" id="department">
+        <li class="mdui-list-item mdui-ripple" id="department" sec:authorize="hasAuthority('ADMIN')">
             <i class="mdui-list-item-icon mdui-icon material-icons">transfer_within_a_station</i>
             <a th:href="${'/manage/#/department'}" class="mdui-list-item-content">部门信息管理</a>
         </li>
-        <li th:if="${departmentList.size()!=0}" class="mdui-collapse-item">
+        <li th:if="${departmentList.size()!=0}" class="mdui-collapse-item" sec:authorize="hasAuthority('ADMIN')">
             <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
                 <i class="mdui-list-item-icon mdui-icon material-icons">equalizer</i>
                 <div class="mdui-list-item-content">基层单位管理</div>
@@ -126,7 +126,7 @@
             </label>
             <div class="mdui-list-item-content">夜间模式</div>
         </li>
-        <li class="mdui-list-item mdui-ripple">
+        <li class="mdui-list-item mdui-ripple" sec:authorize="hasAuthority('ADMIN')">
             <i class="mdui-list-item-icon mdui-icon material-icons">settings</i>
             <a href="" class="mdui-list-item-content">系统设置</a>
         </li>

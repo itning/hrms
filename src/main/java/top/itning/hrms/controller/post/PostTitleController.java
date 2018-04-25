@@ -4,6 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,6 +41,7 @@ public class PostTitleController {
      * @return 岗位名称信息集合
      */
     @GetMapping("")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     public List<PositionTitle> getPostTitleInfoList() {
         logger.debug("getPostTitleInfoList::获取岗位名称集合");
         return postService.getAllPositionTitleInfoList("getAllPositionTitleInfoList");
@@ -52,6 +54,7 @@ public class PostTitleController {
      * @return JSON格式服务器消息
      */
     @GetMapping("/del/{id}")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ServerMessage delPostTitleInfoByID(@PathVariable("id") String id) {
         logger.debug("delPostTitleInfoByID::要删除的ID->" + id);
         ServerMessage serverMessage = new ServerMessage();
@@ -74,6 +77,7 @@ public class PostTitleController {
      * @return JSON格式服务器消息
      */
     @GetMapping("/add/{name}")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ServerMessage addPostTitleInfo(@PathVariable("name") String name) {
         PositionTitle positionTitle = new PositionTitle(UUID.randomUUID().toString().replace("-", ""), name);
         logger.debug("addPostTitleInfo::要添加的岗位实体->" + positionTitle);
@@ -97,6 +101,7 @@ public class PostTitleController {
      * @return JSON服务器消息
      */
     @GetMapping("/modify")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ServerMessage modifyPostTitleInfo(PositionTitle positionTitle) {
         ServerMessage serverMessage = new ServerMessage();
         serverMessage.setUrl("/postTitle/modify");

@@ -4,6 +4,10 @@ import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,16 +35,27 @@ public class FrameController {
     /**
      * 根路径
      *
-     * @return 重定向到主页
+     * @return 重定向到主页/搜索页
      */
     @GetMapping("/")
     public String root(HttpServletRequest request) {
-        logger.debug("root::重定向到主页");
+
       /*  AttributePrincipal principal = (AttributePrincipal) request.getUserPrincipal();
         Map attributes = principal.getAttributes();
         logger.info(String.valueOf(attributes));
         String email= (String) attributes .get("phone");
         logger.info(String.valueOf(email));*/
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext()
+                .getAuthentication()
+                .getPrincipal();
+        System.out.println("----------" + userDetails.getUsername());
+        for (GrantedAuthority authority : userDetails.getAuthorities()) {
+            if ("USER".equals(authority.getAuthority())) {
+                logger.debug("root::重定向到工资搜索页");
+                return "redirect:/staffWage/search";
+            }
+        }
+        logger.debug("root::重定向到主页");
         return "redirect:/index";
     }
 
@@ -51,6 +66,7 @@ public class FrameController {
      * @return index.html
      */
     @GetMapping("/index")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     public String index(Model model) {
         logger.debug("index::开始获取部门信息集合");
         List<Department> departmentList = departmentService.getAllDepartmentInfoList("getAllDepartmentInfoList");
@@ -66,6 +82,7 @@ public class FrameController {
      * @return defaultManage.html
      */
     @GetMapping("/manage")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     public String manage(Model model) {
         model.addAttribute("departmentList", departmentService.getAllDepartmentInfoList("getAllDepartmentInfoList"));
         return "defaultManage";
@@ -78,6 +95,7 @@ public class FrameController {
      * @return grassroot.html
      */
     @GetMapping("/grassroot")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     public String grassroot(Model model) {
         model.addAttribute("departmentList", departmentService.getAllDepartmentInfoList("getAllDepartmentInfoList"));
         return "grassroot";

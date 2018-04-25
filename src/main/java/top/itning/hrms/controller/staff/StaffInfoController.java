@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.ServletRequestDataBinder;
@@ -75,6 +76,7 @@ public class StaffInfoController {
      * @throws JsonException 如果部门ID不存在则抛出该异常
      */
     @GetMapping("/show/{id}")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     @ResponseBody
     public List<Staff> getStaffsByDepartmentID(@PathVariable("id") String id) throws JsonException {
         logger.debug("getStaffsByDepartmentID::获取到的ID->" + id);
@@ -94,6 +96,7 @@ public class StaffInfoController {
      * @return addStaff.html
      */
     @GetMapping("/add")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     public String addStaffByWeb(Model model) {
         model.addAttribute("departmentList", departmentService.getAllDepartmentInfoList("getAllDepartmentInfo"));
         model.addAttribute("employmentFormList", employmentService.getAllEmploymentFormList("getAllEmploymentFormList"));
@@ -115,6 +118,7 @@ public class StaffInfoController {
      * @throws NullParameterException 如果Staff实体必填参数为空则抛出该异常
      */
     @PostMapping("/add")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     public String addStaff(Staff staff) throws DataFormatException, NullParameterException {
         staff.setId(UUID.randomUUID().toString().replace("-", ""));
         logger.debug("addStaff::要添加的职工信息->" + staff);
@@ -132,6 +136,7 @@ public class StaffInfoController {
      * @throws NullParameterException 该职工ID为空时抛出该异常
      */
     @GetMapping("/showDetails/{id}")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     public String showStaffDetails(Model model, @PathVariable("id") String id) throws NoSuchIdException, NullParameterException {
         logger.debug("showStaffDetails::要显示的职工ID->" + id);
         model.addAttribute("staffInfo", staffService.getStaffInfoByID(id));
@@ -155,6 +160,7 @@ public class StaffInfoController {
      * @throws DataFormatException    如果日期格式化出错则抛出该异常
      */
     @PostMapping("/modify")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     public String modifyStaffInfo(Staff staff) throws NullParameterException, DataFormatException {
         if (StringUtils.isBlank(staff.getId())) {
             logger.warn("modifyStaffInfo::要修改的职工ID为空");
@@ -171,6 +177,7 @@ public class StaffInfoController {
      * @return JSON格式服务器消息
      */
     @GetMapping("/del/{id}")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     @ResponseBody
     public ServerMessage delStaffInfoByID(@PathVariable("id") String id) {
         logger.debug("delStaffInfoByID::要删除的职工ID为->" + id);
@@ -194,6 +201,7 @@ public class StaffInfoController {
      * @return searchStaff.html
      */
     @GetMapping("/search")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     public String searchStaff(Model model) {
         model.addAttribute("departmentList", departmentService.getAllDepartmentInfoList("getAllDepartmentInfo"));
         model.addAttribute("positionTitleInfoList", postService.getAllPositionTitleInfoList("getAllPositionTitleInfoList"));
@@ -210,6 +218,7 @@ public class StaffInfoController {
      * @return 搜索到的职工信息集合
      */
     @GetMapping("/searchStaff")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     @ResponseBody
     public List<Staff> searchStaff(SearchStaff searchStaff) {
         logger.debug("searchStaff::搜索条件->" + searchStaff);
@@ -217,6 +226,7 @@ public class StaffInfoController {
     }
 
     @GetMapping("/down")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     public void downStaffInfoByID(String id, HttpServletResponse response) throws IOException, NoSuchIdException {
         logger.info("downStaffInfoByID::要下载的职工ID->" + id);
         String[] idArray = StringUtils.split(id, "-");
@@ -238,6 +248,7 @@ public class StaffInfoController {
      * @return 重定向到首页
      */
     @PostMapping("/upExcelFile")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     @ResponseBody
     public ServerMessage addStaffByFile(@RequestParam("file") MultipartFile file) {
         ServerMessage serverMessage = new ServerMessage();

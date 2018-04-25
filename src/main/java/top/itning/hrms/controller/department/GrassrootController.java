@@ -3,6 +3,7 @@ package top.itning.hrms.controller.department;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import top.itning.hrms.entity.ServerMessage;
 import top.itning.hrms.entity.department.Grassroot;
@@ -39,6 +40,7 @@ public class GrassrootController {
      * @throws JsonException 如果该部门ID不存在则抛出该异常
      */
     @GetMapping("/show/{id}")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     @ResponseBody
     public List<Grassroot> getGrassrootListByDepartmentID(@PathVariable("id") String id) throws JsonException {
         logger.debug("getGrassrootListByDepartmentID::部门ID为->" + id);
@@ -56,6 +58,7 @@ public class GrassrootController {
      * @return JSON服务器消息
      */
     @GetMapping("/modify")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     @ResponseBody
     public ServerMessage modifyGrassroot(Grassroot grassroot, String did) {
         ServerMessage serverMessage = new ServerMessage();
@@ -80,6 +83,7 @@ public class GrassrootController {
      * @return JSON服务器消息
      */
     @GetMapping("/add")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     @ResponseBody
     public ServerMessage addmodifyGrassrootByDepartmentID(String did, Grassroot grassroot) {
         grassroot.setId(UUID.randomUUID().toString().replace("-", ""));
@@ -104,6 +108,7 @@ public class GrassrootController {
      * @return JSON服务器消息
      */
     @GetMapping("/del")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     @ResponseBody
     public ServerMessage delGrassrootByID(String id, String did) {
         ServerMessage serverMessage = new ServerMessage();

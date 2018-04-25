@@ -4,6 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -48,7 +49,13 @@ public class StaffWageController {
         this.wageService = wageService;
     }
 
+    /**
+     * 添加职工工资信息页面
+     * @param model 模型
+     * @return addWage.html
+     */
     @GetMapping("/add")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     public String addWage(Model model) {
         model.addAttribute("departmentList", departmentService.getAllDepartmentInfoList("getAllDepartmentInfo"));
         return "addWage";
@@ -114,6 +121,7 @@ public class StaffWageController {
      * @return JSON服务器消息
      */
     @GetMapping("/del/{id}")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     @ResponseBody
     public ServerMessage delStaffWageInfoByID(@PathVariable("id") String id) {
         ServerMessage serverMessage = new ServerMessage();

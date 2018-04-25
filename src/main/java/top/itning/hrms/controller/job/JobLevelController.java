@@ -4,6 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,6 +41,7 @@ public class JobLevelController {
      * @return 职称级别信息集合
      */
     @GetMapping("")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     public List<JobLevel> getJobLevelInfoList() {
         logger.debug("getJobLevelInfoList::获取职称级别集合");
         return jobService.getAllJobLevelInfoList("getAllJobLevelInfoList");
@@ -52,6 +54,7 @@ public class JobLevelController {
      * @return JSON格式服务器消息
      */
     @GetMapping("/del/{id}")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ServerMessage delJobLevelInfoByID(@PathVariable("id") String id) {
         logger.debug("delJobTitleInfoByID::要删除的ID->" + id);
         ServerMessage serverMessage = new ServerMessage();
@@ -74,6 +77,7 @@ public class JobLevelController {
      * @return JSON服务器消息
      */
     @GetMapping("/add/{name}")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ServerMessage addJobLevelInfo(@PathVariable("name") String name) {
         JobLevel jobLevel = new JobLevel(UUID.randomUUID().toString().replace("-", ""), name);
         logger.debug("addJobLevelInfo::要添加的职称级别->" + jobLevel);
@@ -97,6 +101,7 @@ public class JobLevelController {
      * @return JSON服务器消息
      */
     @GetMapping("/modify")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ServerMessage modifyJobLevelInfo(JobLevel jobLevel) {
         ServerMessage serverMessage = new ServerMessage();
         serverMessage.setUrl("/jobLevel/modify");

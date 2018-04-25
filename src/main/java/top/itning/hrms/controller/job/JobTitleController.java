@@ -4,6 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,6 +41,7 @@ public class JobTitleController {
      * @return 社会职称信息集合
      */
     @GetMapping("")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     public List<JobTitle> getJobTitleInfoList() {
         logger.debug("getJobTitleInfoList::获取社会职称信息集合");
         return jobService.getAllJobTitleInfoList("getAllJobTitleInfoList");
@@ -52,6 +54,7 @@ public class JobTitleController {
      * @return JSON格式服务器消息
      */
     @GetMapping("/del/{id}")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ServerMessage delJobTitleInfoByID(@PathVariable("id") String id) {
         logger.debug("delJobTitleInfoByID::要删除的ID->" + id);
         ServerMessage serverMessage = new ServerMessage();
@@ -74,6 +77,7 @@ public class JobTitleController {
      * @return JSON服务器消息
      */
     @GetMapping("/add/{name}")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ServerMessage addJobTitleInfo(@PathVariable("name") String name) {
         JobTitle jobTitle = new JobTitle(UUID.randomUUID().toString().replace("-", ""), name);
         logger.debug("addJobTitleInfo::要添加的社会职称->" + jobTitle);
@@ -97,6 +101,7 @@ public class JobTitleController {
      * @return JSON服务器消息
      */
     @GetMapping("/modify")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ServerMessage modifyJobTitleInfo(JobTitle jobTitle) {
         ServerMessage serverMessage = new ServerMessage();
         serverMessage.setUrl("/jobTitle/modify");

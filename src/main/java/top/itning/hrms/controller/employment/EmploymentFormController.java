@@ -4,6 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,6 +41,7 @@ public class EmploymentFormController {
      * @return 用工形式信息集合
      */
     @GetMapping("")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     public List<EmploymentForm> getEmploymentFormList() {
         logger.debug("getEmploymentFormList::获取用工形式集合");
         return employmentService.getAllEmploymentFormList("getAllEmploymentFormList");
@@ -52,6 +54,7 @@ public class EmploymentFormController {
      * @return JSON格式服务器消息
      */
     @GetMapping("/del/{id}")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ServerMessage delEmploymentFormInfoByID(@PathVariable("id") String id) {
         logger.debug("delEmploymentFormInfoByID::要删除的ID->" + id);
         ServerMessage serverMessage = new ServerMessage();
@@ -74,6 +77,7 @@ public class EmploymentFormController {
      * @return JSON服务器消息
      */
     @GetMapping("/add/{name}")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ServerMessage addEmploymentFormInfo(@PathVariable("name") String name) {
         EmploymentForm employmentForm = new EmploymentForm(UUID.randomUUID().toString().replace("-", ""), name);
         logger.debug("addEmploymentFormInfo::要添加的用工形式->" + employmentForm);
@@ -97,6 +101,7 @@ public class EmploymentFormController {
      * @return JSON服务器消息
      */
     @GetMapping("/modify")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ServerMessage modifyEmploymentFormInfo(EmploymentForm employmentForm) {
         ServerMessage serverMessage = new ServerMessage();
         serverMessage.setUrl("/employmentForm/modify");
