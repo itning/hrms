@@ -253,6 +253,9 @@ public class StaffInfoController {
             if (s.getMsg() != null) {
                 serverMessage.setCode(ServerMessage.SERVICE_ERROR);
                 serverMessage.setMsg(s.getMsg());
+            }else {
+                serverMessage.setCode(ServerMessage.SUCCESS_CODE);
+                serverMessage.setMsg("服务器消息:文件完全添加!");
             }
         } catch (NullParameterException | IOException e) {
             if (serverMessage.getMsg() != null) {

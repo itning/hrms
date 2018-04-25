@@ -131,7 +131,6 @@ public class StaffServiceImpl implements StaffService {
 
     @Override
     @CacheEvict(cacheNames = "StaffInfoList", key = "#staff.department.id")
-    //@CachePut(cacheNames = "StaffInfoByID", key = "#staff.id")
     public Staff addOrModifyStaffInfo(Staff staff) throws NumberFormatException, NullParameterException, DataFormatException {
         String nid = staff.getNid();
         //判断是否为数字
@@ -165,7 +164,6 @@ public class StaffServiceImpl implements StaffService {
     }
 
     @Override
-    //@Cacheable(cacheNames = "StaffInfoByID", key = "#id")
     public Staff getStaffInfoByID(String id) throws NoSuchIdException, NullParameterException {
         logger.debug("getStaffInfoByID::要查找的职工ID为->" + id);
         if (StringUtils.isBlank(id)) {
@@ -316,68 +314,7 @@ public class StaffServiceImpl implements StaffService {
         Row row = sheet.createRow(1);
         logger.debug("downStaffInfoByID::准备标题数据");
         List<String> titleList = new ArrayList<>();
-        titleList.add("序号");
-        titleList.add("姓名");
-        titleList.add("性别");
-        titleList.add("民族");
-        titleList.add("政治面貌");
-        titleList.add("出生日期");
-        titleList.add("身份证号码");
-        titleList.add("年龄");
-        titleList.add("户籍地址");
-        titleList.add("现住址");
-        titleList.add("电话号码");
-        titleList.add("部门");
-        titleList.add("专业/基层单位");
-        titleList.add("岗位名称");
-        titleList.add("岗位类别");
-        titleList.add("备注");
-        titleList.add("来校日期");
-        titleList.add("校龄 ");
-        titleList.add("工龄起始日期");
-        titleList.add("工龄");
-        titleList.add("社会职称");
-        titleList.add("职称级别");
-        titleList.add("职称授予专业");
-        titleList.add("获证时间");
-        titleList.add("职业资格证（1）");
-        titleList.add("发证单位");
-        titleList.add("获证时间");
-        titleList.add("职业资格证（2）");
-        titleList.add("认定专业");
-        titleList.add("岗前培训证");
-        titleList.add("岗前培训获得时间");
-        titleList.add("岗位工资");
-        titleList.add("绩效工资");
-        titleList.add("职务津贴");
-        titleList.add("岗位超时补助");
-        titleList.add("硕士津贴");
-        titleList.add("电话补助");
-        titleList.add("应发额");
-        titleList.add("用工形式");
-        titleList.add("用工起始时间");
-        titleList.add("第一次签约劳动合同期限");
-        titleList.add("第一次签约到期日");
-        titleList.add("第二次签约劳动合同期限");
-        titleList.add("第二次签约到期日");
-        titleList.add("第三次签约劳动合同期限");
-        titleList.add("第三次签约到期日");
-        titleList.add("第一学历[1]");
-        titleList.add("获得学位");
-        titleList.add("性质[1]");
-        titleList.add("毕业时间[1]");
-        titleList.add("毕业学校[1]");
-        titleList.add("专业名称[1]");
-        titleList.add("最高学历");
-        titleList.add("最高学位");
-        titleList.add("性质[2]");
-        titleList.add("毕业时间[2]");
-        titleList.add("毕业学校[2]");
-        titleList.add("最高学历学缘结构");
-        titleList.add("专业名称[2]");
-        titleList.add("外语语种");
-        titleList.add("外语等级");
-        titleList.add("其他证书");
+        this.addExcelTitle(titleList);
         logger.debug("downStaffInfoByID::标题数据集合大小->" + titleList.size());
         final int[] nowCell = {0};
         logger.debug("downStaffInfoByID::开始写入标题数据");
@@ -772,54 +709,7 @@ public class StaffServiceImpl implements StaffService {
                     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
                     Date comeDateDate = simpleDateFormat.parse(comeDate);
                     Date startDateDate = simpleDateFormat.parse(startDate);
-                    if (certifiedTime != null) {
-                        Date certifiedTimeDate = simpleDateFormat.parse(certifiedTime);
-                        staff.setCertifiedTime(certifiedTimeDate);
-                    }
-                    if (oqc1Time != null) {
-                        Date oqc1TimeDate = simpleDateFormat.parse(oqc1Time);
-                        staff.setOqc1Time(oqc1TimeDate);
-                    }
-                    if (ptcTime != null) {
-                        Date ptcTimeDate = simpleDateFormat.parse(ptcTime);
-                        staff.setPtcTime(ptcTimeDate);
-                    }
-                    if (eStartDate != null) {
-                        Date eStartDateDate = simpleDateFormat.parse(eStartDate);
-                        staff.setEStartDate(eStartDateDate);
-                    }
-                    if (laborContract1 != null) {
-                        Date laborContract1Date = simpleDateFormat.parse(laborContract1);
-                        staff.setLaborContract1(laborContract1Date);
-                    }
-                    if (laborContract1End != null) {
-                        Date laborContract1EndDate = simpleDateFormat.parse(laborContract1End);
-                        staff.setLaborContract1End(laborContract1EndDate);
-                    }
-                    if (laborContract2 != null) {
-                        Date laborContract2Date = simpleDateFormat.parse(laborContract2);
-                        staff.setLaborContract2(laborContract2Date);
-                    }
-                    if (laborContract2End != null) {
-                        Date laborContract2EndDate = simpleDateFormat.parse(laborContract2End);
-                        staff.setLaborContract2End(laborContract2EndDate);
-                    }
-                    if (laborContract3 != null) {
-                        Date laborContract3Date = simpleDateFormat.parse(laborContract3);
-                        staff.setLaborContract3(laborContract3Date);
-                    }
-                    if (laborContract3End != null) {
-                        Date laborContract3EndDate = simpleDateFormat.parse(laborContract3End);
-                        staff.setLaborContract3End(laborContract3EndDate);
-                    }
-                    if (graduationTime1 != null) {
-                        Date graduationTime1Date = simpleDateFormat.parse(graduationTime1);
-                        staff.setGraduationTime1(graduationTime1Date);
-                    }
-                    if (graduationTime2 != null) {
-                        Date graduationTime2Date = simpleDateFormat.parse(graduationTime2);
-                        staff.setGraduationTime2(graduationTime2Date);
-                    }
+                    this.setNullableDateAttribute(certifiedTime, oqc1Time, ptcTime, eStartDate, laborContract1, laborContract1End, laborContract2, laborContract2End, laborContract3, laborContract3End, graduationTime1, graduationTime2, staff, simpleDateFormat);
                     staff.setComeDate(comeDateDate);
                     staff.setStartDate(startDateDate);
                 } catch (ParseException e) {
@@ -905,11 +795,152 @@ public class StaffServiceImpl implements StaffService {
         }
         if (staffList.size() != 0) {
             logger.info("addStaffInfoByFile::将要添加" + staffList.size() + "条数据");
-            staffList.forEach(staffDao::saveAndFlush);
+            staffDao.save(staffList);
+            staffDao.flush();
         } else {
             logger.info("addStaffInfoByFile::集合中数据为0,未添加任何数据");
         }
         return serverMessage;
+    }
+
+    /**
+     * 添加Excel标题
+     *
+     * @param titleList 标题集合
+     */
+    private void addExcelTitle(List<String> titleList) {
+        titleList.add("序号");
+        titleList.add("姓名");
+        titleList.add("性别");
+        titleList.add("民族");
+        titleList.add("政治面貌");
+        titleList.add("出生日期");
+        titleList.add("身份证号码");
+        titleList.add("年龄");
+        titleList.add("户籍地址");
+        titleList.add("现住址");
+        titleList.add("电话号码");
+        titleList.add("部门");
+        titleList.add("专业/基层单位");
+        titleList.add("岗位名称");
+        titleList.add("岗位类别");
+        titleList.add("备注");
+        titleList.add("来校日期");
+        titleList.add("校龄 ");
+        titleList.add("工龄起始日期");
+        titleList.add("工龄");
+        titleList.add("社会职称");
+        titleList.add("职称级别");
+        titleList.add("职称授予专业");
+        titleList.add("获证时间");
+        titleList.add("职业资格证（1）");
+        titleList.add("发证单位");
+        titleList.add("获证时间");
+        titleList.add("职业资格证（2）");
+        titleList.add("认定专业");
+        titleList.add("岗前培训证");
+        titleList.add("岗前培训获得时间");
+        titleList.add("岗位工资");
+        titleList.add("绩效工资");
+        titleList.add("职务津贴");
+        titleList.add("岗位超时补助");
+        titleList.add("硕士津贴");
+        titleList.add("电话补助");
+        titleList.add("应发额");
+        titleList.add("用工形式");
+        titleList.add("用工起始时间");
+        titleList.add("第一次签约劳动合同期限");
+        titleList.add("第一次签约到期日");
+        titleList.add("第二次签约劳动合同期限");
+        titleList.add("第二次签约到期日");
+        titleList.add("第三次签约劳动合同期限");
+        titleList.add("第三次签约到期日");
+        titleList.add("第一学历[1]");
+        titleList.add("获得学位");
+        titleList.add("性质[1]");
+        titleList.add("毕业时间[1]");
+        titleList.add("毕业学校[1]");
+        titleList.add("专业名称[1]");
+        titleList.add("最高学历");
+        titleList.add("最高学位");
+        titleList.add("性质[2]");
+        titleList.add("毕业时间[2]");
+        titleList.add("毕业学校[2]");
+        titleList.add("最高学历学缘结构");
+        titleList.add("专业名称[2]");
+        titleList.add("外语语种");
+        titleList.add("外语等级");
+        titleList.add("其他证书");
+    }
+
+    /**
+     * 设置可空的时间属性的值
+     *
+     * @param certifiedTime     获证时间
+     * @param oqc1Time          获证时间
+     * @param ptcTime           岗前培训获得时间
+     * @param eStartDate        用工起始时间
+     * @param laborContract1    第一次签约劳动合同期限
+     * @param laborContract1End 第一次签约到期日
+     * @param laborContract2    第二次签约劳动合同期限
+     * @param laborContract2End 第二次签约到期日
+     * @param laborContract3    第三次签约劳动合同期限
+     * @param laborContract3End 第三次签约到期日
+     * @param graduationTime1   毕业时间[1]
+     * @param graduationTime2   毕业时间[2]
+     * @param staff             职工信息实体
+     * @param simpleDateFormat  SimpleDateFormat
+     * @throws ParseException 日期转换异常
+     */
+    private void setNullableDateAttribute(String certifiedTime, String oqc1Time, String ptcTime, String eStartDate, String laborContract1, String laborContract1End, String laborContract2, String laborContract2End, String laborContract3, String laborContract3End, String graduationTime1, String graduationTime2, Staff staff, SimpleDateFormat simpleDateFormat) throws ParseException {
+        if (certifiedTime != null) {
+            Date certifiedTimeDate = simpleDateFormat.parse(certifiedTime);
+            staff.setCertifiedTime(certifiedTimeDate);
+        }
+        if (oqc1Time != null) {
+            Date oqc1TimeDate = simpleDateFormat.parse(oqc1Time);
+            staff.setOqc1Time(oqc1TimeDate);
+        }
+        if (ptcTime != null) {
+            Date ptcTimeDate = simpleDateFormat.parse(ptcTime);
+            staff.setPtcTime(ptcTimeDate);
+        }
+        if (eStartDate != null) {
+            Date eStartDateDate = simpleDateFormat.parse(eStartDate);
+            staff.setEStartDate(eStartDateDate);
+        }
+        if (laborContract1 != null) {
+            Date laborContract1Date = simpleDateFormat.parse(laborContract1);
+            staff.setLaborContract1(laborContract1Date);
+        }
+        if (laborContract1End != null) {
+            Date laborContract1EndDate = simpleDateFormat.parse(laborContract1End);
+            staff.setLaborContract1End(laborContract1EndDate);
+        }
+        if (laborContract2 != null) {
+            Date laborContract2Date = simpleDateFormat.parse(laborContract2);
+            staff.setLaborContract2(laborContract2Date);
+        }
+        if (laborContract2End != null) {
+            Date laborContract2EndDate = simpleDateFormat.parse(laborContract2End);
+            staff.setLaborContract2End(laborContract2EndDate);
+        }
+        if (laborContract3 != null) {
+            Date laborContract3Date = simpleDateFormat.parse(laborContract3);
+            staff.setLaborContract3(laborContract3Date);
+        }
+        if (laborContract3End != null) {
+            Date laborContract3EndDate = simpleDateFormat.parse(laborContract3End);
+            staff.setLaborContract3End(laborContract3EndDate);
+        }
+        if (graduationTime1 != null) {
+            Date graduationTime1Date = simpleDateFormat.parse(graduationTime1);
+            staff.setGraduationTime1(graduationTime1Date);
+        }
+        if (graduationTime2 != null) {
+            Date graduationTime2Date = simpleDateFormat.parse(graduationTime2);
+            staff.setGraduationTime2(graduationTime2Date);
+        }
     }
 
     /**

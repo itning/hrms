@@ -70,7 +70,8 @@ public class FixedServiceImpl implements FixedService {
             }
         }
         logger.info("init::初始化民族信息数量->" + ethnicList.size());
-        ethnicList.forEach(ethnicDao::saveAndFlush);
+        ethnicDao.save(ethnicList);
+        ethnicDao.flush();
         logger.info("init::添加民族信息完成");
     }
 
