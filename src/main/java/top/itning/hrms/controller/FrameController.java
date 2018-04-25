@@ -45,10 +45,7 @@ public class FrameController {
         logger.info(String.valueOf(attributes));
         String email= (String) attributes .get("phone");
         logger.info(String.valueOf(email));*/
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext()
-                .getAuthentication()
-                .getPrincipal();
-        System.out.println("----------" + userDetails.getUsername());
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         for (GrantedAuthority authority : userDetails.getAuthorities()) {
             if ("USER".equals(authority.getAuthority())) {
                 logger.debug("root::重定向到工资搜索页");
