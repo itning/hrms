@@ -1,6 +1,5 @@
 package top.itning.hrms.controller;
 
-import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,13 +37,7 @@ public class FrameController {
      * @return 重定向到主页/搜索页
      */
     @GetMapping("/")
-    public String root(HttpServletRequest request) {
-
-      /*  AttributePrincipal principal = (AttributePrincipal) request.getUserPrincipal();
-        Map attributes = principal.getAttributes();
-        logger.info(String.valueOf(attributes));
-        String email= (String) attributes .get("phone");
-        logger.info(String.valueOf(email));*/
+    public String root() {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         for (GrantedAuthority authority : userDetails.getAuthorities()) {
             if ("USER".equals(authority.getAuthority())) {

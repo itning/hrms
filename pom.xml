@@ -129,6 +129,12 @@
             <optional>true</optional>
         </dependency>
 
+        <dependency>
+            <groupId>com.greathiit</groupId>
+            <artifactId>greathiit-common-util</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
 
     </dependencies>
 

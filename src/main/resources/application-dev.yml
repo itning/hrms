@@ -28,7 +28,7 @@ logging:
 cas:
   server:
     host:
-      url: http://localhost:8080/cas  #CAS服务地址
+      url: http://login.greathiit.com  #CAS服务地址
       login_url: ${cas.server.host.url}/login  #CAS服务登录地址
       logout_url: ${cas.server.host.url}/logout?service=${app.server.host.url} #CAS服务登出地址
 app:
@@ -39,3 +39,5 @@ app:
     url: /login  #应用登录地址
   logout:
     url: /logout #应用登出地址
+  admin:
+    accounts: thinkgem,13945058053 #配置管理员账户,每个账户用逗号(,)分隔
