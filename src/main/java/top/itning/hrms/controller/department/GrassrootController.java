@@ -55,6 +55,7 @@ public class GrassrootController {
      * 修改基层单位信息
      *
      * @param grassroot 基层单位
+     * @param did 部门ID,用于删除缓存
      * @return JSON服务器消息
      */
     @GetMapping("/modify")
@@ -105,6 +106,7 @@ public class GrassrootController {
      * 根据基层单位ID删除基层单位信息
      *
      * @param id 基层单位ID
+     * @param did 部门ID,用于删除缓存
      * @return JSON服务器消息
      */
     @GetMapping("/del")

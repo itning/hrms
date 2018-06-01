@@ -37,6 +37,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     /**
      * 定义认证用户信息获取来源，密码校验规则等
+     *
+     * @param auth AuthenticationManagerBuilder
+     * @throws Exception Exception
      */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -57,6 +60,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     /**
      * 定义安全策略
+     *
+     * @param http HttpSecurity
+     * @throws Exception Exception
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -80,6 +86,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     /**
      * 认证的入口
+     *
+     * @return CasAuthenticationEntryPoint
      */
     @Bean
     public CasAuthenticationEntryPoint casAuthenticationEntryPoint() {
@@ -91,6 +99,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     /**
      * 指定service相关信息
+     *
+     * @return ServiceProperties
      */
     @Bean
     public ServiceProperties serviceProperties() {
@@ -102,6 +112,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     /**
      * CAS认证过滤器
+     *
+     * @return CasAuthenticationFilter
+     * @throws Exception Exception
      */
     @Bean
     public CasAuthenticationFilter casAuthenticationFilter() throws Exception {
@@ -113,6 +126,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     /**
      * cas 认证 Provider
+     *
+     * @return CasAuthenticationProvider
      */
     @Bean
     public CasAuthenticationProvider casAuthenticationProvider() {
@@ -132,12 +147,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     /**
      * 用户自定义的AuthenticationUserDetailsService
+     *
+     * @return AuthenticationUserDetailsService
      */
     @Bean
     public AuthenticationUserDetailsService<CasAssertionAuthenticationToken> customUserDetailsService() {
         return new CustomUserDetailsServiceImpl();
     }
 
+    /**
+     * cas20ServiceTicketValidator
+     *
+     * @return Cas20ServiceTicketValidator
+     */
     @Bean
     public Cas20ServiceTicketValidator cas20ServiceTicketValidator() {
         return new Cas20ServiceTicketValidator(casProperties.getCasServerUrl());
@@ -145,6 +167,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     /**
      * 单点登出过滤器
+     *
+     * @return SingleSignOutFilter
      */
     @Bean
     public SingleSignOutFilter singleSignOutFilter() {
@@ -156,6 +180,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     /**
      * 请求单点退出过滤器
+     *
+     * @return LogoutFilter
      */
     @Bean
     public LogoutFilter casLogoutFilter() {
