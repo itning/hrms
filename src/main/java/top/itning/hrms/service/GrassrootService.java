@@ -17,6 +17,7 @@ public interface GrassrootService {
      *
      * @param id 部门ID
      * @return 基层单位集合
+     * @throws NoSuchIdException 如果ID不存在则抛出该异常
      */
     List<Grassroot> getGrassrootListByDepartment(String id) throws NoSuchIdException;
 

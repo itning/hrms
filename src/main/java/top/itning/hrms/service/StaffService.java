@@ -99,7 +99,7 @@ public interface StaffService {
      * @param logger    日志工厂
      * @param list      条件集合
      * @param cb        CriteriaBuilder
-     * @param root      Root<Staff>
+     * @param root      Root Staff
      * @param field     查询字段
      * @param startDate 开始日期
      * @param endDate   结束日期
@@ -136,7 +136,7 @@ public interface StaffService {
      * @param logger 日志工厂
      * @param list   条件集合
      * @param cb     CriteriaBuilder
-     * @param root   Root<Staff>
+     * @param root   Root Staff
      * @param field  查询字段
      * @param start  开始
      * @param end    结束
@@ -171,7 +171,7 @@ public interface StaffService {
      * @param logger   日志工厂
      * @param staffDao 职工DAO
      * @param cb       CriteriaBuilder
-     * @param root     Root<Staff>
+     * @param root     Root Staff
      * @param field    查询字段
      * @param key      多查询条件关键字
      * @return Predicate

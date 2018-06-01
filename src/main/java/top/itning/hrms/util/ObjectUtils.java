@@ -52,7 +52,7 @@ public class ObjectUtils {
     /**
      * 获取集合中 JAVA Bean 的所有int或double属性的累加并返回新的JAVA Bean
      *
-     * @param list  包含<? extends T>类型的要累加集合
+     * @param list  包含T类型的要累加集合
      * @param clazz 返回的实例class
      * @param <T>   JAVA Bean 类型
      * @return 累加完成的Java Bean
