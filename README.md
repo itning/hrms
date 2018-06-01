@@ -14,6 +14,9 @@
 
 > 项目目前正在开发中
 
+Doc 文档
+https://itning.github.io/doc/hrms/index.html
+
 ### 技术架构
 #### 前端
 - [MDUI](https://www.mdui.org/) -> 一个Material Design风格的CSS框架
