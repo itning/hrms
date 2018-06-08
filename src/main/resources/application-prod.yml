@@ -1,6 +1,6 @@
 #!application-prod.yml 生产环境配置文件
 server:
-  port: 8090 #端口
+  port: 80 #端口
 debug: false #调试模式
 spring:
   jpa:
@@ -25,17 +25,3 @@ logging:
   level: warn
   level.top: warn
   file: C:/Users/Ning/Desktop/upload/log.log
-cas:
-  server:
-    host:
-      url: http://localhost:8080/cas  #CAS服务地址
-      login_url: ${cas.server.host.url}/login  #CAS服务登录地址
-      logout_url: ${cas.server.host.url}/logout?service=${app.server.host.url} #CAS服务登出地址
-app:
-  server:
-    host:
-      url: http://localhost:8090 #应用访问地址
-  login:
-    url: /login  #应用登录地址
-  logout:
-    url: /logout #应用登出地址
