@@ -132,17 +132,6 @@
     <div id="loading_progress" class="mdui-progress">
         <div class="mdui-progress-indeterminate"></div>
     </div>
-    <div class="mdui-card mdui-m-b-2">
-        <div class="mdui-card-media">
-            <img th:src="@{/image/class_img.png}" style="height: 150px;"/>
-            <div class="mdui-card-media-covered">
-                <div class="mdui-card-primary">
-                    <div class="mdui-card-primary-title" id="show_class"></div>
-                    <div class="mdui-card-primary-subtitle" id="show_college"></div>
-                </div>
-            </div>
-        </div>
-    </div>
     <div class="mdui-table-fluid mdui-m-b-1">
         <table id="show_table" class="mdui-table mdui-table-selectable mdui-table-hoverable">
             <thead>
@@ -275,12 +264,6 @@
                 }
             }
             mdui.updateTables();
-            for (var i = 0; i < classList.length; i++) {
-                if (classList[i].id === id) {
-                    $("#show_class").html(classList[i].name);
-                    $("#show_college").html("职工信息管理");
-                }
-            }
             progressStatus(false);
             after();
         });

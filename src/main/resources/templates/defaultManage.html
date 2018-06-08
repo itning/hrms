@@ -133,17 +133,6 @@
     <div id="loading_progress" class="mdui-progress">
         <div class="mdui-progress-indeterminate"></div>
     </div>
-    <div class="mdui-card mdui-m-b-2">
-        <div class="mdui-card-media">
-            <img th:src="@{/image/class_img.png}" style="height: 150px;"/>
-            <div class="mdui-card-media-covered">
-                <div class="mdui-card-primary">
-                    <div class="mdui-card-primary-title" id="show_class"></div>
-                    <div class="mdui-card-primary-subtitle" id="show_college"></div>
-                </div>
-            </div>
-        </div>
-    </div>
     <div class="mdui-table-fluid mdui-m-b-1">
         <table id="show_table" class="mdui-table mdui-table-selectable mdui-table-hoverable">
             <thead>
@@ -247,8 +236,6 @@
             mdui.updateTables();
             var title = $('#' + id).find("a").html();
             $('#title').html(title + "-HRMS");
-            $("#show_class").html(title);
-            $("#show_college").html("人力资源管理系统");
             progressStatus(false);
             after();
         });
