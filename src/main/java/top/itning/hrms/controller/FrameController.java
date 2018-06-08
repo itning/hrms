@@ -1,5 +1,6 @@
 package top.itning.hrms.controller;
 
+import org.apache.commons.lang3.ClassUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import top.itning.hrms.entity.User;
 import top.itning.hrms.entity.department.Department;
 import top.itning.hrms.service.DepartmentService;
 
@@ -38,8 +40,11 @@ public class FrameController {
      */
     @GetMapping("/")
     public String root() {
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        for (GrantedAuthority authority : userDetails.getAuthorities()) {
+        if (!ClassUtils.isAssignable(SecurityContextHolder.getContext().getAuthentication().getPrincipal().getClass(), User.class)) {
+            return "redirect:/index";
+        }
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        for (GrantedAuthority authority : user.getAuthorities()) {
             if ("USER".equals(authority.getAuthority())) {
                 logger.debug("root::重定向到工资搜索页");
                 return "redirect:/staffWage/search";
@@ -89,5 +94,15 @@ public class FrameController {
     public String grassroot(Model model) {
         model.addAttribute("departmentList", departmentService.getAllDepartmentInfoList("getAllDepartmentInfoList"));
         return "grassroot";
+    }
+
+    /**
+     * 登陆控制器
+     *
+     * @return login.html
+     */
+    @GetMapping("/login")
+    public String login() {
+        return "login";
     }
 }

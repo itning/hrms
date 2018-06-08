@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="学生管理系统"/>
+    <meta name="keywords" content="学生管理系统"/>
+    <meta name="author" content="LANG"/>
+
+    <!--<link href="/favicon.ico" rel="icon" type="image/x-icon"/>
+    <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon"/>-->
+
+    <title>登陆-哈信息人力资源管理系统</title>
+
+    <!--mdui css-->
+    <link th:href="@{/lib_web/mdui/css/mdui.min.css}" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        .login-style {
+            margin: 200px auto;
+            height: 500px;
+        }
+    </style>
+</head>
+<body class="mdui-theme-primary-indigo mdui-theme-accent-indigo">
+<div class="mdui-card login-style mdui-p-a-3 mdui-container">
+    <div class="mdui-card-primary">
+        <div class="mdui-card-primary-title">哈信息人力资源管理系统</div>
+        <div class="mdui-card-primary-subtitle">使用您的账户进行登陆</div>
+    </div>
+    <div class="mdui-card-content">
+        <form id="login_form" th:action="@{/login}" method="post">
+            <!--/*@thymesVar id="param" type="java.lang.String"*/-->
+            <p th:if="${session.SPRING_SECURITY_LAST_EXCEPTION!=null}">用户名/密码错误</p>
+            <div class="mdui-textfield mdui-textfield-floating-label">
+                <label class="mdui-textfield-label">用户名</label>
+                <input name="username" class="mdui-textfield-input" type="text" maxlength="10"/>
+                <div class="mdui-textfield-error">用户名不能为空</div>
+            </div>
+            <div class="mdui-textfield mdui-textfield-floating-label">
+                <label class="mdui-textfield-label">密码</label>
+                <input name="password" class="mdui-textfield-input" type="password" maxlength="10"/>
+                <div class="mdui-textfield-error">密码不能为空</div>
+            </div>
+            <div class="mdui-card-actions" style="top: 20px;">
+                <input type="button" onclick="submit_btn()"
+                       class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme mdui-btn-block" value="登陆">
+
+            </div>
+        </form>
+    </div>
+</div>
+<script th:src="@{/lib_web/jquery/jquery-3.2.1.min.js}"></script>
+<script th:src="@{/lib_web/mdui/js/mdui.min.js}"></script>
+<script>
+    'use strict';
+    $(function () {
+        $(".mdui-textfield input").blur(function () {
+            if ($(this).val() === "") {
+                $(this).parent().addClass('mdui-textfield-invalid');
+            } else {
+                $(this).parent().removeClass('mdui-textfield-invalid');
+            }
+        });
+    });
+
+    function submit_btn() {
+        var isnull = false;
+        $(".mdui-textfield input").each(function () {
+            console.log($(this).val());
+            if ($(this).val() === "") {
+                isnull = true;
+                $(this).parent().addClass('mdui-textfield-invalid');
+            } else {
+                $(this).parent().removeClass('mdui-textfield-invalid');
+            }
+        });
+        if (!isnull) {
+            $('#login_form').submit();
+        }
+    }
+</script>
+</body>
+</html>
