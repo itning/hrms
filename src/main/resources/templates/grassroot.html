@@ -136,7 +136,6 @@
         <table id="show_table" class="mdui-table mdui-table-selectable mdui-table-hoverable">
             <thead>
             <tr>
-                <th style="min-width: 115px">ID</th>
                 <th style="min-width: 210px">名称(双击修改)</th>
             </tr>
             </thead>
@@ -255,7 +254,7 @@
                     $downSelectBtn.show();
                     $delSelectBtn.show();
                     $.each(data, function (i, n) {
-                        $("#table_data").append("<tr data-id=\"" + n.id + "\"><td>" + n.id + "</td><td ondblclick='addInfo(false,\"" + n.id + "\",\"" + n.name + "\")'>" + n.name + "</td></tr>")
+                        $("#table_data").append("<tr data-id=\"" + n.id + "\"><td ondblclick='addInfo(false,\"" + n.id + "\",\"" + n.name + "\")'>" + n.name + "</td></tr>")
                     });
                 } else {
                     $showTable.hide("normal");
