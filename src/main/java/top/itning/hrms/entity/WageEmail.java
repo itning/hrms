@@ -14,6 +14,10 @@ import java.util.Map;
 @Data
 public class WageEmail implements Serializable {
     /**
+     * Email
+     */
+    private String email;
+    /**
      * 姓名
      */
     private String name;
@@ -28,11 +32,11 @@ public class WageEmail implements Serializable {
     /**
      * 职务津贴
      */
-    private int dutyAllowance;
+    private Integer dutyAllowance;
     /**
      * 岗位超时补助
      */
-    private int grants;
+    private Integer grants;
     /**
      * 小计1
      */
@@ -157,5 +161,38 @@ public class WageEmail implements Serializable {
         map.put("shouldMade", schoolGrant);
         map.put("withholding", withholding);
         return map;
+    }
+
+    public void setFields(Wage wage) {
+        this.email = wage.getStaff().getEmail();
+        this.name = wage.getStaff().getName();
+        this.wage = wage.getStaff().getWage();
+        this.performancePay = wage.getStaff().getPerformancePay();
+        this.dutyAllowance = wage.getStaff().getDutyAllowance();
+        this.grants = wage.getStaff().getGrants();
+        this.total1 = wage.getTotal1();
+        this.replenishment = wage.getReplenishment();
+        this.chargeBack = wage.getChargeBack();
+        this.total2 = wage.getTotal2();
+        this.teachingBonus = wage.getTeachingBonus();
+        this.mAllowance = wage.getStaff().getMAllowance();
+        this.pSubsidies = wage.getStaff().getPSubsidies();
+        this.studentAllowance = wage.getStudentAllowance();
+        this.bonus = wage.getBonus();
+        this.schoolGrant = wage.getSchoolGrant();
+        //TODO 学生处发放8小时以外补助
+        this.time8 = 200;
+        this.overtimeAssistance = wage.getOvertimeAssistance();
+        this.onDutySubsidies = wage.getOnDutySubsidies();
+        this.otherBenefits = wage.getOtherBenefits();
+        this.totalBenefits = wage.getTotalBenefits();
+        this.total = wage.getTotal();
+        this.pensionInsurance = wage.getPensionInsurance();
+        this.medicalInsurance = wage.getMedicalInsurance();
+        this.unemploymentInsurance = wage.getUnemploymentInsurance();
+        this.housingFund = wage.getHousingFund();
+        this.shouldMade = wage.getShouldMade();
+        this.withholding = wage.getWithholding();
+
     }
 }

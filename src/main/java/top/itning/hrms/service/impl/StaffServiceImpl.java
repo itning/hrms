@@ -72,10 +72,6 @@ public class StaffServiceImpl implements StaffService {
      * xls mime type
      */
     private static final String MIME_XLS = "application/vnd.ms-excel";
-    /**
-     * 身份证号位数
-     */
-    private static final int ID_NUM_LENGTH = 18;
 
     private final StaffDao staffDao;
 

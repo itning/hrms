@@ -24,7 +24,7 @@ spring:
   mail:
     host: smtp.mxhichina.com
     username: itning@itning.top
-    password:
+    password: NING64486shan
     properties:
       mail:
         smtp:
