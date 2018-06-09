@@ -47,7 +47,7 @@ public class PayrollSendingTask {
     /**
      * 开始
      */
-    public void startSend() {
+    void startSend() {
         //假设本月工资已经导入
         //查找当前年,月,的工资信息
         //获取Wage实体集合
@@ -91,7 +91,7 @@ public class PayrollSendingTask {
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
         Context c = new Context();
         c.setVariables(map);
-        String mailTemplate = templateEngine.process("mailTemplate", c);
+        String mailTemplate = templateEngine.process("payrollMailTemplate", c);
         helper.setFrom(sendFrom);
         helper.setTo(sendTo);
         helper.setSubject(subject);

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>合同到期提醒</title>
+</head>
+<body>
+<table>
+    <thead>
+    <tr>
+        <td>姓名</td>
+        <td>所属部门</td>
+        <td>电话号码</td>
+        <td>第一次签约到期日</td>
+        <td>第二次签约到期日</td>
+        <td>第三次签约到期日</td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="staff : ${staffList}">
+        <td th:text="${staff.name}"></td>
+        <td th:text="${staff.department.name}"></td>
+        <td th:text="${staff.tel}"></td>
+        <td th:text="${staff.laborContract1End}"></td>
+        <td th:text="${staff.laborContract2End}"></td>
+        <td th:text="${staff.laborContract3End}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

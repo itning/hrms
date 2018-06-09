@@ -23,17 +23,18 @@ public class ScheduledTasks {
     }
 
     /**
-     * 查找合同到期的职工
+     * 每天12点执行,查找合同到期的职工
      */
     @Scheduled(cron = "0 0 12 * * ?")
     public void findingTheContractExpires() {
-        //TODO 合同到期员工筛选
         contractExpires.startSend();
     }
 
+    /**
+     * 自动发送工资条,每月1日12时执行
+     */
     @Scheduled(cron = "0 0 12 1 * ?")
     public void autoSendWageEmail() {
-        //TODO 自动发送工资信息
         payrollSendingTask.startSend();
     }
 }
