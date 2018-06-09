@@ -180,8 +180,7 @@ public class WageEmail implements Serializable {
         this.studentAllowance = wage.getStudentAllowance();
         this.bonus = wage.getBonus();
         this.schoolGrant = wage.getSchoolGrant();
-        //TODO 学生处发放8小时以外补助
-        this.time8 = 200;
+        this.time8 = wage.getTime8();
         this.overtimeAssistance = wage.getOvertimeAssistance();
         this.onDutySubsidies = wage.getOnDutySubsidies();
         this.otherBenefits = wage.getOtherBenefits();

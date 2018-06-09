@@ -80,6 +80,10 @@ public class Wage implements Serializable {
      */
     private int overtimeAssistance;
     /**
+     * 学生处发放8小时以外补助
+     */
+    private int time8;
+    /**
      * 值班补助
      */
     private int onDutySubsidies;
