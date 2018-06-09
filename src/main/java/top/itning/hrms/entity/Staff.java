@@ -49,7 +49,7 @@ public class Staff implements Serializable {
      * 性别
      */
     @Transient
-    private boolean sex;
+    private Boolean sex;
     /**
      * 民族
      */

@@ -53,6 +53,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.zip.DataFormatException;
 
 /**
@@ -125,35 +126,16 @@ public class StaffServiceImpl implements StaffService {
             throw new NoSuchIdException("ID->" + id + "不存在");
         } else {
             logger.info("getStaffInfoListByDepartmentID::查找并返回职工集合");
-            return staffDao.findByDepartment(departmentDao.findOne(id));
+            List<Staff> staffList = staffDao.findByDepartment(departmentDao.findOne(id));
+            staffList.forEach(StaffUtils::simpleSetStaffFileds);
+            return staffList;
         }
     }
 
     @Override
     @CacheEvict(cacheNames = "StaffInfoList", key = "#staff.department.id")
     public Staff addOrModifyStaffInfo(Staff staff) throws NumberFormatException, NullParameterException, DataFormatException {
-        String nid = staff.getNid();
-        //判断是否为数字
-        if (!StringUtils.isNumeric(nid.substring(0, nid.length() - 1))) {
-            logger.warn("addOrModifyStaffInfo::nid不是纯数字->" + nid);
-            throw new NumberFormatException("身份证号码不是纯数字,请检查!");
-        }
-        //判断身份证号长度
-        if (nid.length() != ID_NUM_LENGTH) {
-            logger.warn("addOrModifyStaffInfo::nid位数为" + nid.length() + "与" + ID_NUM_LENGTH + "不匹配");
-            throw new NumberFormatException("您输入的身份证号码位数为" + nid.length() + "位,不是" + ID_NUM_LENGTH + "位,请检查");
-        }
-        try {
-            //根据身份证号设置出生日期
-            staff.setBirthday(new SimpleDateFormat("yyyyMMdd").parse(nid.substring(6, 14)));
-        } catch (ParseException e) {
-            logger.warn("addOrModifyStaffInfo::出生日期格式化出错,日期->" + nid.substring(6, 14) + "异常信息->" + e.getMessage());
-            throw new DataFormatException("出生日期格式化出错,检查日期是否有误");
-        }
-        //根据身份证号设置性别
-        staff.setSex(Integer.parseInt(nid.substring(16, 17)) % 2 != 0);
-        //根据身份证号设置年龄
-        staff.setAge(String.valueOf(Calendar.getInstance().get(Calendar.YEAR) - Integer.parseInt(nid.substring(6, 10))));
+        StaffUtils.simpleSetStaffFileds(staff);
         //检查必填字段为空
         if (StringUtils.isAnyEmpty(staff.getName(), staff.getBankID(), staff.getEmail(), staff.getNid(), staff.getAge(), staff.getAddress(), staff.getNaddress(), staff.getTel()) && !ObjectUtils.allNotNull(staff.getEthnic(), staff.getPs(), staff.getDepartment(), staff.getGrassroot(), staff.getPositionTitle(), staff.getPositionCategory(), staff.getBirthday())) {
             logger.warn("addOrModifyStaffInfo::必填参数为空");
@@ -174,7 +156,9 @@ public class StaffServiceImpl implements StaffService {
             logger.warn("getStaffInfoByID::职工ID:" + id + "不存在");
             throw new NoSuchIdException("职工ID:" + id + "不存在");
         }
-        return staffDao.findOne(id);
+        Staff staff = staffDao.findOne(id);
+        StaffUtils.simpleSetStaffFileds(staff);
+        return staff;
     }
 
     @Override
@@ -208,7 +192,7 @@ public class StaffServiceImpl implements StaffService {
             }
             logger.info("searchStaff::完成添加选中部门但未选中基层单位的部门下所有基层单位");
         }
-        return staffDao.findAll((root, query, cb) -> {
+        List<Staff> staffList = staffDao.findAll((root, query, cb) -> {
             List<Predicate> list = new ArrayList<>();
             //查询条件:姓名(Name)
             if (StringUtils.isNoneBlank(searchStaff.getName())) {
@@ -298,6 +282,8 @@ public class StaffServiceImpl implements StaffService {
             Predicate[] p = new Predicate[list.size()];
             return cb.and(list.toArray(p));
         });
+        staffList.forEach(StaffUtils::simpleSetStaffFileds);
+        return staffList;
     }
 
     @Override
@@ -327,6 +313,7 @@ public class StaffServiceImpl implements StaffService {
         nowCell[0] = 2;
         for (String s : id) {
             Staff staff = staffDao.getOne(s);
+            StaffUtils.simpleSetStaffFileds(staff);
             Row dataRow = sheet.createRow(nowCell[0]++);
             logger.debug("downStaffInfoByID::已创建Cell->" + (nowCell[0] - 1));
             logger.debug("downStaffInfoByID::开始写入");
@@ -337,7 +324,7 @@ public class StaffServiceImpl implements StaffService {
             nameCell.setCellValue(staff.getName());
 
             Cell sexCell = dataRow.createCell(2);
-            sexCell.setCellValue(staff.isSex() ? "男" : "女");
+            sexCell.setCellValue(staff.getSex() ? "男" : "女");
 
             Cell ethnicCell = dataRow.createCell(3);
             ethnicCell.setCellValue(staff.getEthnic().getName());
@@ -625,34 +612,12 @@ public class StaffServiceImpl implements StaffService {
                     continue;
                 }
                 Staff staff = new Staff();
+                staff.setNid(nid);
                 staff.setId(UUID.randomUUID().toString().replace("-", ""));
                 staff.setName(name);
                 staff.setBankID(bankID);
                 staff.setEmail(email);
-                //判断是否为数字
-                if (!StringUtils.isNumeric(nid.substring(0, nid.length() - 1))) {
-                    logger.warn("addStaffInfoByFile::nid不是纯数字->" + nid);
-                    serverMessage.addMsg("第" + (i + 1) + "行数据不正确->身份证号前17位不是纯数字->" + nid + "<br>");
-                    continue;
-                }
-                //判断身份证号长度
-                if (nid.length() != ID_NUM_LENGTH) {
-                    logger.warn("addStaffInfoByFile::nid位数为" + nid.length() + "与" + ID_NUM_LENGTH + "不匹配");
-                    serverMessage.addMsg("第" + (i + 1) + "行数据不正确->身份证号位数为" + nid.length() + "与" + ID_NUM_LENGTH + "不匹配<br>");
-                    continue;
-                }
-                try {
-                    //根据身份证号设置出生日期
-                    staff.setBirthday(new SimpleDateFormat("yyyyMMdd").parse(nid.substring(6, 14)));
-                } catch (ParseException e) {
-                    logger.warn("addStaffInfoByFile::出生日期格式化出错,日期->" + nid.substring(6, 14) + "异常信息->" + e.getMessage());
-                    serverMessage.addMsg("第" + (i + 1) + "行数据不正确->出生日期格式化出错,日期->" + nid.substring(6, 14) + "异常信息->" + e.getMessage() + "<br>");
-                    continue;
-                }
-                //根据身份证号设置性别
-                staff.setSex(Integer.parseInt(nid.substring(16, 17)) % 2 != 0);
-                //根据身份证号设置年龄
-                staff.setAge(String.valueOf(Calendar.getInstance().get(Calendar.YEAR) - Integer.parseInt(nid.substring(6, 10))));
+                StaffUtils.simpleSetStaffFileds(staff);
                 List<Ethnic> ethnicList = ethnicDao.findByName(ethnic);
                 if (ethnicList.size() == 0) {
                     logger.warn("addStaffInfoByFile::民族->" + ethnic + "没有找到");
@@ -669,7 +634,6 @@ public class StaffServiceImpl implements StaffService {
                 } else {
                     staff.setPs(politicalStatusList.get(0));
                 }
-                staff.setNid(nid);
                 staff.setAddress(address);
                 staff.setNaddress(naddress);
                 staff.setTel(tel);

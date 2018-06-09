@@ -2,14 +2,17 @@ package top.itning.hrms.util;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import top.itning.hrms.entity.Staff;
 import top.itning.hrms.exception.defaults.IllegalParametersException;
 
 import java.text.DecimalFormat;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.zip.DataFormatException;
 
 /**
  * 与职工有关的工具类
@@ -18,6 +21,16 @@ import java.util.Date;
  */
 public class StaffUtils {
     private static final Logger logger = LoggerFactory.getLogger(StaffUtils.class);
+
+    /**
+     * 身份证号位数
+     */
+    private static final int ID_NUM_LENGTH = 18;
+
+    /**
+     * 身份证号结尾字符X
+     */
+    private static final String ID_END_CHAR = "X";
 
     private StaffUtils() {
     }
@@ -68,5 +81,60 @@ public class StaffUtils {
             totalMoney += Integer.parseInt(money);
         }
         return String.valueOf(totalMoney);
+    }
+
+    /**
+     * 解析身份证号
+     *
+     * @param nid 身份证号
+     * @return 年龄, 性别, 出生日期集合
+     */
+    public static Map<String, Object> parserId(String nid) throws DataFormatException {
+        if (!StringUtils.isNumeric(nid.substring(0, nid.length() - 1))) {
+            logger.warn("addOrModifyStaffInfo::nid不是纯数字->" + nid);
+            throw new NumberFormatException("身份证号码不是纯数字,请检查!");
+        }
+        if (!NumberUtils.isDigits(nid) && !StringUtils.endsWith(StringUtils.upperCase(nid), ID_END_CHAR)) {
+            logger.warn("addOrModifyStaffInfo::nid结尾非大写X->" + nid);
+            throw new NumberFormatException("身份证号码nid结尾非大写X,请检查!");
+        }
+        //判断身份证号长度
+        if (nid.length() != ID_NUM_LENGTH) {
+            logger.warn("addOrModifyStaffInfo::nid位数为" + nid.length() + "与" + ID_NUM_LENGTH + "不匹配");
+            throw new NumberFormatException("您输入的身份证号码位数为" + nid.length() + "位,不是" + ID_NUM_LENGTH + "位,请检查");
+        }
+        Map<String, Object> map = new HashMap<>(3);
+        try {
+            //根据身份证号设置出生日期
+            map.put("birthday", new SimpleDateFormat("yyyyMMdd").parse(nid.substring(6, 14)));
+        } catch (ParseException e) {
+            logger.warn("addOrModifyStaffInfo::出生日期格式化出错,日期->" + nid.substring(6, 14) + "异常信息->" + e.getMessage());
+            throw new DataFormatException("出生日期格式化出错,检查日期是否有误");
+        }
+        //根据身份证号设置性别
+        map.put("sex", Integer.parseInt(nid.substring(16, 17)) % 2 != 0);
+        //根据身份证号设置年龄
+        map.put("age", String.valueOf(Calendar.getInstance().get(Calendar.YEAR) - Integer.parseInt(nid.substring(6, 10))));
+        return map;
+    }
+
+    /**
+     * 简单设置性别年龄生日
+     *
+     * @param staff 职工实体
+     * @throws DataFormatException 日期格式化异常
+     */
+    public static void simpleSetStaffFileds(Staff staff)  {
+        Map<String, Object> parserId = null;
+        try {
+            parserId = parserId(staff.getNid());
+        } catch (DataFormatException e) {
+            e.printStackTrace();
+        }
+        staff.setBirthday((Date) parserId.get("birthday"));
+        //根据身份证号设置性别
+        staff.setSex((Boolean) parserId.get("sex"));
+        //根据身份证号设置年龄
+        staff.setAge((String) parserId.get("age"));
     }
 }

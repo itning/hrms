@@ -413,7 +413,7 @@ public class WageServiceImpl implements WageService {
             bankIDCell.setCellValue(wage.getStaff().getBankID());
 
             Cell sexCell = dataRow.createCell(47);
-            sexCell.setCellValue(wage.getStaff().isSex() ? "男" : "女");
+            sexCell.setCellValue(wage.getStaff().getSex() ? "男" : "女");
 
             Cell emailCell = dataRow.createCell(48);
             sheet.setColumnWidth(48, wage.getStaff().getEmail().length() * 280);
