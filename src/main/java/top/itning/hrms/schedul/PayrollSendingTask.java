@@ -38,7 +38,7 @@ public class PayrollSendingTask {
     private String sendFrom;
 
     @Autowired
-    public PayrollSendingTask(JavaMailSender mailSender, TemplateEngine templateEngine, WageService wageService) {
+    public PayrollSendingTask(@SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection") JavaMailSender mailSender, TemplateEngine templateEngine, WageService wageService) {
         this.mailSender = mailSender;
         this.templateEngine = templateEngine;
         this.wageService = wageService;
@@ -59,6 +59,7 @@ public class PayrollSendingTask {
         searchWage.setYear(new String[]{year});
         try {
             Map<String, Object> map = wageService.searchWage(searchWage);
+            @SuppressWarnings("unchecked")
             List<Wage> wageList = (List<Wage>) map.get("wageList");
             if (wageList != null) {
                 List<WageEmail> emailList = wageList.stream().map(wage -> {
