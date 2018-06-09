@@ -21,6 +21,18 @@ spring:
   output:
     ansi:
       enabled: detect #控制台多彩输出
+  mail:
+    host: smtp.mxhichina.com
+    username: itning@itning.top
+    password:
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+
 logging:
   level: debug
   level.top: debug

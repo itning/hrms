@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>工资</title>
+    <style>
+        span {
+            padding-left: 20px;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <table border="1">
+        <tr>
+            <td>姓名:<span th:text="${name}">舒露</span></td>
+        </tr>
+        <tr>
+            <td>岗位工资:<span th:text="${wage}">2000</span></td>
+            <td>绩效工资:<span th:text="${performancePay}">3200</span></td>
+            <td>职务津贴:<span th:text="${dutyAllowance}">6000</span></td>
+            <td>岗位超时补助:<span th:text="${grants}">2000</span></td>
+        </tr>
+        <tr>
+            <td>小计1:<span th:text="${total1}">8000</span></td>
+        </tr>
+        <tr>
+            <td>补款:<span th:text="${replenishment}">200</span></td>
+            <td>扣款:<span th:text="${chargeBack}">300</span></td>
+        </tr>
+        <tr>
+            <td>小计2:<span th:text="${total2}">500</span></td>
+        </tr>
+        <tr>
+            <td>教学奖金:<span th:text="${teachingBonus}">300</span></td>
+            <td>硕士津贴:<span th:text="${mAllowance}">300</span></td>
+            <td>电话补助:<span th:text="${pSubsidies}">300</span></td>
+            <td>带学生津贴:<span th:text="${studentAllowance}">300</span></td>
+            <td>奖金:<span th:text="${bonus}">300</span></td>
+        </tr>
+        <tr>
+            <td>本学院校拨津贴:<span th:text="${schoolGrant}">500</span></td>
+            <td>学生处发放8小时以外补助:<span th:text="${time8}">600</span></td>
+            <td>加班补助:<span th:text="${overtimeAssistance}">800</span></td>
+            <td>值班补助:<span th:text="${onDutySubsidies}">440</span></td>
+            <td>其他补助:<span th:text="${otherBenefits}">800</span></td>
+        </tr>
+        <tr>
+            <td>补助小计:<span th:text="${totalBenefits}">6000</span></td>
+        </tr>
+        <tr>
+            <td>工资合计:<span th:text="${total}">6000</span></td>
+        </tr>
+        <tr>
+            <td>代扣养老保险:<span th:text="${pensionInsurance}">6000</span></td>
+            <td>代扣医疗保险:<span th:text="${medicalInsurance}">6000</span></td>
+            <td>代扣失业保险:<span th:text="${unemploymentInsurance}">6000</span></td>
+            <td>代扣住房公积金:<span th:text="${housingFund}">6000</span></td>
+        </tr>
+        <tr>
+            <td>应发额:<span th:text="${shouldMade}">8888</span></td>
+        </tr>
+        <tr>
+            <td>代扣款:<span th:text="${withholding}">660</span></td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

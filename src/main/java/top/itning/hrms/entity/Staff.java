@@ -48,7 +48,7 @@ public class Staff implements Serializable {
     /**
      * 性别
      */
-    @NotNull
+    @Transient
     private boolean sex;
     /**
      * 民族
@@ -77,7 +77,7 @@ public class Staff implements Serializable {
     /**
      * 年龄
      */
-    @NotNull
+    @Transient
     private String age;
     /**
      * 户籍地址

@@ -1,9 +1,11 @@
 package top.itning.hrms.util;
 
+import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Field;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -94,5 +96,15 @@ public class ObjectUtils {
         logger.info("getAllFieldsSum::结束迭代集合");
         logger.info("getAllFieldsSum::方法结束");
         return newInstance;
+    }
+
+    /**
+     * 检查字段是否全是数字
+     *
+     * @param fields 字段
+     * @return 所有都是返回真, 否则返回假
+     */
+    public static boolean checkAllFieldsIsNumber(String... fields) {
+        return Arrays.stream(fields).filter(NumberUtils::isDigits).count() == fields.length;
     }
 }
