@@ -34,4 +34,4 @@ https://itning.github.io/doc/hrms/index.html
 ![](https://github.com/itning/hrms/blob/dev/pic/login.png)
 
 ### 开源协议
-- [MIT](https://github.com/itning/Ta/blob/master/LICENSE)
+- [MIT](https://github.com/itning/hrms/blob/dev/LICENSE)
