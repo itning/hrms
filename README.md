@@ -31,7 +31,7 @@ https://itning.github.io/doc/hrms/index.html
 - [CAS](https://github.com/apereo/cas) -> 单点登录
 ### 预览
 
-![](https://github.com/itning/hrms/blob/master/pic/login.png)
+![](https://github.com/itning/hrms/blob/dev/pic/login.png)
 
 ### 开源协议
 - [MIT](https://github.com/itning/Ta/blob/master/LICENSE)
