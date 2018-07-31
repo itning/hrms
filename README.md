@@ -29,5 +29,9 @@ https://itning.github.io/doc/hrms/index.html
 - Spring Security -> Spring的安全控制框架
 - [Apache POI](https://poi.apache.org/) -> 用JAVA对Excel进行操作
 - [CAS](https://github.com/apereo/cas) -> 单点登录
+### 预览
+
+![](https://github.com/itning/hrms/blob/master/pic/login.png)
+
 ### 开源协议
 - [MIT](https://github.com/itning/Ta/blob/master/LICENSE)
