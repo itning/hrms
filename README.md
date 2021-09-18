@@ -11,7 +11,7 @@
 [![GitHub last commit](https://img.shields.io/github/last-commit/itning/hrms.svg)](https://github.com/itning/hrms/commits)
 [![GitHub release](https://img.shields.io/github/release/itning/hrms.svg)](https://github.com/itning/hrms/releases)
 [![GitHub repo size in bytes](https://img.shields.io/github/repo-size/itning/hrms.svg)](https://github.com/itning/hrms)
-[![HitCount](http://hits.dwyl.com/itning/hrms.svg)](http://hits.dwyl.com/itning/hrms)
+[![HitCount](https://hitcount.itning.top/?u=itning&r=hrms)](https://github.com/itning/hit-count)
 [![language](https://img.shields.io/badge/language-JAVA-green.svg)](https://github.com/itning/hrms)
 
 > 项目目前正在开发中
